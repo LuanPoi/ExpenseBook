@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
             binding.recyclerViewExpenseHistoryList.adapter = adapter
 
             expenseViewModel = ExpenseViewModel(application)
+//            Campo para adicionar uma entrada qualquer ao banco, só para popula-lo
 //            expenseViewModel.addEntry(Entry(null, OffsetDateTime.now(), 50.0f, "Grana do freelance"))
             adapter.setData(expenseViewModel.readAllData)
         }
