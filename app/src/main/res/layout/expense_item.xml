@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="74dp"
+    android:background="@drawable/expense_item_drawable"
+    app:flow_verticalAlign="center">
+
+    <ImageView
+        android:id="@+id/ic_money"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginLeft="8dp"
+        android:src="@drawable/ic_money"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewExpenseTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/nunito"
+        android:singleLine="true"
+        android:textColor="@color/secondary_text"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewExpenseValue"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toRightOf="@id/ic_money"
+        app:layout_constraintRight_toLeftOf="@id/textViewExpenseDate"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Compra da semana" />
+
+    <TextView
+        android:id="@+id/textViewExpenseValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/nunito"
+        android:textColor="@color/pink_theme"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="@id/textViewExpenseTitle"
+        app:layout_constraintRight_toLeftOf="@id/textViewExpenseDate"
+        app:layout_constraintTop_toBottomOf="@+id/textViewExpenseTitle"
+        tools:text="- R$ 322,02" />
+
+    <TextView
+        android:id="@+id/textViewExpenseDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:fontFamily="@font/nunito"
+        android:textColor="@color/secondary_text"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewExpenseTitle"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewExpenseTitle"
+        tools:text="24/09" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

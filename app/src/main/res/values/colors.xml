@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dark_shadow">#000000</color>
+    <color name="background">#1F152B</color>
+    <color name="card">#251934</color>
+    <color name="hover">#2D223C</color>
+    <color name="primary_text">#FFFFFF</color>
+    <color name="secondary_text">#9588A6</color>
+    <color name="secondary_text_with_alpha_20">#339588A6</color>
+    <color name="main_gradient_start">#0BFFE2</color>
+    <color name="main_gradient_end">#15D5FF</color>
+    <color name="blue_theme">#794BFC</color>
+    <color name="pink_theme">#FE508E</color>
+    <color name="green_theme">#50FE80</color>
+    <color name="red_theme">#FE5050</color>
+</resources>
