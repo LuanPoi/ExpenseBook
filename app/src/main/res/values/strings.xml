@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Expense Book</string>
+    <string name="expense_history_title">Histórico de gastos</string>
 </resources>
