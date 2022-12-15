@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.expensebook.R
 import com.example.expensebook.databinding.FragmentHomeBinding
 import com.example.expensebook.model.EnumItemViewType
 import com.example.expensebook.model.entity.Entry
@@ -40,6 +41,7 @@ class HomeFragment : Fragment() {
 
         homeViewModel.entries.observe(viewLifecycleOwner) { entries ->
             val auxList: ArrayList<Pair<EnumItemViewType, Any>> = arrayListOf()
+            auxList.add(Pair(EnumItemViewType.TITLE, resources.getString(R.string.expense_history_title)))
             auxList.addAll(entries.map { entry -> Pair(EnumItemViewType.EXPENSE_ITEM, entry) })
             adapter.setData(auxList)
         }
