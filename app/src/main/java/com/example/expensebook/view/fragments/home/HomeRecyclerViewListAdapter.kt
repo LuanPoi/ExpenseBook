@@ -1,4 +1,4 @@
-package com.example.expensebook.view
+package com.example.expensebook.view.fragments.home
 
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +13,7 @@ import com.example.expensebook.model.EnumItemViewType
 import com.example.expensebook.model.entity.Entry
 import java.time.format.DateTimeFormatter
 
-class MainRecyclerViewListAdapter: RecyclerView.Adapter<MainRecyclerViewListAdapter.AbstractViewHolder>() {
+class HomeRecyclerViewListAdapter: RecyclerView.Adapter<HomeRecyclerViewListAdapter.AbstractViewHolder>() {
 
     private var mainRecyclerViewArray = arrayListOf<Pair<EnumItemViewType, Any>>()
 
@@ -62,9 +62,10 @@ class MainRecyclerViewListAdapter: RecyclerView.Adapter<MainRecyclerViewListAdap
             var (enumViewType, expense) = obj as Pair<EnumItemViewType, Entry>
 
             binding.textViewExpenseTitle.text = expense.description
-            binding.textViewExpenseValue.text = expense.value.toString()
 
+            binding.textViewExpenseValue.text = expense.value.toString()
             binding.textViewExpenseValue.setTextColor(ContextCompat.getColor(binding.root.context, if (expense.value > 0) R.color.green_theme else R.color.pink_theme))
+
             binding.textViewExpenseDate.text = expense.date.format(DateTimeFormatter.ofPattern("dd/MM"))
 
             binding.containerExpenseItem.setOnLongClickListener {
