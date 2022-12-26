@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.fragments.entry_details.EntryDetailsFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fadedBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#bd000000">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/modalContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/container"
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textViewDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00/00/00"
+                android:fontFamily="@font/nunito"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_text"
+                app:layout_constraintBottom_toBottomOf="@+id/buttonCalendar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/buttonCalendar" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/buttonCalendar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="#0000"
+                android:padding="12dp"
+                android:src="@drawable/ic_calendar"
+                app:layout_constraintStart_toEndOf="@+id/textViewDate"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchEntryType"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="18dp"
+                android:text="expense__receipt"
+                app:layout_constraintTop_toBottomOf="@+id/buttonCalendar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/textViewValueTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/editTextValue"
+                android:text="Valor"
+                android:fontFamily="@font/nunito"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/secondary_text"
+                android:layout_marginTop="22dp"
+                app:layout_constraintTop_toBottomOf="@id/switchEntryType"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/textViewValuePrefix"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="+ R$"
+                android:fontFamily="@font/nunito"
+                android:textSize="36sp"
+                android:textColor="@color/green_theme"
+                app:layout_constraintTop_toBottomOf="@id/textViewValueTitle"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <EditText
+                android:id="@+id/editTextValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/nunito"
+                android:textSize="36sp"
+                android:textAlignment="textEnd"
+                android:textColor="@color/green_theme"
+                android:background="@color/card"
+                android:inputType="number"
+                app:layout_constraintStart_toEndOf="@id/textViewValuePrefix"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/textViewValuePrefix"
+                app:layout_constraintBottom_toBottomOf="@id/textViewValuePrefix"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="56dp"
+                android:hint="Descrição"
+                android:textColorHint="@color/secondary_text"
+                app:layout_constraintTop_toBottomOf="@id/editTextValue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primary_text"
+                    android:inputType="text"
+                    android:text="Compra da semana..."
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/buttonCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:background="#0000"
+                android:paddingHorizontal="34dp"
+                android:paddingVertical="16dp"
+                android:text="Cancelar"
+                android:textAllCaps="false"
+                android:textColor="@color/main_gradient_end"
+                app:layout_constraintTop_toBottomOf="@id/textInputDescription"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/buttonConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/button_background"
+                android:textColor="@color/card"
+                android:paddingHorizontal="34dp"
+                android:paddingVertical="16dp"
+                android:text="Adicionar"
+                android:textAllCaps="false"
+                app:layout_constraintTop_toBottomOf="@id/textInputDescription"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

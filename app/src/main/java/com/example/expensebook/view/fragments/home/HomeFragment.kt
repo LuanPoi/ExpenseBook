@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensebook.R
 import com.example.expensebook.databinding.FragmentHomeBinding
@@ -47,7 +48,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.floatingActionButton.setOnClickListener {
-            homeViewModel.addEntry(Entry(null, OffsetDateTime.now(), 1234.56f, "FAB teste novembro"))
+            findNavController().navigate(R.id.action_homeFragment_to_entryDetailsFragment)
         }
     }
 }
