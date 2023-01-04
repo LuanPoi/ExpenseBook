@@ -64,7 +64,7 @@ class HomeRecyclerViewListAdapter: RecyclerView.Adapter<HomeRecyclerViewListAdap
             binding.textViewExpenseTitle.text = expense.description
 
             binding.textViewExpenseValue.text = expense.value.toString()
-            binding.textViewExpenseValue.setTextColor(ContextCompat.getColor(binding.root.context, if (expense.value > 0) R.color.green_theme else R.color.pink_theme))
+            binding.textViewExpenseValue.setTextColor(ContextCompat.getColor(binding.root.context, if (expense.value >= 0) R.color.green_theme else R.color.pink_theme))
 
             binding.textViewExpenseDate.text = expense.date.format(DateTimeFormatter.ofPattern("dd/MM"))
 
