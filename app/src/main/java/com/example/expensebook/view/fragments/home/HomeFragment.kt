@@ -10,8 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensebook.R
 import com.example.expensebook.databinding.FragmentHomeBinding
 import com.example.expensebook.model.EnumItemViewType
-import com.example.expensebook.model.entity.Entry
-import java.time.OffsetDateTime
+import com.example.expensebook.repository.EntryRepository
 
 class HomeFragment : Fragment() {
 
@@ -21,7 +20,7 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        homeViewModel = HomeViewModel(requireActivity().application)
+        homeViewModel = HomeViewModel(EntryRepository(requireActivity().application))
     }
 
     override fun onCreateView(
@@ -35,7 +34,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = HomeRecyclerViewListAdapter()
+        val adapter = HomeRecyclerViewListAdapter(homeViewModel)
         binding.recyclerViewHome.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewHome.adapter = adapter
 

@@ -2,14 +2,11 @@ package com.example.expensebook.repository
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.example.expensebook.MainActivity
 import com.example.expensebook.data.LocalDatabase
 import com.example.expensebook.data.dao.EntryDao
 import com.example.expensebook.model.entity.Entry
 import java.time.OffsetDateTime
 import java.time.YearMonth
-import java.time.ZoneId
 import java.time.ZoneOffset
 
 class EntryRepository(application: Application) {
@@ -43,7 +40,7 @@ class EntryRepository(application: Application) {
         entryDao.updateEntry(entry)
     }
 
-    fun deleteEntre(entry: Entry){
+    fun deleteEntry(entry: Entry){
         entryDao.deleteEntry(entry)
     }
 }

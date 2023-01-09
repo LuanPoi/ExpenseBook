@@ -13,7 +13,7 @@ import com.example.expensebook.model.EnumItemViewType
 import com.example.expensebook.model.entity.Entry
 import java.time.format.DateTimeFormatter
 
-class HomeRecyclerViewListAdapter: RecyclerView.Adapter<HomeRecyclerViewListAdapter.AbstractViewHolder>() {
+class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): RecyclerView.Adapter<HomeRecyclerViewListAdapter.AbstractViewHolder>() {
 
     private var mainRecyclerViewArray = arrayListOf<Pair<EnumItemViewType, Any>>()
 
@@ -21,8 +21,8 @@ class HomeRecyclerViewListAdapter: RecyclerView.Adapter<HomeRecyclerViewListAdap
         val layoutInflater = LayoutInflater.from(parent.context)
         val abstractViewHolder: AbstractViewHolder
         abstractViewHolder = when(viewType){
-            EnumItemViewType.TITLE.ordinal -> TitleItemViewHolder(TitleItemBinding.inflate(layoutInflater, parent, false))
-            EnumItemViewType.EXPENSE_ITEM.ordinal -> ExpenseItemViewHolder(ExpenseItemBinding.inflate(layoutInflater, parent, false))
+            EnumItemViewType.TITLE.ordinal -> TitleItemViewHolder(TitleItemBinding.inflate(layoutInflater, parent, false), viewModel)
+            EnumItemViewType.EXPENSE_ITEM.ordinal -> ExpenseItemViewHolder(ExpenseItemBinding.inflate(layoutInflater, parent, false), viewModel)
             else -> throw NotImplementedError()
         }
         return abstractViewHolder
@@ -49,27 +49,27 @@ class HomeRecyclerViewListAdapter: RecyclerView.Adapter<HomeRecyclerViewListAdap
         abstract fun bind(obj: Pair<EnumItemViewType, Any>)
     }
 
-    class TitleItemViewHolder(val binding: TitleItemBinding): AbstractViewHolder(binding.root) {
+    class TitleItemViewHolder(val binding: TitleItemBinding, val viewModel: HomeViewModel): AbstractViewHolder(binding.root) {
         override fun bind(obj: Pair<EnumItemViewType, Any>) {
-            var (enumViewType, title) = obj as Pair<EnumItemViewType, String>
+            val (enumViewType, title) = obj as Pair<EnumItemViewType, String>
 
             binding.textViewTitle.text = title
         }
     }
 
-    class ExpenseItemViewHolder(val binding: ExpenseItemBinding): AbstractViewHolder(binding.root) {
+    class ExpenseItemViewHolder(val binding: ExpenseItemBinding, val viewModel: HomeViewModel): AbstractViewHolder(binding.root) {
         override fun bind(obj: Pair<EnumItemViewType, Any>) {
-            var (enumViewType, expense) = obj as Pair<EnumItemViewType, Entry>
+            val (enumViewType, entry) = obj as Pair<EnumItemViewType, Entry>
 
-            binding.textViewExpenseTitle.text = expense.description
+            binding.textViewExpenseTitle.text = entry.description
 
-            binding.textViewExpenseValue.text = expense.value.toString()
-            binding.textViewExpenseValue.setTextColor(ContextCompat.getColor(binding.root.context, if (expense.value >= 0) R.color.green_theme else R.color.pink_theme))
+            binding.textViewExpenseValue.text = entry.value.toString()
+            binding.textViewExpenseValue.setTextColor(ContextCompat.getColor(binding.root.context, if (entry.value >= 0) R.color.green_theme else R.color.pink_theme))
 
-            binding.textViewExpenseDate.text = expense.date.format(DateTimeFormatter.ofPattern("dd/MM"))
+            binding.textViewExpenseDate.text = entry.date.format(DateTimeFormatter.ofPattern("dd/MM"))
 
             binding.containerExpenseItem.setOnLongClickListener {
-                Toast.makeText(it.context,"value ${expense.value}", Toast.LENGTH_SHORT).show()
+                viewModel.deleteEntry(entry)
                 true
             }
         }
