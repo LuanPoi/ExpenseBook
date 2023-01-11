@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.fragments.entry_details.EntryDetailsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,8 +17,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:background="@drawable/container"
             android:padding="16dp"
+            style="@style/Container"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -28,16 +28,13 @@
                 android:id="@+id/textViewDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="00/00/00"
-                android:fontFamily="@font/nunito"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/primary_text"
+                style="@style/EntryDetails.Date.TextView"
                 app:layout_constraintBottom_toBottomOf="@+id/buttonCalendar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/buttonCalendar" />
+                app:layout_constraintTop_toTopOf="@id/buttonCalendar"
+                tools:text="00/00/00" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/buttonCalendar"
@@ -55,6 +52,7 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="18dp"
                 android:text="expense__receipt"
+                style="@style/EntryDetails.EntryType.Switch"
                 app:layout_constraintTop_toBottomOf="@+id/buttonCalendar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -65,10 +63,7 @@
                 android:layout_height="wrap_content"
                 android:labelFor="@id/editTextValue"
                 android:text="Valor"
-                android:fontFamily="@font/nunito"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:textColor="@color/secondary_text"
+                style="@style/EntryDetails.Value.TextView"
                 android:layout_marginTop="22dp"
                 app:layout_constraintTop_toBottomOf="@id/switchEntryType"
                 app:layout_constraintStart_toStartOf="parent"/>
@@ -78,10 +73,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="+ R$"
-                android:fontFamily="@font/nunito"
-                android:textSize="36sp"
-                android:textColor="@color/green_theme"
+                android:text="- R$"
+                style="@style/EntryDetails.Value.Prefix"
                 app:layout_constraintTop_toBottomOf="@id/textViewValueTitle"
                 app:layout_constraintStart_toStartOf="parent"/>
 
@@ -96,6 +89,7 @@
                 android:textColor="@color/green_theme"
                 android:background="@color/card"
                 android:inputType="numberDecimal"
+                android:text="0"
                 app:layout_constraintStart_toEndOf="@id/textViewValuePrefix"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/textViewValuePrefix"
@@ -104,22 +98,24 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputDescription"
+                style="@style/EntyDetails.Description.TextInputLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="56dp"
                 android:hint="Descrição"
-                android:textColorHint="@color/secondary_text"
-                app:layout_constraintTop_toBottomOf="@id/editTextValue"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="#D83232"
+                app:boxStrokeWidth="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/editTextValue">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    style="@style/EntyDetails.Description.TextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/primary_text"
                     android:inputType="text"
-                    android:text="Compra da semana..."
-                    />
+                    android:text="Compra da semana" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -128,12 +124,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:background="#0000"
                 android:paddingHorizontal="34dp"
                 android:paddingVertical="16dp"
                 android:text="Cancelar"
-                android:textAllCaps="false"
-                android:textColor="@color/main_gradient_end"
+                style="@style/SecondaryButton"
                 app:layout_constraintTop_toBottomOf="@id/textInputDescription"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -142,12 +136,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:background="@drawable/button_background"
-                android:textColor="@color/card"
                 android:paddingHorizontal="34dp"
                 android:paddingVertical="16dp"
                 android:text="Adicionar"
-                android:textAllCaps="false"
+                style="@style/PrimaryButton"
                 app:layout_constraintTop_toBottomOf="@id/textInputDescription"
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

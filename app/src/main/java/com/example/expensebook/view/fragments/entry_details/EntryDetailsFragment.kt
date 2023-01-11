@@ -13,8 +13,12 @@ import com.example.expensebook.databinding.FragmentEntryDetailsBinding
 import com.example.expensebook.model.entity.Entry
 import com.example.expensebook.repository.EntryRepository
 import com.example.expensebook.view.fragments.home.HomeViewModel
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointForward
+import com.google.android.material.datepicker.MaterialDatePicker
 import java.lang.Float
-import java.time.OffsetDateTime
+import java.time.*
+import java.time.Instant.ofEpochSecond
 import java.time.format.DateTimeFormatter
 
 class EntryDetailsFragment : Fragment() {
@@ -44,6 +48,19 @@ class EntryDetailsFragment : Fragment() {
             bindUiState(uiState)
         }.also {
             binding.switchEntryType.setOnClickListener { entryDetailViewModel.toggleEntryType(binding.switchEntryType.isChecked)}
+            binding.buttonCalendar.setOnClickListener {
+                val datePicker =
+                    MaterialDatePicker.Builder.datePicker()
+                        .setTitleText("Select date")
+                        .build()
+                parentFragmentManager.let {
+                    datePicker.show(it, "teste")
+                    datePicker.addOnPositiveButtonClickListener {
+                        Log.d("date", LocalDateTime.from(Instant.ofEpochMilli(it).atOffset(
+                            ZoneOffset.UTC)).format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")))
+                    }
+                }
+            }
         }
 
         binding.buttonConfirm.setOnClickListener { onSave().also { findNavController().navigateUp() } }
@@ -54,7 +71,7 @@ class EntryDetailsFragment : Fragment() {
 
     fun bindUiState(uiState: EntryDetailsUiState){
         binding.textViewDate.setText(uiState.date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
-        binding.switchEntryType.isChecked = (uiState.value >= 0f) //true=receipt | false=expense
+        binding.switchEntryType.isChecked = uiState.isReceipt //true=receipt | false=expense
         binding.editTextValue.setText(uiState.value?.toString())
         binding.textInputDescription.editText?.setText(uiState.description)
     }

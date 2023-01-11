@@ -10,18 +10,14 @@ import java.time.OffsetDateTime
 
 class EntryDetailsViewModel(private val entryRepository: EntryRepository) : ViewModel() {
 
-    private val uiState: MutableLiveData<EntryDetailsUiState> by lazy {
+    private val _uiState: MutableLiveData<EntryDetailsUiState> by lazy {
         MutableLiveData<EntryDetailsUiState>(EntryDetailsUiState(null, OffsetDateTime.now(), false, 0f, ""))
     }
 
-    fun stateOnceAndStream(): LiveData<EntryDetailsUiState> = uiState
+    fun stateOnceAndStream(): LiveData<EntryDetailsUiState> = _uiState
 
     fun toggleEntryType(value: Boolean){
-        uiState.value.let { currentUiState ->
-            currentUiState?.isReceipt = value
-//            uiState.value = currentUiState
-//            uiState.postValue(uiState.value)
-        }
+        _uiState.value = _uiState.value?.copy(isReceipt = value)
     }
 
     fun save(entry: Entry){
