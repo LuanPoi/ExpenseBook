@@ -9,7 +9,7 @@ import java.time.YearMonth
 @Dao
 interface EntryDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun addEntry(entry: Entry): Long
+    suspend fun addEntry(entry: Entry): Long
 
     @Query("SELECT * FROM entry " +
             "WHERE ((:startOffsetDateTime IS NULL OR date >= :startOffsetDateTime) " +
@@ -21,8 +21,8 @@ interface EntryDao {
     fun getEntryById(entryId: Long): LiveData<Entry>
 
     @Update
-    fun updateEntry(entry: Entry): Int
+    suspend fun updateEntry(entry: Entry): Int
 
     @Delete
-    fun deleteEntry(entry: Entry): Int
+    suspend fun deleteEntry(entry: Entry): Int
 }

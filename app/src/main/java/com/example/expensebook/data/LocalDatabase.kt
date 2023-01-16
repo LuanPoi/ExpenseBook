@@ -16,11 +16,11 @@ import com.example.expensebook.model.entity.RecurringEntry
 @TypeConverters(Converters::class)
 abstract class LocalDatabase: RoomDatabase() {
 
-    abstract fun monthlyExpenseDao(): MonthlyExpenseDao
+//    abstract fun monthlyExpenseDao(): MonthlyExpenseDao
 
     abstract fun entryDao(): EntryDao
 
-    abstract fun recurringEntryDao(): RecurringEntryDao
+//    abstract fun recurringEntryDao(): RecurringEntryDao
 
     companion object {
         private var INSTANCE: LocalDatabase? = null

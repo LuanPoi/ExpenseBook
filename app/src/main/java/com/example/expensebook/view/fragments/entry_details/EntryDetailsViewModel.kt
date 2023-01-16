@@ -21,7 +21,7 @@ class EntryDetailsViewModel(private val entryRepository: EntryRepository) : View
     }
 
     fun save(entry: Entry){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             entryRepository.addEntry(entry)
         }
     }

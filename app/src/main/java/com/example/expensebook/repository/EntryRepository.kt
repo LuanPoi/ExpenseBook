@@ -1,10 +1,14 @@
 package com.example.expensebook.repository
 
 import android.app.Application
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import com.example.expensebook.data.LocalDatabase
 import com.example.expensebook.data.dao.EntryDao
 import com.example.expensebook.model.entity.Entry
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.invoke
+import kotlinx.coroutines.withContext
 import java.time.OffsetDateTime
 import java.time.YearMonth
 import java.time.ZoneOffset
@@ -17,7 +21,7 @@ class EntryRepository(application: Application) {
         this.entryDao = LocalDatabase.getDatabase(application).entryDao()
     }
 
-    fun addEntry(entry: Entry){
+    suspend fun addEntry(entry: Entry) = withContext(Dispatchers.IO){
         entryDao.addEntry(entry)
     }
 
@@ -36,11 +40,11 @@ class EntryRepository(application: Application) {
         return entryDao.getEntryById(entryId)
     }
 
-    fun updateEntry(entry: Entry){
+    suspend fun updateEntry(entry: Entry) = withContext(Dispatchers.IO){
         entryDao.updateEntry(entry)
     }
 
-    fun deleteEntry(entry: Entry){
+    suspend fun deleteEntry(entry: Entry) = withContext(Dispatchers.IO){
         entryDao.deleteEntry(entry)
     }
 }

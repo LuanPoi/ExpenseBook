@@ -14,7 +14,7 @@ class HomeViewModel(private val entryRepository: EntryRepository): ViewModel() {
     }
 
     fun deleteEntry(entry: Entry){
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch{
             entryRepository.deleteEntry(entry)
         }
     }
