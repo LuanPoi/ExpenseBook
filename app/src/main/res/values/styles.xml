@@ -1,75 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="MainLayout" parent="Theme.ExpenseBook">
-        <item name="android:background">?attr/background</item>
-    </style>
-
-    <style name="BaseExpenseBook" parent="Theme.ExpenseBook">
+    <style name="ExpenseBook">
         <item name="android:fontFamily">@font/nunito</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">normal</item>>
-        <item name="android:textColor">?attr/primary_text</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/primary_text</item>
     </style>
 
 
-    <style name="BaseButton" parent="BaseExpenseBook">
+    <style name="BaseButton" parent="ExpenseBook">
         <item name="android:textAllCaps">false</item>
-        <item name="android:paddingHorizontal">32dp</item>
-        <item name="android:paddingVertical">16dp</item>
     </style>
     <style name="PrimaryButton" parent="BaseButton">
-        <item name="android:textColor">?attr/card</item>
+        <item name="android:textColor">@color/card</item>
         <item name="android:background">@drawable/primary_button_background</item>
     </style>
     <style name="SecondaryButton" parent="BaseButton">
-        <item name="android:textColor">?attr/main_gradient_end</item>
+        <item name="android:textColor">@color/main_gradient_start</item>
         <item name="android:background">@color/transparent</item>
     </style>
 
 
-    <style name="Container" parent="BaseExpenseBook">
+    <style name="Container" parent="ExpenseBook">
         <item name="android:background">@drawable/container</item>
     </style>
 
 
-    <style name="EntryDetails.Date.TextView" parent="BaseExpenseBook">
+    <style name="EntryDetails.Date.TextView" parent="ExpenseBook">
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
     </style>
-    <style name="EntryDetails.EntryType.Switch" parent="BaseExpenseBook">
+    <style name="EntryDetails.EntryType.Switch" parent="ExpenseBook">
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">?attr/secondary_text</item>
+        <item name="android:textColor">@color/secondary_text</item>
     </style>
-    <style name="EntryDetails.Value.TextView" parent="BaseExpenseBook">
+    <style name="EntryDetails.Value.TextView" parent="ExpenseBook">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">?attr/secondary_text</item>
+        <item name="android:textColor">@color/secondary_text</item>
     </style>
-    <style name="EntryDetails.Value.Prefix" parent="BaseExpenseBook">
+    <style name="EntryDetails.Value.Prefix" parent="ExpenseBook">
         <item name="android:textSize">32sp</item>
     </style>
-    <style name="EntryDetails.Value.EditText" parent="BaseExpenseBook">
-        <item name="android:textSize">36sp</item>
-        <item name="android:textColor">?attr/primary_text</item>
-        <item name="android:textAlignment">textEnd</item>
-        <item name="android:background">?attr/card</item>
-        <item name="android:inputType">numberDecimal</item>
-    </style>
-    <style name="EntyDetails.Description.TextInputLayout" parent="BaseExpenseBook">
+    <style name="EntyDetails.Description.TextInputLayout" parent="ExpenseBook">
         <item name="android:textSize">14sp</item>
-        <item name="boxStrokeColor">?attr/secondary_text</item>
-        <item name="android:textColorHint">?attr/secondary_text</item>
-        <item name="android:background">?attr/card</item>
+        <item name="boxStrokeColor">@color/secondary_text</item>
+        <item name="android:textColorHint">@color/secondary_text</item>
+        <item name="android:background">@color/card</item>
     </style>
     <style name="EntyDetails.Description.TextInputEditText" parent="EntyDetails.Description.TextInputLayout">
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">?attr/primary_text</item>
-    </style>
-    <style name="EntyDetails.DialogButton.Confirm" parent="PrimaryButton">
-        <item name="android:textSize">18sp</item>
-        <item name="android:background">@drawable/primary_button_background</item>
-    </style>
-    <style name="EntyDetails.DialogButton.Cancel" parent="SecondaryButton">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/primary_text</item>
     </style>
 </resources>
