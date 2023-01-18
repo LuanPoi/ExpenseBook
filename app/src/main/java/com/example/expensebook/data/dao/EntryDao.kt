@@ -4,12 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.expensebook.model.entity.Entry
 import java.time.OffsetDateTime
-import java.time.YearMonth
 
 @Dao
 interface EntryDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addEntry(entry: Entry): Long
+    fun addEntry(entry: Entry): Long
 
     @Query("SELECT * FROM entry " +
             "WHERE ((:startOffsetDateTime IS NULL OR date >= :startOffsetDateTime) " +
@@ -21,8 +20,8 @@ interface EntryDao {
     fun getEntryById(entryId: Long): LiveData<Entry>
 
     @Update
-    suspend fun updateEntry(entry: Entry): Int
+    fun updateEntry(entry: Entry): Int
 
     @Delete
-    suspend fun deleteEntry(entry: Entry): Int
+    fun deleteEntry(entry: Entry): Int
 }

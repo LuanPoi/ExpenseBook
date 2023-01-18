@@ -10,7 +10,7 @@
         android:id="@+id/fadedBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#bd000000">
+        android:background="#BD000000">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/modalContainer"
@@ -40,20 +40,21 @@
                 android:id="@+id/buttonCalendar"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:layout_marginLeft="16dp"
                 android:background="#0000"
                 android:padding="12dp"
                 android:src="@drawable/ic_calendar"
-                app:layout_constraintStart_toEndOf="@+id/textViewDate"
+                app:layout_constraintStart_toEndOf="@id/textViewDate"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchEntryType"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="32dp"
                 android:text="expense__receipt"
                 style="@style/EntryDetails.EntryType.Switch"
-                app:layout_constraintTop_toBottomOf="@+id/buttonCalendar"
+                app:layout_constraintTop_toBottomOf="@id/textViewDate"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -80,15 +81,10 @@
 
             <EditText
                 android:id="@+id/editTextValue"
+                style="@style/EntryDetails.Value.EditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:fontFamily="@font/nunito"
-                android:textSize="36sp"
-                android:textAlignment="textEnd"
-                android:textColor="@color/green_theme"
-                android:background="@color/card"
-                android:inputType="numberDecimal"
                 android:text="0"
                 app:layout_constraintStart_toEndOf="@id/textViewValuePrefix"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -121,25 +117,21 @@
 
             <Button
                 android:id="@+id/buttonCancel"
+                style="@style/EntyDetails.DialogButton.Cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:paddingHorizontal="34dp"
-                android:paddingVertical="16dp"
                 android:text="Cancelar"
-                style="@style/SecondaryButton"
                 app:layout_constraintTop_toBottomOf="@id/textInputDescription"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <Button
                 android:id="@+id/buttonConfirm"
+                style="@style/EntyDetails.DialogButton.Confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:paddingHorizontal="34dp"
-                android:paddingVertical="16dp"
                 android:text="Adicionar"
-                style="@style/PrimaryButton"
                 app:layout_constraintTop_toBottomOf="@id/textInputDescription"
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

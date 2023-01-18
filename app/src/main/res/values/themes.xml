@@ -1,6 +1,30 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
+    <attr name="dark_shadow" format="color"/>
+    <attr name="background" format="color"/>
+    <attr name="card" format="color"/>
+    <attr name="hover" format="color"/>
+    <attr name="primary_text" format="color"/>
+    <attr name="secondary_text" format="color"/>
+    <attr name="main_gradient_start" format="color"/>
+    <attr name="main_gradient_end" format="color"/>
+    <attr name="blue_theme" format="color"/>
+    <attr name="pink_theme" format="color"/>
+    <attr name="green_theme" format="color"/>
+    <attr name="red_theme" format="color"/>
+
     <!-- Base application theme. -->
     <style name="Theme.ExpenseBook" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:statusBarColor">@color/background</item>
+        <item name="dark_shadow">@color/black</item>
+        <item name="background">@color/purple_dark_3</item>
+        <item name="card">@color/purple_dark_2</item>
+        <item name="hover">@color/purple_dark_1</item>
+        <item name="primary_text">@color/white</item>
+        <item name="secondary_text">@color/gray_purpleish</item>
+        <item name="main_gradient_start">@color/green_blueish</item>
+        <item name="main_gradient_end">@color/blue_light</item>
+        <item name="blue_theme">@color/blue_theme</item>
+        <item name="pink_theme">@color/pink_theme</item>
+        <item name="green_theme">@color/green_theme</item>
+        <item name="red_theme">@color/red_theme</item>
     </style>
 </resources>
