@@ -8,7 +8,7 @@ import java.time.OffsetDateTime
 @Dao
 interface EntryDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(entry: Entry): Long
+    suspend fun insert(entry: Entry): Long
 
     @Query("SELECT * FROM entry " +
             "WHERE ((:startOffsetDateTime IS NULL OR date >= :startOffsetDateTime) " +
@@ -20,8 +20,8 @@ interface EntryDao {
     fun getById(entryId: Long): LiveData<Entry>
 
     @Update
-    fun update(entry: Entry): Int
+    suspend fun update(entry: Entry): Int
 
     @Delete
-    fun delete(entry: Entry): Int
+    suspend fun delete(entry: Entry): Int
 }
