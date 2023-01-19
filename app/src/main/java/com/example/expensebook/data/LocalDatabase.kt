@@ -12,11 +12,19 @@ import com.example.expensebook.model.entity.Entry
 import com.example.expensebook.model.entity.MonthlyExpense
 import com.example.expensebook.model.entity.RecurringEntry
 
-@Database(entities = [MonthlyExpense::class, Entry::class, RecurringEntry::class], version = 1, exportSchema = false)
+@Database(
+    entities = [
+        MonthlyExpense::class,
+        Entry::class,
+        RecurringEntry::class
+    ],
+    version = 1,
+    exportSchema = false
+)
 @TypeConverters(Converters::class)
 abstract class LocalDatabase: RoomDatabase() {
 
-//    abstract fun monthlyExpenseDao(): MonthlyExpenseDao
+    abstract fun monthlyExpenseDao(): MonthlyExpenseDao
 
     abstract fun entryDao(): EntryDao
 

@@ -1,27 +1,45 @@
 package com.example.expensebook.repository
 
+import android.app.Application
+import androidx.lifecycle.LiveData
+import com.example.expensebook.data.LocalDatabase
 import com.example.expensebook.data.dao.MonthlyExpenseDao
 import com.example.expensebook.model.entity.MonthlyExpense
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.time.YearMonth
 
-class MonthlyExpenseRepository(private val monthlyExpenseDao: MonthlyExpenseDao) {
+class MonthlyExpenseRepository(application: Application) {
 
-    fun addMonthlyExpense(monthlyExpense: MonthlyExpense){
-        monthlyExpenseDao.addMonthlyExpense(monthlyExpense)
+    private val dao: MonthlyExpenseDao
+
+    init {
+        this.dao = LocalDatabase.getDatabase(application).monthlyExpenseDao()
     }
 
-    fun getAllMonthlyExpenses(): List<MonthlyExpense>{
-        return monthlyExpenseDao.getAllMonthlyExpenses()
+    suspend fun addMonthlyExpense(monthlyExpense: MonthlyExpense){
+        withContext(Dispatchers.IO){
+            dao.insert(monthlyExpense)
+        }
     }
 
-    fun getMonthlyExpenseById(monthlyExpenseId: Int): MonthlyExpense{
-        return monthlyExpenseDao.getMonthlyExpenseById(monthlyExpenseId)
+    fun getAllMonthlyExpenses(): LiveData<List<MonthlyExpense>>{
+        return dao.getAllWithFilter()
     }
 
-    fun updateMonthlyExpense(monthlyExpense: MonthlyExpense){
-        monthlyExpenseDao.updateMonthlyExpense(monthlyExpense)
+    fun getMonthlyExpenseByDate(date: YearMonth): LiveData<MonthlyExpense>{
+        return dao.getByDate(date)
     }
 
-    fun deleteMonthlyExpense(monthlyExpense: MonthlyExpense){
-        monthlyExpenseDao.deleteMonthlyExpense(monthlyExpense)
+    suspend fun updateMonthlyExpense(monthlyExpense: MonthlyExpense){
+        withContext(Dispatchers.IO){
+            dao.update(monthlyExpense)
+        }
+    }
+
+    suspend fun deleteMonthlyExpense(monthlyExpense: MonthlyExpense){
+        withContext(Dispatchers.IO){
+            dao.delete(monthlyExpense)
+        }
     }
 }

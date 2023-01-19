@@ -7,8 +7,7 @@ import java.time.ZoneId
 
 @Entity(tableName = "monthly_expense")
 data class MonthlyExpense (
-    @PrimaryKey(autoGenerate = true)
-    var uid: Int? = null,
+    @PrimaryKey
     var date: YearMonth = YearMonth.now(ZoneId.systemDefault()),
     var initial_value: Float = 0f,
     var fixed_income: Float = 0f,
