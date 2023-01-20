@@ -44,10 +44,10 @@ class HomeFragment : Fragment() {
         binding.recyclerViewHome.adapter = adapter
 
 
-        homeViewModel.stateOnceAndStream().observe(viewLifecycleOwner) { uiState ->
+        homeViewModel.stateOnceAndStream().observe(viewLifecycleOwner) { currentEntries ->
             val auxList: ArrayList<Pair<EnumItemViewType, Any>> = arrayListOf()
             auxList.add(Pair(EnumItemViewType.TITLE, resources.getString(R.string.expense_history_title)))
-            auxList.addAll(uiState.currentEntries.map { entry -> Pair(EnumItemViewType.EXPENSE_ITEM, entry) })
+            auxList.addAll(currentEntries.map { entry -> Pair(EnumItemViewType.EXPENSE_ITEM, entry) })
             adapter.setData(auxList)
         }
 

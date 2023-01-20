@@ -18,21 +18,11 @@ class HomeViewModel(
     private val monthlyExpenseRepository: MonthlyExpenseRepository
 ): ViewModel() {
 
-    private val _uiState: MutableLiveData<HomeUiState> by lazy {
-        MutableLiveData<HomeUiState>(HomeUiState(MonthlyExpense(), emptyList())).apply {
-            val yearMonthNow = YearMonth.now(ZoneId.systemDefault())
-            viewModelScope.launch {
-                val yearMonthNow = YearMonth.now(ZoneId.systemDefault())
-                monthlyExpenseRepository.getMonthlyExpenseByDate(yearMonthNow).value?.let{ monthlyExpense ->
-                    entryRepository.getEntries(yearMonthNow).value?.let {entries ->
-                        value = HomeUiState(monthlyExpense, entries)
-                    }
-                } ?: monthlyExpenseRepository.addMonthlyExpense(MonthlyExpense(yearMonthNow, 0f, 0f, 0f, 0f))
-            }
-        }
+    private val _uiState: LiveData<List<Entry>> by lazy {
+        entryRepository.getEntries(YearMonth.now())
     }
 
-    fun stateOnceAndStream(): LiveData<HomeUiState> = _uiState
+    fun stateOnceAndStream(): LiveData<List<Entry>> = _uiState
 
     fun deleteEntry(entry: Entry){
         viewModelScope.launch{
