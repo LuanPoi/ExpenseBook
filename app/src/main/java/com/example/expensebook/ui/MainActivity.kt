@@ -1,8 +1,7 @@
-package com.example.expensebook
+package com.example.expensebook.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.expensebook.data.LocalDatabase
 import com.example.expensebook.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

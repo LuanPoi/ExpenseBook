@@ -1,11 +1,11 @@
-package com.example.expensebook.view.fragments.home
+package com.example.expensebook.ui.fragments.home
 
 import android.content.Context
 import androidx.lifecycle.*
-import com.example.expensebook.model.entity.Entry
-import com.example.expensebook.model.entity.MonthlyExpense
-import com.example.expensebook.repository.EntryRepository
-import com.example.expensebook.repository.MonthlyExpenseRepository
+import com.example.expensebook.data.model.entity.Entry
+import com.example.expensebook.data.model.entity.MonthlyExpense
+import com.example.expensebook.data.repository.EntryRepository
+import com.example.expensebook.data.repository.MonthlyExpenseRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine

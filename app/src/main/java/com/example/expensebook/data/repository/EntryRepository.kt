@@ -1,10 +1,9 @@
-package com.example.expensebook.repository
+package com.example.expensebook.data.repository
 
 import android.app.Application
-import androidx.lifecycle.LiveData
-import com.example.expensebook.data.LocalDatabase
-import com.example.expensebook.data.dao.EntryDao
-import com.example.expensebook.model.entity.Entry
+import com.example.expensebook.data.data_source.local.LocalDatabase
+import com.example.expensebook.data.data_source.local.dao.EntryDao
+import com.example.expensebook.data.model.entity.Entry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -20,7 +19,7 @@ class EntryRepository(application: Application) {
         this.dao = LocalDatabase.getDatabase(application).entryDao()
     }
 
-    suspend fun addEntry(entry: Entry): Entry{
+    suspend fun addEntry(entry: Entry): Entry {
         return withContext(Dispatchers.IO){
             dao.insert(entry).let { entryId ->
                 entry.apply { uid = entryId }

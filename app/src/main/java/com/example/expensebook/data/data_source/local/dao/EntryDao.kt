@@ -1,8 +1,8 @@
-package com.example.expensebook.data.dao
+package com.example.expensebook.data.data_source.local.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.expensebook.model.entity.Entry
+import com.example.expensebook.data.model.entity.Entry
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.OffsetDateTime

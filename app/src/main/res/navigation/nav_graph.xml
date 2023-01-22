@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/onboardFragment">
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.expensebook.view.fragments.home.HomeFragment"
+        android:name="com.example.expensebook.ui.fragments.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -16,7 +16,16 @@
     </fragment>
     <fragment
         android:id="@+id/entryDetailsFragment"
-        android:name="com.example.expensebook.view.fragments.entry_details.EntryDetailsFragment"
+        android:name="com.example.expensebook.ui.fragments.entry_details.EntryDetailsFragment"
         android:label="entry_details"
         tools:layout="@layout/fragment_entry_details" />
+    <fragment
+        android:id="@+id/onboardFragment"
+        android:name="com.example.expensebook.ui.fragments.onboard.OnboardFragment"
+        android:label="fragment_onboard"
+        tools:layout="@layout/fragment_onboard" >
+        <action
+            android:id="@+id/action_onboardFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>

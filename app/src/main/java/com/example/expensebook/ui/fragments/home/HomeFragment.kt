@@ -1,4 +1,4 @@
-package com.example.expensebook.view.fragments.home
+package com.example.expensebook.ui.fragments.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,9 +10,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensebook.R
 import com.example.expensebook.databinding.FragmentHomeBinding
-import com.example.expensebook.model.EnumItemViewType
-import com.example.expensebook.repository.EntryRepository
-import com.example.expensebook.repository.MonthlyExpenseRepository
+import com.example.expensebook.data.model.EnumItemViewType
+import com.example.expensebook.data.repository.EntryRepository
+import com.example.expensebook.data.repository.MonthlyExpenseRepository
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
@@ -48,7 +48,7 @@ class HomeFragment : Fragment() {
 
         homeViewModel.stateOnceAndStream().observe(viewLifecycleOwner) { uiState ->
             val auxList: ArrayList<Pair<EnumItemViewType, Any>> = arrayListOf()
-            auxList.add(Pair(EnumItemViewType.DAY_EXPENSE_CONTAINER, uiState.currentMonthlyExpense))
+            auxList.add(Pair(EnumItemViewType.DAY_EXPENSE_CONTAINER, uiState))
             auxList.add(Pair(EnumItemViewType.TITLE, resources.getString(R.string.expense_history_title)))
             auxList.addAll(uiState.currentEntries.map { entry -> Pair(EnumItemViewType.EXPENSE_ITEM, entry) })
             adapter.setData(auxList)

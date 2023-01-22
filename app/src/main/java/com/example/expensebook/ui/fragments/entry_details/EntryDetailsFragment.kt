@@ -1,4 +1,4 @@
-package com.example.expensebook.view.fragments.entry_details
+package com.example.expensebook.ui.fragments.entry_details
 
 import android.os.Bundle
 import android.util.Log
@@ -10,9 +10,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import com.example.expensebook.databinding.FragmentEntryDetailsBinding
-import com.example.expensebook.model.entity.Entry
-import com.example.expensebook.repository.EntryRepository
-import com.example.expensebook.view.fragments.home.HomeViewModel
+import com.example.expensebook.data.model.entity.Entry
+import com.example.expensebook.data.repository.EntryRepository
+import com.example.expensebook.ui.fragments.home.HomeViewModel
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker

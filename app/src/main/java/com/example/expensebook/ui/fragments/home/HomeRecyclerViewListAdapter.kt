@@ -1,4 +1,4 @@
-package com.example.expensebook.view.fragments.home
+package com.example.expensebook.ui.fragments.home
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +10,9 @@ import com.example.expensebook.R
 import com.example.expensebook.databinding.DailyExpenseInfoItemBinding
 import com.example.expensebook.databinding.ExpenseItemBinding
 import com.example.expensebook.databinding.TitleItemBinding
-import com.example.expensebook.model.EnumItemViewType
-import com.example.expensebook.model.entity.Entry
-import com.example.expensebook.model.entity.MonthlyExpense
+import com.example.expensebook.data.model.EnumItemViewType
+import com.example.expensebook.data.model.entity.Entry
+import com.example.expensebook.data.model.entity.MonthlyExpense
 import java.time.format.DateTimeFormatter
 
 class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): RecyclerView.Adapter<HomeRecyclerViewListAdapter.AbstractViewHolder>() {

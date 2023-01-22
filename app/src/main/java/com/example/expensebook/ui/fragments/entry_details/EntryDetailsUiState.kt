@@ -1,4 +1,4 @@
-package com.example.expensebook.view.fragments.entry_details
+package com.example.expensebook.ui.fragments.entry_details
 
 import java.time.OffsetDateTime
 

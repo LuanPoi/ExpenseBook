@@ -1,7 +1,7 @@
-package com.example.expensebook.repository
+package com.example.expensebook.data.repository
 
-import com.example.expensebook.data.dao.RecurringEntryDao
-import com.example.expensebook.model.entity.RecurringEntry
+import com.example.expensebook.data.data_source.local.dao.RecurringEntryDao
+import com.example.expensebook.data.model.entity.RecurringEntry
 
 class RecurringEntryRepository(private val recurringEntryDao: RecurringEntryDao) {
 
@@ -13,7 +13,7 @@ class RecurringEntryRepository(private val recurringEntryDao: RecurringEntryDao)
         return recurringEntryDao.getAllRecurringEntries()
     }
 
-    fun getRecurringEntryById(recurringEntryId: Int): RecurringEntry{
+    fun getRecurringEntryById(recurringEntryId: Int): RecurringEntry {
         return recurringEntryDao.getRecurringEntryById(recurringEntryId)
     }
 

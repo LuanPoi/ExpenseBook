@@ -1,4 +1,4 @@
-package com.example.expensebook.model
+package com.example.expensebook.data.model
 
 enum class EnumItemViewType {
     TITLE,

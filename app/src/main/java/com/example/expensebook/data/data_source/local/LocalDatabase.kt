@@ -1,16 +1,14 @@
-package com.example.expensebook.data
+package com.example.expensebook.data.data_source.local
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.expensebook.data.dao.EntryDao
-import com.example.expensebook.data.dao.MonthlyExpenseDao
-import com.example.expensebook.data.dao.RecurringEntryDao
-import com.example.expensebook.model.entity.Entry
-import com.example.expensebook.model.entity.MonthlyExpense
-import com.example.expensebook.model.entity.RecurringEntry
+import com.example.expensebook.data.data_source.local.dao.EntryDao
+import com.example.expensebook.data.data_source.local.dao.MonthlyExpenseDao
+import com.example.expensebook.data.model.entity.Entry
+import com.example.expensebook.data.model.entity.MonthlyExpense
 
 @Database(
     entities = [

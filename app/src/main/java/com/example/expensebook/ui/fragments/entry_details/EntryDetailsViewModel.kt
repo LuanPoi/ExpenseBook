@@ -1,9 +1,9 @@
-package com.example.expensebook.view.fragments.entry_details
+package com.example.expensebook.ui.fragments.entry_details
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.example.expensebook.model.entity.Entry
-import com.example.expensebook.repository.EntryRepository
+import com.example.expensebook.data.model.entity.Entry
+import com.example.expensebook.data.repository.EntryRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.OffsetDateTime

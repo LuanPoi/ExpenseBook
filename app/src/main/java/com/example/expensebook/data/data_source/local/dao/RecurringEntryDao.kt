@@ -1,8 +1,8 @@
-package com.example.expensebook.data.dao
+package com.example.expensebook.data.data_source.local.dao
 
 import androidx.room.*
-import com.example.expensebook.model.entity.Entry
-import com.example.expensebook.model.entity.RecurringEntry
+import com.example.expensebook.data.model.entity.Entry
+import com.example.expensebook.data.model.entity.RecurringEntry
 
 @Dao
 interface RecurringEntryDao {
