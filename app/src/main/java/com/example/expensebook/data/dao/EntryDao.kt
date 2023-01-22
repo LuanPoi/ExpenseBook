@@ -3,25 +3,29 @@ package com.example.expensebook.data.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.expensebook.model.entity.Entry
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.OffsetDateTime
 
 @Dao
-interface EntryDao {
+abstract class EntryDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(entry: Entry): Long
+    abstract suspend fun insert(entry: Entry): Long
 
     @Query("SELECT * FROM entry " +
             "WHERE ((:startOffsetDateTime IS NULL OR date >= :startOffsetDateTime) " +
                 "AND (:endOffsetDateTime IS NULL OR date < :endOffsetDateTime)" +
             ") ORDER BY date ASC")
-    fun getAllWithFilter(startOffsetDateTime: OffsetDateTime?, endOffsetDateTime: OffsetDateTime?): LiveData<List<Entry>>
+    abstract fun getAllWithFilter(startOffsetDateTime: OffsetDateTime?, endOffsetDateTime: OffsetDateTime?): Flow<List<Entry>>
 
     @Query("SELECT * FROM entry WHERE uid = :entryId")
-    fun getById(entryId: Long): LiveData<Entry>
+    abstract fun getById(entryId: Long): Flow<Entry>
+
+    fun getByIdDistinctUntilChanged(entryId: Long): Flow<Entry> = getById(entryId).distinctUntilChanged()
 
     @Update
-    fun update(entry: Entry): Int
+    abstract suspend fun update(entry: Entry): Int
 
     @Delete
-    fun delete(entry: Entry): Int
+    abstract suspend fun delete(entry: Entry): Int
 }

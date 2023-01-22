@@ -6,6 +6,7 @@ import com.example.expensebook.data.LocalDatabase
 import com.example.expensebook.data.dao.MonthlyExpenseDao
 import com.example.expensebook.model.entity.MonthlyExpense
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import java.time.YearMonth
 
@@ -23,12 +24,16 @@ class MonthlyExpenseRepository(application: Application) {
         }
     }
 
-    fun getAllMonthlyExpenses(): LiveData<List<MonthlyExpense>>{
+    fun getAllMonthlyExpenses(): Flow<List<MonthlyExpense>>{
         return dao.getAllWithFilter()
     }
 
-    fun getMonthlyExpenseByDate(date: YearMonth): LiveData<MonthlyExpense>{
+    fun getMonthlyExpenseByDate(date: YearMonth): Flow<MonthlyExpense> {
         return dao.getByDate(date)
+    }
+
+    fun getMonthlyExpenseByDateDistinctUntilChanged(date: YearMonth): Flow<MonthlyExpense> {
+        return dao.getByDateDistinctUntilChanged(date)
     }
 
     suspend fun updateMonthlyExpense(monthlyExpense: MonthlyExpense){

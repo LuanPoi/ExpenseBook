@@ -6,6 +6,7 @@ import com.example.expensebook.data.LocalDatabase
 import com.example.expensebook.data.dao.EntryDao
 import com.example.expensebook.model.entity.Entry
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import java.time.OffsetDateTime
 import java.time.YearMonth
@@ -27,7 +28,7 @@ class EntryRepository(application: Application) {
         }
     }
 
-    fun getEntries(yearMonth: YearMonth): LiveData<List<Entry>> {
+    fun getEntries(yearMonth: YearMonth): Flow<List<Entry>> {
         return dao.getAllWithFilter(
             OffsetDateTime.from(
                 yearMonth.atDay(1).atStartOfDay().atZone(ZoneOffset.systemDefault())
@@ -38,8 +39,12 @@ class EntryRepository(application: Application) {
         )
     }
 
-    fun getEntryById(entryId: Long): LiveData<Entry> {
+    fun getEntryById(entryId: Long): Flow<Entry> {
         return dao.getById(entryId)
+    }
+
+    fun getEntryByIdDistinctUntilChanged(entryId: Long): Flow<Entry> {
+        return dao.getByIdDistinctUntilChanged(entryId)
     }
 
     suspend fun updateEntry(entry: Entry) = withContext(Dispatchers.IO){

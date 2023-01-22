@@ -31,6 +31,7 @@ abstract class LocalDatabase: RoomDatabase() {
 //    abstract fun recurringEntryDao(): RecurringEntryDao
 
     companion object {
+        @Volatile
         private var INSTANCE: LocalDatabase? = null
 
         fun getDatabase(context: Context): LocalDatabase {

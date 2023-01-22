@@ -3,23 +3,27 @@ package com.example.expensebook.data.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.expensebook.model.entity.MonthlyExpense
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.YearMonth
 
 @Dao
-interface MonthlyExpenseDao {
+abstract class MonthlyExpenseDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(expense: MonthlyExpense): Long
+    abstract fun insert(expense: MonthlyExpense): Long
 
     @Query("SELECT * FROM monthly_expense " +
             "ORDER BY date ASC")
-    fun getAllWithFilter(): LiveData<List<MonthlyExpense>>
+    abstract fun getAllWithFilter(): Flow<List<MonthlyExpense>>
 
     @Query("SELECT * FROM monthly_expense WHERE date = :date")
-    fun getByDate(date: YearMonth): LiveData<MonthlyExpense>
+    abstract fun getByDate(date: YearMonth): Flow<MonthlyExpense>
+
+    fun getByDateDistinctUntilChanged(date: YearMonth): Flow<MonthlyExpense> = getByDate(date).distinctUntilChanged()
 
     @Update
-    fun update(monthlyExpense: MonthlyExpense): Int
+    abstract fun update(monthlyExpense: MonthlyExpense): Int
 
     @Delete
-    fun delete(monthlyExpense: MonthlyExpense): Int
+    abstract fun delete(monthlyExpense: MonthlyExpense): Int
 }
