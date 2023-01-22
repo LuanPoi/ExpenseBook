@@ -7,10 +7,12 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.expensebook.R
+import com.example.expensebook.databinding.DailyExpenseInfoItemBinding
 import com.example.expensebook.databinding.ExpenseItemBinding
 import com.example.expensebook.databinding.TitleItemBinding
 import com.example.expensebook.model.EnumItemViewType
 import com.example.expensebook.model.entity.Entry
+import com.example.expensebook.model.entity.MonthlyExpense
 import java.time.format.DateTimeFormatter
 
 class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): RecyclerView.Adapter<HomeRecyclerViewListAdapter.AbstractViewHolder>() {
@@ -23,6 +25,7 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
         abstractViewHolder = when(viewType){
             EnumItemViewType.TITLE.ordinal -> TitleItemViewHolder(TitleItemBinding.inflate(layoutInflater, parent, false), viewModel)
             EnumItemViewType.EXPENSE_ITEM.ordinal -> ExpenseItemViewHolder(ExpenseItemBinding.inflate(layoutInflater, parent, false), viewModel)
+            EnumItemViewType.DAY_EXPENSE_CONTAINER.ordinal -> DailyExpenseInfoItemViewHolder(DailyExpenseInfoItemBinding.inflate(layoutInflater, parent, false), viewModel)
             else -> throw NotImplementedError()
         }
         return abstractViewHolder
@@ -45,6 +48,9 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
         notifyDataSetChanged()
     }
 
+//    **********************************************************************************************
+//    VIEW HOLDER
+//    **********************************************************************************************
     abstract class AbstractViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         abstract fun bind(obj: Pair<EnumItemViewType, Any>)
     }
@@ -63,7 +69,7 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
 
             binding.textViewExpenseTitle.text = entry.description
 
-            binding.textViewExpenseValue.text = entry.value.toString()
+            binding.textViewExpenseValue.text = "%.2f".format(entry.value)
             binding.textViewExpenseValue.setTextColor(ContextCompat.getColor(binding.root.context, if (entry.value >= 0) R.color.green_theme else R.color.pink_theme))
 
             binding.textViewExpenseDate.text = entry.date.format(DateTimeFormatter.ofPattern("dd/MM"))
@@ -73,5 +79,16 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
                 true
             }
         }
+    }
+
+    class DailyExpenseInfoItemViewHolder(val binding: DailyExpenseInfoItemBinding, val viewModel: HomeViewModel): AbstractViewHolder(binding.root) {
+        override fun bind(obj: Pair<EnumItemViewType, Any>) {
+            val (enumViewType, monthlyExpense) = obj as Pair<EnumItemViewType, MonthlyExpense>
+
+            binding.textViewRecommendedAmountValue.text = "R$ %.2f".format(monthlyExpense.initial_value)+"*"
+            binding.textViewExpendedAmountValue.text = "R$ %.2f".format(monthlyExpense.fixed_expense)+"*"
+            binding.textViewRemainingAmountValue.text = "R$ %.2f".format(monthlyExpense.fixed_income)+"*"
+        }
+
     }
 }

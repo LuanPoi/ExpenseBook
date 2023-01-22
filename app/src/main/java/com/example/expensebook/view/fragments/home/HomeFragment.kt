@@ -13,6 +13,8 @@ import com.example.expensebook.databinding.FragmentHomeBinding
 import com.example.expensebook.model.EnumItemViewType
 import com.example.expensebook.repository.EntryRepository
 import com.example.expensebook.repository.MonthlyExpenseRepository
+import java.time.YearMonth
+import java.time.format.DateTimeFormatter
 
 class HomeFragment : Fragment() {
 
@@ -44,10 +46,11 @@ class HomeFragment : Fragment() {
         binding.recyclerViewHome.adapter = adapter
 
 
-        homeViewModel.stateOnceAndStream().observe(viewLifecycleOwner) { currentEntries ->
+        homeViewModel.stateOnceAndStream().observe(viewLifecycleOwner) { uiState ->
             val auxList: ArrayList<Pair<EnumItemViewType, Any>> = arrayListOf()
+            auxList.add(Pair(EnumItemViewType.DAY_EXPENSE_CONTAINER, uiState.currentMonthlyExpense))
             auxList.add(Pair(EnumItemViewType.TITLE, resources.getString(R.string.expense_history_title)))
-            auxList.addAll(currentEntries.map { entry -> Pair(EnumItemViewType.EXPENSE_ITEM, entry) })
+            auxList.addAll(uiState.currentEntries.map { entry -> Pair(EnumItemViewType.EXPENSE_ITEM, entry) })
             adapter.setData(auxList)
         }
 

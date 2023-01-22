@@ -52,4 +52,18 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/primary_text</item>
     </style>
+    
+
+    <style name="DailyInfo" parent="Theme.ExpenseBook">
+        <item name="android:fontFamily">@font/nunito</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/secondary_text</item>
+    </style>
+    <style name="DailyInfo.Expended.Value" parent="DailyInfo">
+        <item name="android:textColor">@color/primary_text</item>
+    </style>
+    <style name="DailyInfo.Remaining.Value" parent="DailyInfo">
+        <item name="android:textColor">@color/primary_text</item>
+    </style>
 </resources>

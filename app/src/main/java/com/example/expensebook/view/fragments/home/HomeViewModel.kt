@@ -7,6 +7,10 @@ import com.example.expensebook.model.entity.MonthlyExpense
 import com.example.expensebook.repository.EntryRepository
 import com.example.expensebook.repository.MonthlyExpenseRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.onEmpty
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -18,11 +22,24 @@ class HomeViewModel(
     private val monthlyExpenseRepository: MonthlyExpenseRepository
 ): ViewModel() {
 
-    private val _uiState: LiveData<List<Entry>> by lazy {
-        entryRepository.getEntries(YearMonth.now())
+    private val _uiState: LiveData<HomeUiState> by lazy {
+        var yearMonth = YearMonth.now(ZoneId.systemDefault())
+        combine(
+            monthlyExpenseRepository.getMonthlyExpenseByDate(yearMonth),
+            entryRepository.getEntries(yearMonth)
+        ) { _monthlyExpense, _entries ->
+            var monthlyExpense = _monthlyExpense
+            var entries = _entries
+            if(monthlyExpense == null) {
+                monthlyExpense = MonthlyExpense(yearMonth)
+                monthlyExpenseRepository.addMonthlyExpense(monthlyExpense)
+            }
+            if(entries == null) {entries = listOf()}
+            HomeUiState(yearMonth, monthlyExpense, entries)
+        }.distinctUntilChanged().asLiveData()
     }
 
-    fun stateOnceAndStream(): LiveData<List<Entry>> = _uiState
+    fun stateOnceAndStream(): LiveData<HomeUiState> = _uiState
 
     fun deleteEntry(entry: Entry){
         viewModelScope.launch{
