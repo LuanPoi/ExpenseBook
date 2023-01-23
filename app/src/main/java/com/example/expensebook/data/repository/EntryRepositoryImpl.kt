@@ -3,7 +3,8 @@ package com.example.expensebook.data.repository
 import android.app.Application
 import com.example.expensebook.data.data_source.local.LocalDatabase
 import com.example.expensebook.data.data_source.local.dao.EntryDao
-import com.example.expensebook.data.model.entity.Entry
+import com.example.expensebook.domain.model.Entry
+import com.example.expensebook.domain.repository.EntryRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -11,7 +12,7 @@ import java.time.OffsetDateTime
 import java.time.YearMonth
 import java.time.ZoneOffset
 
-class EntryRepository(application: Application) {
+class EntryRepositoryImpl(application: Application) : EntryRepository {
 
     private val dao: EntryDao
 
@@ -19,15 +20,13 @@ class EntryRepository(application: Application) {
         this.dao = LocalDatabase.getDatabase(application).entryDao()
     }
 
-    suspend fun addEntry(entry: Entry): Entry {
-        return withContext(Dispatchers.IO){
-            dao.insert(entry).let { entryId ->
-                entry.apply { uid = entryId }
-            }
+    override suspend fun insert(entry: Entry){
+        withContext(Dispatchers.IO){
+            dao.insert(entry)
         }
     }
 
-    fun getEntries(yearMonth: YearMonth): Flow<List<Entry>> {
+    override fun getAll(yearMonth: YearMonth): Flow<List<Entry>> {
         return dao.getAllWithFilter(
             OffsetDateTime.from(
                 yearMonth.atDay(1).atStartOfDay().atZone(ZoneOffset.systemDefault())
@@ -38,19 +37,19 @@ class EntryRepository(application: Application) {
         )
     }
 
-    fun getEntryById(entryId: Long): Flow<Entry> {
+    override fun getById(entryId: Long): Flow<Entry> {
         return dao.getById(entryId)
     }
 
-    fun getEntryByIdDistinctUntilChanged(entryId: Long): Flow<Entry> {
-        return dao.getByIdDistinctUntilChanged(entryId)
+    override suspend fun update(entry: Entry) {
+        withContext(Dispatchers.IO){
+            dao.update(entry)
+        }
     }
 
-    suspend fun updateEntry(entry: Entry) = withContext(Dispatchers.IO){
-        dao.update(entry)
-    }
-
-    suspend fun deleteEntry(entry: Entry) = withContext(Dispatchers.IO){
-        dao.delete(entry)
+    override suspend fun delete(entry: Entry) {
+        withContext(Dispatchers.IO){
+            dao.delete(entry)
+        }
     }
 }

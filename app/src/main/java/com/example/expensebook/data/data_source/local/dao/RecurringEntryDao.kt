@@ -1,23 +1,26 @@
 package com.example.expensebook.data.data_source.local.dao
 
 import androidx.room.*
-import com.example.expensebook.data.model.entity.Entry
-import com.example.expensebook.data.model.entity.RecurringEntry
+import com.example.expensebook.domain.model.RecurringEntry
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Dao
-interface RecurringEntryDao {
+abstract class RecurringEntryDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun addRecurringEntry(recurringEntry: RecurringEntry)
+    abstract suspend fun insert(recurringEntry: RecurringEntry)
 
     @Query("SELECT * FROM recurring_entry ORDER BY description ASC")
-    fun getAllRecurringEntries(): List<RecurringEntry>
+    abstract fun getAll(): Flow<List<RecurringEntry>>
 
-    @Query("SELECT * FROM recurring_entry WHERE uid = :recurringEntryId")
-    fun getRecurringEntryById(recurringEntryId: Int): RecurringEntry
+    @Query("SELECT * FROM recurring_entry WHERE uid = :id")
+    abstract fun _getById(id: Long): Flow<RecurringEntry>
+
+    fun getById(id: Long): Flow<RecurringEntry> = _getById(id).distinctUntilChanged()
 
     @Update
-    fun updateRecurringEntry(recurringEntry: RecurringEntry)
+    abstract suspend fun update(recurringEntry: RecurringEntry)
 
     @Delete
-    fun deleteRecurringEntry(recurringEntry: RecurringEntry)
+    abstract suspend fun delete(recurringEntry: RecurringEntry)
 }

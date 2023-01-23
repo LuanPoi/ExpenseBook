@@ -1,10 +1,8 @@
 package com.example.expensebook.ui.fragments.entry_details
 
-import android.app.Application
 import androidx.lifecycle.*
-import com.example.expensebook.data.model.entity.Entry
-import com.example.expensebook.data.repository.EntryRepository
-import kotlinx.coroutines.Dispatchers
+import com.example.expensebook.domain.model.Entry
+import com.example.expensebook.domain.repository.EntryRepository
 import kotlinx.coroutines.launch
 import java.time.OffsetDateTime
 
@@ -22,7 +20,7 @@ class EntryDetailsViewModel(private val entryRepository: EntryRepository) : View
 
     fun save(entry: Entry){
         viewModelScope.launch {
-            entryRepository.addEntry(entry)
+            entryRepository.insert(entry)
         }
     }
 

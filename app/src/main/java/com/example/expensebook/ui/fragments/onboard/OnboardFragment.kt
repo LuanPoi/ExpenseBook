@@ -9,12 +9,10 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.expensebook.R
-import com.example.expensebook.data.model.entity.MonthlyExpense
-import com.example.expensebook.data.repository.MonthlyExpenseRepository
+import com.example.expensebook.domain.model.MonthlyExpense
+import com.example.expensebook.data.repository.MonthlyExpenseRepositoryImpl
 import com.example.expensebook.databinding.FragmentOnboardBinding
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.time.YearMonth
 
 class OnboardFragment : Fragment() {
@@ -22,7 +20,7 @@ class OnboardFragment : Fragment() {
     private lateinit var binding: FragmentOnboardBinding
 
     private val repository by lazy {
-        MonthlyExpenseRepository(requireActivity().application)
+        MonthlyExpenseRepositoryImpl(requireActivity().application)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +40,7 @@ class OnboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         lifecycleScope.launch {
-            repository.getMonthlyExpenseByDate(YearMonth.now()).asLiveData().observe(viewLifecycleOwner) {
+            repository.getByDate(YearMonth.now()).asLiveData().observe(viewLifecycleOwner) {
                 if(it != null){
                     binding.editTextInitialValue.setText(it.initial_value.toString())
                     binding.editTextSavingsGoal.setText(it.savings_goal.toString())
@@ -53,7 +51,7 @@ class OnboardFragment : Fragment() {
         binding.buttonSave.setOnClickListener {
             if(binding.editTextInitialValue.text.isNotBlank() && binding.editTextSavingsGoal.text.isNotBlank()){
                 lifecycleScope.launch {
-                    repository.addMonthlyExpense(
+                    repository.insert(
                         MonthlyExpense(
                             initial_value = binding.editTextInitialValue.text.toString().toFloat(),
                             savings_goal = binding.editTextSavingsGoal.text.toString().toFloat()

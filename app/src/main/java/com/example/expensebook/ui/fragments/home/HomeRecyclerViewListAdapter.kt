@@ -4,23 +4,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.expensebook.R
 import com.example.expensebook.databinding.DailyExpenseInfoItemBinding
 import com.example.expensebook.databinding.ExpenseItemBinding
 import com.example.expensebook.databinding.TitleItemBinding
-import com.example.expensebook.data.model.EnumItemViewType
-import com.example.expensebook.data.model.entity.Entry
-import com.example.expensebook.data.model.entity.MonthlyExpense
+import com.example.expensebook.domain.model.Entry
 import java.time.LocalDate
-import java.time.OffsetDateTime
-import java.time.YearMonth
 import java.time.ZoneId
-import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
-import kotlin.math.absoluteValue
 
 class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): RecyclerView.Adapter<HomeRecyclerViewListAdapter.AbstractViewHolder>() {
 
@@ -95,15 +88,15 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
             val today = LocalDate.now(ZoneId.systemDefault())
             val endOfMonth = uiState.currentMonthlyExpense.date.plusMonths(1).atDay(1)
             val remainingDays = endOfMonth.toEpochDay() - today.toEpochDay()
-            val currentAmount = uiState.currentMonthlyExpense.initial_value - uiState.currentMonthlyExpense.savings_goal - uiState.currentEntries.map { it.value }.sum().times(-1)
+            val currentAmount = uiState.currentMonthlyExpense.initial_value - uiState.currentMonthlyExpense.savings_goal + uiState.currentEntries.map { it.value }.sum()
             val recomendedAmount = currentAmount / remainingDays
-            val todayAmountExpend = uiState.currentEntries.filter { it.date.toLocalDate().isEqual(LocalDate.now(ZoneId.systemDefault())) }.map { it.value }.sum().times(-1)
-            val todayAmountRemaining = recomendedAmount - todayAmountExpend
+            val todayAmountExpend = uiState.currentEntries.filter { it.date.toLocalDate().isEqual(LocalDate.now(ZoneId.systemDefault())) }.map { it.value }.sum()
+            val todayAmountRemaining = recomendedAmount + todayAmountExpend
 
             Log.d(TAG, "current amount: $currentAmount\nremaining days: $remainingDays\nrecomended amount: $recomendedAmount\ntoday expend: $todayAmountExpend\ntoday remaining: $todayAmountRemaining\n")
 
             binding.textViewRecommendedAmountValue.text = "R$ %.2f".format(recomendedAmount)
-            binding.textViewExpendedAmountValue.text = "R$ %.2f".format(todayAmountExpend)
+            binding.textViewExpendedAmountValue.text = "R$ %.2f".format(if (todayAmountExpend.equals(0f)) todayAmountExpend else todayAmountExpend.times(-1))
             binding.textViewRemainingAmountValue.text = "R$ %.2f".format(todayAmountRemaining)
         }
 

@@ -7,18 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import com.example.expensebook.databinding.FragmentEntryDetailsBinding
-import com.example.expensebook.data.model.entity.Entry
-import com.example.expensebook.data.repository.EntryRepository
-import com.example.expensebook.ui.fragments.home.HomeViewModel
-import com.google.android.material.datepicker.CalendarConstraints
-import com.google.android.material.datepicker.DateValidatorPointForward
+import com.example.expensebook.domain.model.Entry
+import com.example.expensebook.data.repository.EntryRepositoryImpl
 import com.google.android.material.datepicker.MaterialDatePicker
-import java.lang.Float
 import java.time.*
-import java.time.Instant.ofEpochSecond
 import java.time.format.DateTimeFormatter
 
 class EntryDetailsFragment : Fragment() {
@@ -26,7 +20,7 @@ class EntryDetailsFragment : Fragment() {
     private lateinit var binding: FragmentEntryDetailsBinding
 
     private val entryDetailViewModel: EntryDetailsViewModel by activityViewModels {
-        EntryDetailsViewModel.Factory(EntryRepository(requireActivity().application))
+        EntryDetailsViewModel.Factory(EntryRepositoryImpl(requireActivity().application))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

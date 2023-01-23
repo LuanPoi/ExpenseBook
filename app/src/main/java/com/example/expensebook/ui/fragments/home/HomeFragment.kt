@@ -10,19 +10,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensebook.R
 import com.example.expensebook.databinding.FragmentHomeBinding
-import com.example.expensebook.data.model.EnumItemViewType
-import com.example.expensebook.data.repository.EntryRepository
-import com.example.expensebook.data.repository.MonthlyExpenseRepository
-import java.time.YearMonth
-import java.time.format.DateTimeFormatter
+import com.example.expensebook.data.repository.EntryRepositoryImpl
+import com.example.expensebook.data.repository.MonthlyExpenseRepositoryImpl
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private val homeViewModel: HomeViewModel by activityViewModels {
         HomeViewModel.Factory(
-            EntryRepository(requireActivity().application),
-            MonthlyExpenseRepository(requireActivity().application)
+            EntryRepositoryImpl(requireActivity().application),
+            MonthlyExpenseRepositoryImpl(requireActivity().application)
         )
     }
 

@@ -1,8 +1,7 @@
 package com.example.expensebook.data.data_source.local.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.expensebook.data.model.entity.MonthlyExpense
+import com.example.expensebook.domain.model.MonthlyExpense
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.YearMonth
@@ -17,9 +16,9 @@ abstract class MonthlyExpenseDao {
     abstract fun getAllWithFilter(): Flow<List<MonthlyExpense>>
 
     @Query("SELECT * FROM monthly_expense WHERE date = :date")
-    abstract fun getByDate(date: YearMonth): Flow<MonthlyExpense>
+    abstract fun _getByDate(date: YearMonth): Flow<MonthlyExpense>
 
-    fun getByDateDistinctUntilChanged(date: YearMonth): Flow<MonthlyExpense> = getByDate(date).distinctUntilChanged()
+    fun getByDate(date: YearMonth): Flow<MonthlyExpense> = _getByDate(date).distinctUntilChanged()
 
     @Update
     abstract fun update(monthlyExpense: MonthlyExpense): Int
