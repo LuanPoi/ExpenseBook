@@ -4,4 +4,18 @@
     <string name="recommended_daily_expense_title">gasto diário recomendado</string>
     <string name="today_total_expense">gasto hoje:</string>
     <string name="today_total_remaining">restante hoje:</string>
+    <string-array name="months">
+        <item name="January">Janeiro</item>
+        <item name="February">Fevereiro</item>
+        <item name="March">Março</item>
+        <item name="April">Abril</item>
+        <item name="May">Maio</item>
+        <item name="June">Junho</item>
+        <item name="July">Julho</item>
+        <item name="August">Agosto</item>
+        <item name="September">Setembro</item>
+        <item name="October">Outubro</item>
+        <item name="November">Novembro</item>
+        <item name="December">Dezembro</item>
+    </string-array>
 </resources>

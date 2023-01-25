@@ -14,8 +14,8 @@ class EntryDetailsViewModel(private val entryRepository: EntryRepository) : View
 
     fun stateOnceAndStream(): LiveData<EntryDetailsUiState> = _uiState
 
-    fun toggleEntryType(value: Boolean){
-//        _uiState.value = _uiState.value?.copy(isReceipt = value)
+    fun updateValues(uiState: EntryDetailsUiState){
+        _uiState.value = uiState
     }
 
     fun save(entry: Entry){

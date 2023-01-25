@@ -5,6 +5,7 @@ import com.example.expensebook.domain.model.Entry
 import com.example.expensebook.domain.model.MonthlyExpense
 import com.example.expensebook.data.repository.EntryRepositoryImpl
 import com.example.expensebook.data.repository.MonthlyExpenseRepositoryImpl
+import com.example.expensebook.domain.repository.RecurringEntryRepository
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
@@ -13,23 +14,27 @@ import java.time.ZoneId
 
 class HomeViewModel(
     private val entryRepository: EntryRepositoryImpl,
-    private val monthlyExpenseRepository: MonthlyExpenseRepositoryImpl
+    private val monthlyExpenseRepository: MonthlyExpenseRepositoryImpl,
+    private val recurringEntryRepository: RecurringEntryRepository
 ): ViewModel() {
 
     private val _uiState: LiveData<HomeUiState> by lazy {
         var yearMonth = YearMonth.now(ZoneId.systemDefault())
         combine(
             monthlyExpenseRepository.getByDate(yearMonth),
-            entryRepository.getAll(yearMonth)
-        ) { _monthlyExpense, _entries ->
+            entryRepository.getAll(yearMonth),
+            recurringEntryRepository.getAll()
+        ) { _monthlyExpense, _entries, _recurringEntries ->
             var monthlyExpense = _monthlyExpense
             var entries = _entries
+            var recurringEntries = _recurringEntries
             if(monthlyExpense == null) {
                 monthlyExpense = MonthlyExpense(yearMonth)
                 monthlyExpenseRepository.insert(monthlyExpense)
             }
             if(entries == null) {entries = listOf()}
-            HomeUiState(yearMonth, monthlyExpense, entries)
+            if(recurringEntries == null) {recurringEntries = listOf()}
+            HomeUiState(yearMonth, monthlyExpense, entries, recurringEntries)
         }.distinctUntilChanged().asLiveData()
     }
 
@@ -43,10 +48,11 @@ class HomeViewModel(
 
     class Factory(
         private val entryRepository: EntryRepositoryImpl,
-        private val monthlyExpenseRepository: MonthlyExpenseRepositoryImpl
+        private val monthlyExpenseRepository: MonthlyExpenseRepositoryImpl,
+        private val recurringEntryRepository: RecurringEntryRepository
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return HomeViewModel(entryRepository, monthlyExpenseRepository) as T
+            return HomeViewModel(entryRepository, monthlyExpenseRepository, recurringEntryRepository) as T
         }
     }
 }

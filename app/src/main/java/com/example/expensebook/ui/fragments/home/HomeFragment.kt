@@ -12,15 +12,19 @@ import com.example.expensebook.R
 import com.example.expensebook.databinding.FragmentHomeBinding
 import com.example.expensebook.data.repository.EntryRepositoryImpl
 import com.example.expensebook.data.repository.MonthlyExpenseRepositoryImpl
+import com.example.expensebook.data.repository.RecurringEntryRepositoryImpl
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private val homeViewModel: HomeViewModel by activityViewModels {
-        HomeViewModel.Factory(
-            EntryRepositoryImpl(requireActivity().application),
-            MonthlyExpenseRepositoryImpl(requireActivity().application)
-        )
+        with(requireActivity().application){
+            HomeViewModel.Factory(
+                EntryRepositoryImpl(this),
+                MonthlyExpenseRepositoryImpl(this),
+                RecurringEntryRepositoryImpl(this)
+            )
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +49,7 @@ class HomeFragment : Fragment() {
 
         homeViewModel.stateOnceAndStream().observe(viewLifecycleOwner) { uiState ->
             val auxList: ArrayList<Pair<EnumItemViewType, Any>> = arrayListOf()
+            auxList.add(Pair(EnumItemViewType.MONTH_EXPENSE_CONTAINER, uiState))
             auxList.add(Pair(EnumItemViewType.DAY_EXPENSE_CONTAINER, uiState))
             auxList.add(Pair(EnumItemViewType.TITLE, resources.getString(R.string.expense_history_title)))
             auxList.addAll(uiState.currentEntries.map { entry -> Pair(EnumItemViewType.EXPENSE_ITEM, entry) })

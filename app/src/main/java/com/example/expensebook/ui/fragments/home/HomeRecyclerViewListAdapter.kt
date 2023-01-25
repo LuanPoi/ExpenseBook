@@ -7,15 +7,23 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.expensebook.R
-import com.example.expensebook.databinding.DailyExpenseInfoItemBinding
+import com.example.expensebook.databinding.DailyInfoItemBinding
 import com.example.expensebook.databinding.ExpenseItemBinding
+import com.example.expensebook.databinding.MonthlyInfoItemBinding
 import com.example.expensebook.databinding.TitleItemBinding
 import com.example.expensebook.domain.model.Entry
 import java.time.LocalDate
+import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import kotlin.math.absoluteValue
+import kotlin.math.roundToInt
 
 class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): RecyclerView.Adapter<HomeRecyclerViewListAdapter.AbstractViewHolder>() {
+
+    companion object {
+        const val TAG = "HomeRecyclerViewListAdapter"
+    }
 
     private var mainRecyclerViewArray = arrayListOf<Pair<EnumItemViewType, Any>>()
 
@@ -25,7 +33,8 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
         abstractViewHolder = when(viewType){
             EnumItemViewType.TITLE.ordinal -> TitleItemViewHolder(TitleItemBinding.inflate(layoutInflater, parent, false), viewModel)
             EnumItemViewType.EXPENSE_ITEM.ordinal -> ExpenseItemViewHolder(ExpenseItemBinding.inflate(layoutInflater, parent, false), viewModel)
-            EnumItemViewType.DAY_EXPENSE_CONTAINER.ordinal -> DailyExpenseInfoItemViewHolder(DailyExpenseInfoItemBinding.inflate(layoutInflater, parent, false), viewModel)
+            EnumItemViewType.DAY_EXPENSE_CONTAINER.ordinal -> DailyExpenseInfoItemViewHolder(DailyInfoItemBinding.inflate(layoutInflater, parent, false), viewModel)
+            EnumItemViewType.MONTH_EXPENSE_CONTAINER.ordinal -> MonthlyExpenseInfoItemViewHolder(MonthlyInfoItemBinding.inflate(layoutInflater, parent, false), viewModel)
             else -> throw NotImplementedError()
         }
         return abstractViewHolder
@@ -69,8 +78,13 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
 
             binding.textViewExpenseTitle.text = entry.description
 
-            binding.textViewExpenseValue.text = "%.2f".format(entry.value)
-            binding.textViewExpenseValue.setTextColor(ContextCompat.getColor(binding.root.context, if (entry.value >= 0) R.color.green_theme else R.color.pink_theme))
+            if (entry.value >= 0){
+                binding.textViewExpenseValue.text = "+ R$ %.2f".format(entry.value)
+                binding.textViewExpenseValue.setTextColor(ContextCompat.getColor(binding.root.context, R.color.green_theme))
+            } else {
+                binding.textViewExpenseValue.text = "- R$ %.2f".format(entry.value.times(-1))
+                binding.textViewExpenseValue.setTextColor(ContextCompat.getColor(binding.root.context, R.color.pink_theme))
+            }
 
             binding.textViewExpenseDate.text = entry.date.format(DateTimeFormatter.ofPattern("dd/MM"))
 
@@ -81,14 +95,18 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
         }
     }
 
-    class DailyExpenseInfoItemViewHolder(val binding: DailyExpenseInfoItemBinding, val viewModel: HomeViewModel): AbstractViewHolder(binding.root) {
+    class DailyExpenseInfoItemViewHolder(val binding: DailyInfoItemBinding, val viewModel: HomeViewModel): AbstractViewHolder(binding.root) {
         override fun bind(obj: Pair<EnumItemViewType, Any>) {
             val (enumViewType, uiState) = obj as Pair<EnumItemViewType, HomeUiState>
 
-            val today = LocalDate.now(ZoneId.systemDefault())
+            val today = OffsetDateTime.now(ZoneId.systemDefault())
+                .withHour(0)
+                .withMinute(0)
+                .withSecond(0)
+                .withNano(0)
             val endOfMonth = uiState.currentMonthlyExpense.date.plusMonths(1).atDay(1)
-            val remainingDays = endOfMonth.toEpochDay() - today.toEpochDay()
-            val currentAmount = uiState.currentMonthlyExpense.initial_value - uiState.currentMonthlyExpense.savings_goal + uiState.currentEntries.map { it.value }.sum()
+            val remainingDays = endOfMonth.toEpochDay() - today.toLocalDate().toEpochDay()
+            val currentAmount = uiState.currentMonthlyExpense.initial_value - uiState.currentMonthlyExpense.savings_goal + uiState.currentEntries.filter { it.date.isBefore(today) }.map { it.value }.sum()
             val recomendedAmount = currentAmount / remainingDays
             val todayAmountExpend = uiState.currentEntries.filter { it.date.toLocalDate().isEqual(LocalDate.now(ZoneId.systemDefault())) }.map { it.value }.sum()
             val todayAmountRemaining = recomendedAmount + todayAmountExpend
@@ -102,7 +120,24 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
 
     }
 
-    companion object {
-        const val TAG = "HomeRecyclerViewListAdapter"
+    class MonthlyExpenseInfoItemViewHolder(val binding: MonthlyInfoItemBinding, val viewModel: HomeViewModel): AbstractViewHolder(binding.root) {
+        override fun bind(obj: Pair<EnumItemViewType, Any>) {
+            val (enumViewType, uiState) = obj as Pair<EnumItemViewType, HomeUiState>
+            val tomorrow = OffsetDateTime.now(ZoneId.systemDefault())
+                .withHour(0)
+                .withMinute(0)
+                .withSecond(0)
+                .withNano(0)
+                .plusDays(1)
+            val totalExpend = uiState.currentEntries.filter { it.date.isBefore(tomorrow) }.map { it.value }.sum()
+            val totalRemaining = uiState.currentMonthlyExpense.initial_value + totalExpend - uiState.currentMonthlyExpense.savings_goal
+            val expendPercentual = ((((100*(totalRemaining))/(uiState.currentMonthlyExpense.initial_value - uiState.currentMonthlyExpense.savings_goal))-100)*-1).roundToInt()
+
+            binding.textViewMonthName.text = binding.root.resources.getStringArray(R.array.months).get(uiState.currentYearMonth.month.ordinal)
+            binding.textViewProgressExpendValue.text = "R$ %.2f".format(if (totalExpend.equals(0f)) totalExpend else totalExpend.times(-1))
+            binding.textViewProgressRemainingValue.text = "R$ %.2f".format(totalRemaining)
+            binding.progressBarMonthBalance.progress = expendPercentual
+        }
+
     }
 }

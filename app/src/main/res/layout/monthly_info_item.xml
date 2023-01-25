@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/container"
+    android:padding="8dp"
+    android:layout_marginTop="16dp">
+
+    <TextView
+        android:id="@+id/textViewMonthName"
+        style="@style/MonthlyInfo.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Novembro" />
+
+    <TextView
+        style="@style/MonthlyInfo.ProgressBar.Expended.Value"
+        android:id="@+id/textViewProgressExpendValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        tools:text="R$ 2560,00"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMonthName" />
+
+    <TextView
+        style="@style/MonthlyInfo.ProgressBar.Remaining.Value"
+        android:id="@+id/textViewProgressRemainingValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        tools:text="R$ 1440,00"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMonthName" />
+
+    <TextView
+        style="@style/MonthlyInfo.ProgressBar.Expended.Title"
+        android:id="@+id/textViewProgressExpendTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="gasto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBarMonthBalance" />
+
+    <TextView
+        style="@style/MonthlyInfo.ProgressBar.Remaining.Title"
+        android:id="@+id/textViewProgressRemainingTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="restante"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBarMonthBalance" />
+
+    <TextView
+        android:id="@+id/textViewRecurringIncomeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="58dp"
+        android:text="Receitas recorrentes"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProgressExpendTitle" />
+
+    <TextView
+        android:id="@+id/textViewRecurringExpenseTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="58dp"
+        android:text="Despesas recorrentes"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRecurringIncomeTitle" />
+
+    <Button
+        android:id="@+id/buttonManageRecurringIncome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="gerenciar"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewRecurringIncomeTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewRecurringIncomeTitle" />
+
+    <Button
+        android:id="@+id/buttonManageRecurringExpense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="gerenciar"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewRecurringExpenseTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewRecurringExpenseTitle" />
+
+    <ProgressBar
+        style="@style/MonthlyInfo.ProgressBar"
+        android:id="@+id/progressBarMonthBalance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:progress="25"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProgressExpendValue" />
+</androidx.constraintlayout.widget.ConstraintLayout>

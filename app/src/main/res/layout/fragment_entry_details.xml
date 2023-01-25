@@ -103,9 +103,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="56dp"
                 android:hint="Descrição"
-                app:boxBackgroundMode="outline"
-                app:boxStrokeColor="#D83232"
-                app:boxStrokeWidth="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/editTextValue">
