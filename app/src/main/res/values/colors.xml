@@ -7,11 +7,13 @@
     <color name="hover">#2D223C</color>
     <color name="primary_text">#FFFFFF</color>
     <color name="secondary_text">#9588A6</color>
-    <color name="secondary_text_with_alpha_20">#339588A6</color>
+    <color name="secondary_text_alpha_20">#339588A6</color>
     <color name="main_gradient_start">#0BFFE2</color>
     <color name="main_gradient_end">#15D5FF</color>
     <color name="blue_theme">#794BFC</color>
     <color name="pink_theme">#FE508E</color>
+    <color name="pink_theme_alpha_60">#99FE508E</color>
     <color name="green_theme">#50FE80</color>
+    <color name="green_theme_alpha_60">#9950FE80</color>
     <color name="red_theme">#FE5050</color>
 </resources>

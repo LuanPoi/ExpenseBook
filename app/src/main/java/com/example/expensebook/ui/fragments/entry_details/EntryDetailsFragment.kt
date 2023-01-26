@@ -13,6 +13,8 @@ import com.example.expensebook.R
 import com.example.expensebook.databinding.FragmentEntryDetailsBinding
 import com.example.expensebook.domain.model.Entry
 import com.example.expensebook.data.repository.EntryRepositoryImpl
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.time.*
 import java.time.format.DateTimeFormatter
@@ -59,7 +61,8 @@ class EntryDetailsFragment : Fragment() {
             binding.buttonCalendar.setOnClickListener {
                 val datePicker =
                     MaterialDatePicker.Builder.datePicker()
-                        .setTitleText("Select date")
+                        .setTitleText("Select date").setCalendarConstraints(CalendarConstraints.Builder().setValidator(
+                            DateValidatorPointBackward.now()).build())
                         .build()
                 parentFragmentManager.let {
                     datePicker.show(it, "teste")

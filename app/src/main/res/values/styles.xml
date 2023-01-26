@@ -100,4 +100,17 @@
         <item name="android:progressBackgroundTint">@color/blue_theme</item>
         <item name="android:progressBackgroundTintMode">src_over</item>
     </style>
+    <style name="MonthlyInfo.Details" parent="MonthlyInfo">
+        <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="MonthlyInfo.Details.Title" parent="MonthlyInfo.Details">
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="MonthlyInfo.Details.ManageButton" parent="MonthlyInfo.Details">
+        <item name="android:textColor">@color/main_gradient_end</item>
+        <item name="android:textSize">18sp</item>
+        <item name="backgroundTint">@color/transparent</item>
+    </style>
 </resources>

@@ -58,44 +58,59 @@
         app:layout_constraintTop_toBottomOf="@+id/progressBarMonthBalance" />
 
     <TextView
-        android:id="@+id/textViewRecurringIncomeTitle"
+        style="@style/MonthlyInfo.Details.Title"
+        android:id="@+id/textViewDetailsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="58dp"
-        android:text="Receitas recorrentes"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewProgressExpendTitle" />
-
+        android:layout_marginTop="59dp"
+        android:text="Detalhes"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewProgressExpendTitle"/>
+    <Button
+        style="@style/MonthlyInfo.Details.ManageButton"
+        android:id="@+id/buttonDetailsManage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="gerenciar"
+        android:paddingRight="0dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textViewDetailsTitle"
+        app:layout_constraintBottom_toBottomOf="@id/textViewDetailsTitle"/>
     <TextView
-        android:id="@+id/textViewRecurringExpenseTitle"
+        style="@style/MonthlyInfo.Details"
+        android:id="@+id/textViewDetailsInitialValueTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="58dp"
-        android:text="Despesas recorrentes"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRecurringIncomeTitle" />
-
-    <Button
-        android:id="@+id/buttonManageRecurringIncome"
+        android:layout_marginTop="32dp"
+        android:text="Valor inicial:"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewDetailsTitle"/>
+    <TextView
+        style="@style/MonthlyInfo.Details"
+        android:id="@+id/textViewDetailsInitialValueValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="gerenciar"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewRecurringIncomeTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewRecurringIncomeTitle" />
-
-    <Button
-        android:id="@+id/buttonManageRecurringExpense"
+        tools:text="R$ 1000,00"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textViewDetailsInitialValueTitle"
+        app:layout_constraintBottom_toBottomOf="@id/textViewDetailsInitialValueTitle"/>
+    <TextView
+        style="@style/MonthlyInfo.Details"
+        android:id="@+id/textViewDetailsSavingsGoalTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="gerenciar"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewRecurringExpenseTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewRecurringExpenseTitle" />
+        android:text="Meta econômica:"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewDetailsInitialValueTitle"/>
+    <TextView
+        style="@style/MonthlyInfo.Details"
+        android:id="@+id/textViewDetailsSavingsGoalValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="R$ 200,00"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textViewDetailsSavingsGoalTitle"
+        app:layout_constraintBottom_toBottomOf="@id/textViewDetailsSavingsGoalTitle"/>
 
     <ProgressBar
         style="@style/MonthlyInfo.ProgressBar"

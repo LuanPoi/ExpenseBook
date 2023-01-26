@@ -19,6 +19,8 @@ class OnboardFragment : Fragment() {
 
     private lateinit var binding: FragmentOnboardBinding
 
+    private var monthlyExpense: MonthlyExpense? = null
+
     private val repository by lazy {
         MonthlyExpenseRepositoryImpl(requireActivity().application)
     }
@@ -42,6 +44,7 @@ class OnboardFragment : Fragment() {
         lifecycleScope.launch {
             repository.getByDate(YearMonth.now()).asLiveData().observe(viewLifecycleOwner) {
                 if(it != null){
+                    monthlyExpense = it
                     binding.editTextInitialValue.setText(it.initial_value.toString())
                     binding.editTextSavingsGoal.setText(it.savings_goal.toString())
                 }
@@ -50,13 +53,27 @@ class OnboardFragment : Fragment() {
 
         binding.buttonSave.setOnClickListener {
             if(binding.editTextInitialValue.text.isNotBlank() && binding.editTextSavingsGoal.text.isNotBlank()){
-                lifecycleScope.launch {
-                    repository.insert(
-                        MonthlyExpense(
-                            initial_value = binding.editTextInitialValue.text.toString().toFloat(),
-                            savings_goal = binding.editTextSavingsGoal.text.toString().toFloat()
-                        )
-                    )
+                if(monthlyExpense == null){
+                    monthlyExpense = MonthlyExpense()
+                    monthlyExpense?.apply {
+                        initial_value = binding.editTextInitialValue.text.toString().toFloat()
+                        savings_goal = binding.editTextSavingsGoal.text.toString().toFloat()
+                    }
+                    lifecycleScope.launch {
+                        monthlyExpense?.let{
+                            repository.insert(it)
+                        }
+                    }
+                } else {
+                    monthlyExpense?.apply {
+                        initial_value = binding.editTextInitialValue.text.toString().toFloat()
+                        savings_goal = binding.editTextSavingsGoal.text.toString().toFloat()
+                    }
+                    lifecycleScope.launch {
+                        monthlyExpense?.let{
+                            repository.update(it)
+                        }
+                    }
                 }
                 findNavController().navigate(R.id.action_onboardFragment_to_homeFragment)
             }

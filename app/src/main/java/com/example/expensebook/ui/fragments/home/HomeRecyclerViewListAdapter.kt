@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.expensebook.R
 import com.example.expensebook.databinding.DailyInfoItemBinding
@@ -137,6 +139,13 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
             binding.textViewProgressExpendValue.text = "R$ %.2f".format(if (totalExpend.equals(0f)) totalExpend else totalExpend.times(-1))
             binding.textViewProgressRemainingValue.text = "R$ %.2f".format(totalRemaining)
             binding.progressBarMonthBalance.progress = expendPercentual
+
+            binding.textViewDetailsInitialValueValue.text = "R$ %.2f".format(uiState.currentMonthlyExpense.initial_value)
+            binding.textViewDetailsSavingsGoalValue.text = "R$ %.2f".format(uiState.currentMonthlyExpense.savings_goal)
+
+            binding.buttonDetailsManage.setOnClickListener {
+                findNavController(binding.root).popBackStack()
+            }
         }
 
     }

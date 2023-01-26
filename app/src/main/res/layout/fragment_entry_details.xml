@@ -51,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="18dp"
-                android:text="expense__receipt"
+                android:text="[Despesa]----[Receita]"
                 style="@style/EntryDetails.EntryType.Switch"
                 app:layout_constraintTop_toBottomOf="@+id/buttonCalendar"
                 app:layout_constraintStart_toStartOf="parent"
