@@ -1,7 +1,7 @@
 package com.example.expensebook.data.data_source.local.dao
 
 import androidx.room.*
-import com.example.expensebook.domain.model.MonthlyExpense
+import com.example.expensebook.data.data_source.local.entities.MonthlyExpense
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.YearMonth

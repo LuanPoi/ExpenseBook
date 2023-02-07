@@ -3,7 +3,7 @@ package com.example.expensebook.data.repository
 import android.app.Application
 import com.example.expensebook.data.data_source.local.LocalDatabase
 import com.example.expensebook.data.data_source.local.dao.MonthlyExpenseDao
-import com.example.expensebook.domain.model.MonthlyExpense
+import com.example.expensebook.data.data_source.local.entities.MonthlyExpense
 import com.example.expensebook.domain.repository.MonthlyExpenseRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

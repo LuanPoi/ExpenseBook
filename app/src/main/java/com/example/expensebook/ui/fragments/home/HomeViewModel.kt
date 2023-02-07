@@ -1,8 +1,8 @@
 package com.example.expensebook.ui.fragments.home
 
 import androidx.lifecycle.*
-import com.example.expensebook.domain.model.Entry
-import com.example.expensebook.domain.model.MonthlyExpense
+import com.example.expensebook.data.data_source.local.entities.Entry
+import com.example.expensebook.data.data_source.local.entities.MonthlyExpense
 import com.example.expensebook.data.repository.EntryRepositoryImpl
 import com.example.expensebook.data.repository.MonthlyExpenseRepositoryImpl
 import com.example.expensebook.domain.repository.RecurringEntryRepository

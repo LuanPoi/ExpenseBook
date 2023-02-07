@@ -1,6 +1,6 @@
 package com.example.expensebook.domain.repository
 
-import com.example.expensebook.domain.model.RecurringEntry
+import com.example.expensebook.data.data_source.local.entities.RecurringEntry
 import kotlinx.coroutines.flow.Flow
 
 interface RecurringEntryRepository {

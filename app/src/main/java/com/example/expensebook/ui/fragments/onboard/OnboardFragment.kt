@@ -9,7 +9,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.expensebook.R
-import com.example.expensebook.domain.model.MonthlyExpense
+import com.example.expensebook.data.data_source.local.entities.MonthlyExpense
 import com.example.expensebook.data.repository.MonthlyExpenseRepositoryImpl
 import com.example.expensebook.databinding.FragmentOnboardBinding
 import kotlinx.coroutines.launch

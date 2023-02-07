@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 apply plugin: 'kotlin-android'
 
@@ -42,6 +43,7 @@ dependencies {
     def nav_version = "2.5.3"
     def roomVersion = "2.5.0"
     def lifecycleVersion = "2.5.1"
+    def daggerHiltVersion = "2.44.2"
 
     // Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
@@ -68,7 +70,7 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
@@ -79,5 +81,13 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
 
     // Material Components
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.google.android.material:material:1.8.0'
+
+    // Dagger-Hilt
+    implementation "com.google.dagger:hilt-android:$daggerHiltVersion"
+    kapt "com.google.dagger:hilt-compiler:$daggerHiltVersion"
+}
+
+kapt {
+    correctErrorTypes true
 }

@@ -1,8 +1,8 @@
 package com.example.expensebook.ui.fragments.home
 
-import com.example.expensebook.domain.model.Entry
-import com.example.expensebook.domain.model.MonthlyExpense
-import com.example.expensebook.domain.model.RecurringEntry
+import com.example.expensebook.data.data_source.local.entities.Entry
+import com.example.expensebook.data.data_source.local.entities.MonthlyExpense
+import com.example.expensebook.data.data_source.local.entities.RecurringEntry
 import java.time.YearMonth
 import java.time.ZoneId
 

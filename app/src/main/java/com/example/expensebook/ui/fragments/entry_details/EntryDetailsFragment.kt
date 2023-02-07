@@ -1,7 +1,6 @@
 package com.example.expensebook.ui.fragments.entry_details
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.expensebook.R
 import com.example.expensebook.databinding.FragmentEntryDetailsBinding
-import com.example.expensebook.domain.model.Entry
+import com.example.expensebook.data.data_source.local.entities.Entry
 import com.example.expensebook.data.repository.EntryRepositoryImpl
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
@@ -19,7 +18,6 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import java.time.*
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
-import java.util.TimeZone
 
 class EntryDetailsFragment : Fragment() {
 

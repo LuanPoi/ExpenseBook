@@ -1,7 +1,7 @@
 package com.example.expensebook.ui.fragments.entry_details
 
 import androidx.lifecycle.*
-import com.example.expensebook.domain.model.Entry
+import com.example.expensebook.data.data_source.local.entities.Entry
 import com.example.expensebook.domain.repository.EntryRepository
 import kotlinx.coroutines.launch
 import java.time.OffsetDateTime

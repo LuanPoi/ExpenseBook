@@ -1,6 +1,6 @@
 package com.example.expensebook.domain.repository
 
-import com.example.expensebook.domain.model.MonthlyExpense
+import com.example.expensebook.data.data_source.local.entities.MonthlyExpense
 import kotlinx.coroutines.flow.Flow
 import java.time.YearMonth
 

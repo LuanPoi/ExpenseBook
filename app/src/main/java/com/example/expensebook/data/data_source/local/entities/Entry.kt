@@ -1,4 +1,4 @@
-package com.example.expensebook.domain.model
+package com.example.expensebook.data.data_source.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

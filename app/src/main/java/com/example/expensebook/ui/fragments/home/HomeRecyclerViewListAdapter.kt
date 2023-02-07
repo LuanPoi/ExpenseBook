@@ -6,19 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.expensebook.R
 import com.example.expensebook.databinding.DailyInfoItemBinding
 import com.example.expensebook.databinding.ExpenseItemBinding
 import com.example.expensebook.databinding.MonthlyInfoItemBinding
 import com.example.expensebook.databinding.TitleItemBinding
-import com.example.expensebook.domain.model.Entry
+import com.example.expensebook.data.data_source.local.entities.Entry
 import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
 class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): RecyclerView.Adapter<HomeRecyclerViewListAdapter.AbstractViewHolder>() {
