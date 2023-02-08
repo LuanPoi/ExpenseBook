@@ -12,12 +12,11 @@ class FetchMonthDataUseCase(
     private val getMonthlyExpenseUseCase: GetMonthlyExpenseUseCase
 ) {
     suspend operator fun invoke(date: YearMonth): Flow<MonthData> {
-        combine(
-            fetchMonthEntriesUseCase.invoke(date),
-            getMonthlyExpenseUseCase.invoke(date)
-        ){ monthEntries, monthlyExpense ->
-            MonthData()
+        return combine(
+            getMonthlyExpenseUseCase.invoke(date),
+            fetchMonthEntriesUseCase.invoke(date)
+        ){ monthlyExpense, monthEntries ->
+            MonthData(monthlyExpense.date, monthlyExpense.initial_value, monthlyExpense.savings_goal, monthEntries)
         }
-        //calcular valores restantes
     }
 }
