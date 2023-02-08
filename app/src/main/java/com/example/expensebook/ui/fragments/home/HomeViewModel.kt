@@ -3,8 +3,8 @@ package com.example.expensebook.ui.fragments.home
 import androidx.lifecycle.*
 import com.example.expensebook.data.data_source.local.entities.Entry
 import com.example.expensebook.data.data_source.local.entities.MonthlyExpense
-import com.example.expensebook.data.repository.EntryRepositoryImpl
-import com.example.expensebook.data.repository.MonthlyExpenseRepositoryImpl
+import com.example.expensebook.domain.repository.EntryRepository
+import com.example.expensebook.domain.repository.MonthlyExpenseRepository
 import com.example.expensebook.domain.repository.RecurringEntryRepository
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -13,8 +13,8 @@ import java.time.YearMonth
 import java.time.ZoneId
 
 class HomeViewModel(
-    private val entryRepository: EntryRepositoryImpl,
-    private val monthlyExpenseRepository: MonthlyExpenseRepositoryImpl,
+    private val entryRepository: EntryRepository,
+    private val monthlyExpenseRepository: MonthlyExpenseRepository,
     private val recurringEntryRepository: RecurringEntryRepository
 ): ViewModel() {
 
@@ -47,8 +47,8 @@ class HomeViewModel(
     }
 
     class Factory(
-        private val entryRepository: EntryRepositoryImpl,
-        private val monthlyExpenseRepository: MonthlyExpenseRepositoryImpl,
+        private val entryRepository: EntryRepository,
+        private val monthlyExpenseRepository: MonthlyExpenseRepository,
         private val recurringEntryRepository: RecurringEntryRepository
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

@@ -9,12 +9,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
-class RecurringEntryRepositoryImpl(application: Application) : RecurringEntryRepository {
+class RecurringEntryRepositoryImpl(localDatabase: LocalDatabase) : RecurringEntryRepository {
 
     private val dao: RecurringEntryDao
 
     init {
-        this.dao = LocalDatabase.getDatabase(application).recurringEntryDao()
+        this.dao = localDatabase.recurringEntryDao()
     }
 
     override suspend fun insert(recurringEntry: RecurringEntry) {

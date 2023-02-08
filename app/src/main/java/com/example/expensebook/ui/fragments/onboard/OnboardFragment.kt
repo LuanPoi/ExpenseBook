@@ -9,6 +9,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.expensebook.R
+import com.example.expensebook.data.data_source.local.LocalDatabase
 import com.example.expensebook.data.data_source.local.entities.MonthlyExpense
 import com.example.expensebook.data.repository.MonthlyExpenseRepositoryImpl
 import com.example.expensebook.databinding.FragmentOnboardBinding
@@ -22,7 +23,7 @@ class OnboardFragment : Fragment() {
     private var monthlyExpense: MonthlyExpense? = null
 
     private val repository by lazy {
-        MonthlyExpenseRepositoryImpl(requireActivity().application)
+        MonthlyExpenseRepositoryImpl(LocalDatabase.getDatabase(requireContext()))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

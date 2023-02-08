@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensebook.R
+import com.example.expensebook.data.data_source.local.LocalDatabase
 import com.example.expensebook.databinding.FragmentHomeBinding
 import com.example.expensebook.data.repository.EntryRepositoryImpl
 import com.example.expensebook.data.repository.MonthlyExpenseRepositoryImpl
@@ -18,7 +19,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private val homeViewModel: HomeViewModel by activityViewModels {
-        with(requireActivity().application){
+        with(LocalDatabase.getDatabase(requireContext())){
             HomeViewModel.Factory(
                 EntryRepositoryImpl(this),
                 MonthlyExpenseRepositoryImpl(this),

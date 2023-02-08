@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.expensebook.R
+import com.example.expensebook.data.data_source.local.LocalDatabase
 import com.example.expensebook.databinding.FragmentEntryDetailsBinding
 import com.example.expensebook.data.data_source.local.entities.Entry
 import com.example.expensebook.data.repository.EntryRepositoryImpl
@@ -24,7 +25,7 @@ class EntryDetailsFragment : Fragment() {
     private lateinit var binding: FragmentEntryDetailsBinding
 
     private val entryDetailViewModel: EntryDetailsViewModel by activityViewModels {
-        EntryDetailsViewModel.Factory(EntryRepositoryImpl(requireActivity().application))
+        EntryDetailsViewModel.Factory(EntryRepositoryImpl(LocalDatabase.getDatabase(requireContext())))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

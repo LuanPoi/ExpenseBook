@@ -10,12 +10,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import java.time.YearMonth
 
-class MonthlyExpenseRepositoryImpl(application: Application) : MonthlyExpenseRepository {
+class MonthlyExpenseRepositoryImpl(localDatabase: LocalDatabase) : MonthlyExpenseRepository {
 
     private val dao: MonthlyExpenseDao
 
     init {
-        this.dao = LocalDatabase.getDatabase(application).monthlyExpenseDao()
+        this.dao = localDatabase.monthlyExpenseDao()
     }
 
     override suspend fun insert(monthlyExpense: MonthlyExpense) {

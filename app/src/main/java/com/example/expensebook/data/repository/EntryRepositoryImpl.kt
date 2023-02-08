@@ -12,12 +12,12 @@ import java.time.OffsetDateTime
 import java.time.YearMonth
 import java.time.ZoneOffset
 
-class EntryRepositoryImpl(application: Application) : EntryRepository {
+class EntryRepositoryImpl(localDatabase: LocalDatabase) : EntryRepository {
 
     private val dao: EntryDao
 
     init {
-        this.dao = LocalDatabase.getDatabase(application).entryDao()
+        this.dao = localDatabase.entryDao()
     }
 
     override suspend fun insert(entry: Entry){
