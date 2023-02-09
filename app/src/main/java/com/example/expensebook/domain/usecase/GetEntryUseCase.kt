@@ -4,7 +4,9 @@ import com.example.expensebook.data.data_source.local.entities.Entry
 import com.example.expensebook.domain.repository.EntryRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class GetEntryUseCase @Inject constructor(
     private val entryRepository: EntryRepository
 ) {

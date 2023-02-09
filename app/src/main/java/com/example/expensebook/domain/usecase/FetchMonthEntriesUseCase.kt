@@ -5,7 +5,9 @@ import com.example.expensebook.domain.repository.EntryRepository
 import kotlinx.coroutines.flow.Flow
 import java.time.YearMonth
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class FetchMonthEntriesUseCase @Inject constructor(
     private val entryRepository: EntryRepository
 ) {

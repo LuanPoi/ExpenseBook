@@ -5,7 +5,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import java.time.YearMonth
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class FetchMonthDataUseCase @Inject constructor(
     private val fetchMonthEntriesUseCase: FetchMonthEntriesUseCase,
     private val getMonthlyExpenseUseCase: GetMonthlyExpenseUseCase
