@@ -7,29 +7,33 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.expensebook.R
 import com.example.expensebook.data.data_source.local.LocalDatabase
-import com.example.expensebook.databinding.FragmentEntryDetailsBinding
 import com.example.expensebook.data.data_source.local.entities.Entry
 import com.example.expensebook.data.repository.EntryRepositoryImpl
+import com.example.expensebook.databinding.FragmentEntryDetailsBinding
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
+import dagger.hilt.android.AndroidEntryPoint
 import java.time.*
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
+@AndroidEntryPoint
 class EntryDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentEntryDetailsBinding
 
-    private val entryDetailViewModel: EntryDetailsViewModel by activityViewModels {
-        EntryDetailsViewModel.Factory(EntryRepositoryImpl(LocalDatabase.getDatabase(requireContext())))
-    }
+    private lateinit var entryDetailViewModel: EntryDetailsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        entryDetailViewModel = ViewModelProvider(this)[EntryDetailsViewModel::class.java]
     }
 
     override fun onCreateView(

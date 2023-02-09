@@ -1,6 +1,5 @@
 package com.example.expensebook.data.repository
 
-import android.app.Application
 import com.example.expensebook.data.data_source.local.LocalDatabase
 import com.example.expensebook.data.data_source.local.dao.EntryDao
 import com.example.expensebook.data.data_source.local.entities.Entry
@@ -11,8 +10,9 @@ import kotlinx.coroutines.withContext
 import java.time.OffsetDateTime
 import java.time.YearMonth
 import java.time.ZoneOffset
+import javax.inject.Inject
 
-class EntryRepositoryImpl(localDatabase: LocalDatabase) : EntryRepository {
+class EntryRepositoryImpl @Inject constructor(localDatabase: LocalDatabase) : EntryRepository {
 
     private val dao: EntryDao
 

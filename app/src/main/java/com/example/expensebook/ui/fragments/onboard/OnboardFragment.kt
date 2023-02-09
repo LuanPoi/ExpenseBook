@@ -1,10 +1,10 @@
 package com.example.expensebook.ui.fragments.onboard
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -13,9 +13,11 @@ import com.example.expensebook.data.data_source.local.LocalDatabase
 import com.example.expensebook.data.data_source.local.entities.MonthlyExpense
 import com.example.expensebook.data.repository.MonthlyExpenseRepositoryImpl
 import com.example.expensebook.databinding.FragmentOnboardBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.time.YearMonth
 
+@AndroidEntryPoint
 class OnboardFragment : Fragment() {
 
     private lateinit var binding: FragmentOnboardBinding

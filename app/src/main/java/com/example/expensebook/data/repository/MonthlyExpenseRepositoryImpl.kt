@@ -1,6 +1,5 @@
 package com.example.expensebook.data.repository
 
-import android.app.Application
 import com.example.expensebook.data.data_source.local.LocalDatabase
 import com.example.expensebook.data.data_source.local.dao.MonthlyExpenseDao
 import com.example.expensebook.data.data_source.local.entities.MonthlyExpense
@@ -9,8 +8,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import java.time.YearMonth
+import javax.inject.Inject
 
-class MonthlyExpenseRepositoryImpl(localDatabase: LocalDatabase) : MonthlyExpenseRepository {
+class MonthlyExpenseRepositoryImpl @Inject constructor(localDatabase: LocalDatabase) : MonthlyExpenseRepository {
 
     private val dao: MonthlyExpenseDao
 
@@ -19,7 +19,7 @@ class MonthlyExpenseRepositoryImpl(localDatabase: LocalDatabase) : MonthlyExpens
     }
 
     override suspend fun insert(monthlyExpense: MonthlyExpense) {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             dao.insert(monthlyExpense)
         }
     }
@@ -33,13 +33,13 @@ class MonthlyExpenseRepositoryImpl(localDatabase: LocalDatabase) : MonthlyExpens
     }
 
     override suspend fun update(monthlyExpense: MonthlyExpense) {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             dao.update(monthlyExpense)
         }
     }
 
     override suspend fun delete(monthlyExpense: MonthlyExpense) {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             dao.delete(monthlyExpense)
         }
     }

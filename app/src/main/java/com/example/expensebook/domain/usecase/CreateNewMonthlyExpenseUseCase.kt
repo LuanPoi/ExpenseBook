@@ -2,8 +2,9 @@ package com.example.expensebook.domain.usecase
 
 import com.example.expensebook.data.data_source.local.entities.MonthlyExpense
 import com.example.expensebook.domain.repository.MonthlyExpenseRepository
+import javax.inject.Inject
 
-class CreateNewMonthlyExpenseUseCase(
+class CreateNewMonthlyExpenseUseCase @Inject constructor(
     private val monthlyExpenseRepository: MonthlyExpenseRepository
 ) {
     suspend operator fun invoke(monthlyExpense: MonthlyExpense){

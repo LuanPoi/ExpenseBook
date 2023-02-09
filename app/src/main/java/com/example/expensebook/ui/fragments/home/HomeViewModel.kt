@@ -6,13 +6,16 @@ import com.example.expensebook.data.data_source.local.entities.MonthlyExpense
 import com.example.expensebook.domain.repository.EntryRepository
 import com.example.expensebook.domain.repository.MonthlyExpenseRepository
 import com.example.expensebook.domain.repository.RecurringEntryRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import java.time.YearMonth
 import java.time.ZoneId
+import javax.inject.Inject
 
-class HomeViewModel(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val entryRepository: EntryRepository,
     private val monthlyExpenseRepository: MonthlyExpenseRepository,
     private val recurringEntryRepository: RecurringEntryRepository
@@ -43,16 +46,6 @@ class HomeViewModel(
     fun deleteEntry(entry: Entry){
         viewModelScope.launch{
             entryRepository.delete(entry)
-        }
-    }
-
-    class Factory(
-        private val entryRepository: EntryRepository,
-        private val monthlyExpenseRepository: MonthlyExpenseRepository,
-        private val recurringEntryRepository: RecurringEntryRepository
-    ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return HomeViewModel(entryRepository, monthlyExpenseRepository, recurringEntryRepository) as T
         }
     }
 }
