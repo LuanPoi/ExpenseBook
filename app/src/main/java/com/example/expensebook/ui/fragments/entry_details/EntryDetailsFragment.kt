@@ -6,14 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.expensebook.R
-import com.example.expensebook.data.data_source.local.LocalDatabase
 import com.example.expensebook.data.data_source.local.entities.Entry
-import com.example.expensebook.data.repository.EntryRepositoryImpl
 import com.example.expensebook.databinding.FragmentEntryDetailsBinding
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
@@ -32,7 +28,6 @@ class EntryDetailsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         entryDetailViewModel = ViewModelProvider(this)[EntryDetailsViewModel::class.java]
     }
 
@@ -55,7 +50,7 @@ class EntryDetailsFragment : Fragment() {
                     val dateParsed = LocalDate.parse(binding.textViewDate.text, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
                     entryDetailViewModel.updateValues(it.copy(
                         date = OffsetDateTime.now(ZoneId.systemDefault()).truncatedTo(ChronoUnit.DAYS).with(dateParsed),
-                        isReceipt = binding.switchEntryType.isChecked,
+                        isIncome = binding.switchEntryType.isChecked,
                         value = binding.editTextValue.text.toString().toFloat(),
                         description = binding.textInputDescription.editText?.text.toString()
                     ))
@@ -85,10 +80,10 @@ class EntryDetailsFragment : Fragment() {
 
     fun bindUiState(uiState: EntryDetailsUiState){
         binding.textViewDate.setText(uiState.date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
-        binding.switchEntryType.isChecked = uiState.isReceipt //true=receipt | false=expense
+        binding.switchEntryType.isChecked = uiState.isIncome //true=receipt | false=expense
         binding.editTextValue.setText(uiState.value.toString())
         binding.textInputDescription.editText?.setText(uiState.description)
-        if (uiState.isReceipt){
+        if (uiState.isIncome){
             binding.textViewValuePrefix.text = "+ R$"
             binding.textViewValuePrefix.setTextColor(ContextCompat.getColor(binding.root.context, R.color.green_theme))
             binding.editTextValue.setTextColor(ContextCompat.getColor(binding.root.context, R.color.green_theme))

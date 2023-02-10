@@ -27,7 +27,7 @@ class EntryDetailsViewModel @Inject constructor(
 
     fun save(entry: Entry){
         viewModelScope.launch {
-            createNewEntryUseCase.invoke(entry)
+            createNewEntryUseCase(entry)
         }
     }
 }

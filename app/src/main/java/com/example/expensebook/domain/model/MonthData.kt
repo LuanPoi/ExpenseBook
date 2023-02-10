@@ -3,7 +3,6 @@ package com.example.expensebook.domain.model
 import com.example.expensebook.data.data_source.local.entities.Entry
 import java.time.LocalDate
 import java.time.YearMonth
-import java.time.ZoneId
 
 data class MonthData(
     val date: YearMonth,
@@ -23,7 +22,7 @@ data class MonthData(
         get() {
             if(!isCurrentMonth) return null
             return DayData(
-                (initialValue - savingsGoal + totalExpendExceptDate(LocalDate.now())) / remainingDaysUntilEndOfMonth,
+                ((initialValue - savingsGoal + totalExpendExceptDate(LocalDate.now())) / remainingDaysUntilEndOfMonth),
                 entries.filter { entry -> entry.date.toLocalDate().isEqual(LocalDate.now()) }.map { entry -> entry.value }.sum()
             )
         }

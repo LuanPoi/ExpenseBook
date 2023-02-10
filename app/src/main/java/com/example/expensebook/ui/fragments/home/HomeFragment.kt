@@ -5,15 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensebook.R
-import com.example.expensebook.data.data_source.local.LocalDatabase
-import com.example.expensebook.data.repository.EntryRepositoryImpl
-import com.example.expensebook.data.repository.MonthlyExpenseRepositoryImpl
-import com.example.expensebook.data.repository.RecurringEntryRepositoryImpl
 import com.example.expensebook.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -46,12 +41,14 @@ class HomeFragment : Fragment() {
 
 
         homeViewModel.stateOnceAndStream().observe(viewLifecycleOwner) { uiState ->
-            val auxList: ArrayList<Pair<EnumItemViewType, Any>> = arrayListOf()
-            auxList.add(Pair(EnumItemViewType.MONTH_EXPENSE_CONTAINER, uiState))
-            auxList.add(Pair(EnumItemViewType.DAY_EXPENSE_CONTAINER, uiState))
-            auxList.add(Pair(EnumItemViewType.TITLE, resources.getString(R.string.expense_history_title)))
-            auxList.addAll(uiState.currentEntries.map { entry -> Pair(EnumItemViewType.EXPENSE_ITEM, entry) })
-            adapter.setData(auxList)
+            val recyclerViewItems: ArrayList<Pair<EnumItemViewType, Any>> = arrayListOf()
+
+            recyclerViewItems.add(Pair(EnumItemViewType.MONTH_EXPENSE_CONTAINER, uiState.monthDataUiState))
+            uiState.dayDataUiState?.let { recyclerViewItems.add(Pair(EnumItemViewType.DAY_EXPENSE_CONTAINER, it)) }
+            recyclerViewItems.add(Pair(EnumItemViewType.TITLE, resources.getString(R.string.expense_history_title)))
+            recyclerViewItems.addAll(uiState.entriesHistoryUiState.map { entry -> Pair(EnumItemViewType.EXPENSE_ITEM, entry) })
+
+            adapter.setData(recyclerViewItems)
         }
 
         binding.floatingActionButton.setOnClickListener {

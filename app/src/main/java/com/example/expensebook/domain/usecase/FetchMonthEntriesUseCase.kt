@@ -14,7 +14,7 @@ import javax.inject.Singleton
 class FetchMonthEntriesUseCase @Inject constructor(
     private val entryRepository: EntryRepository
 ) {
-    suspend operator fun invoke(date: YearMonth): Flow<List<Entry>> {
+    operator fun invoke(date: YearMonth): Flow<List<Entry>> {
         return entryRepository.getAllWithFilter(EntryFilter(
             OffsetDateTime.from(
                 date.atDay(1).atStartOfDay().atZone(ZoneOffset.systemDefault())

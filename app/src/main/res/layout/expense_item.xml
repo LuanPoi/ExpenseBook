@@ -10,7 +10,7 @@
     android:layout_marginTop="8dp">
 
     <ImageView
-        android:id="@+id/ic_money"
+        android:id="@+id/item_icon"
         android:layout_width="34dp"
         android:layout_height="34dp"
         android:layout_marginLeft="16dp"
@@ -32,7 +32,7 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewExpenseValue"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintLeft_toRightOf="@id/ic_money"
+        app:layout_constraintLeft_toRightOf="@id/item_icon"
         app:layout_constraintRight_toLeftOf="@id/textViewExpenseDate"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Compra da semana" />

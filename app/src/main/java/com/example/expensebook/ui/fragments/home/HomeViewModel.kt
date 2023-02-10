@@ -1,62 +1,68 @@
 package com.example.expensebook.ui.fragments.home
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.expensebook.data.data_source.local.entities.Entry
-import com.example.expensebook.data.data_source.local.entities.MonthlyExpense
-import com.example.expensebook.domain.model.filter.EntryFilter
-import com.example.expensebook.domain.model.filter.RecurringEntryFilter
-import com.example.expensebook.domain.repository.EntryRepository
-import com.example.expensebook.domain.repository.MonthlyExpenseRepository
-import com.example.expensebook.domain.repository.RecurringEntryRepository
+import com.example.expensebook.domain.usecase.DeleteEntryUseCase
+import com.example.expensebook.domain.usecase.FetchMonthDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.time.OffsetDateTime
 import java.time.YearMonth
 import java.time.ZoneId
-import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
+import kotlin.math.absoluteValue
+import kotlin.math.roundToInt
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val entryRepository: EntryRepository,
-    private val monthlyExpenseRepository: MonthlyExpenseRepository,
-    private val recurringEntryRepository: RecurringEntryRepository
+    private val fetchMonthDataUseCase: FetchMonthDataUseCase,
+    private val deleteEntryUseCase: DeleteEntryUseCase
 ): ViewModel() {
 
     private val _uiState: LiveData<HomeUiState> by lazy {
         var yearMonth = YearMonth.now(ZoneId.systemDefault())
-        combine(
-            monthlyExpenseRepository.getByDate(yearMonth),
-            entryRepository.getAllWithFilter(EntryFilter(
-                OffsetDateTime.from(
-                    yearMonth.atDay(1).atStartOfDay().atZone(ZoneOffset.systemDefault())
+        fetchMonthDataUseCase(yearMonth).map {
+            HomeUiState(
+                HomeUiState.MonthDataUiState(
+                    it.date.month.ordinal,
+                    with(it.totalExpend.times(-1)){
+                        "R$ %.2f".format(if(this <= 0) 0f else this)
+                    },
+                    "R$ %.2f".format(it.remainingAmount),
+                    ((if(it.totalExpend.times(-1) <= 0) 0f else it.totalExpend) / it.remainingAmount).roundToInt(),
+                    "R$ %.2f".format(it.initialValue),
+                    "R$ %.2f".format(it.savingsGoal)
                 ),
-                OffsetDateTime.from(
-                    yearMonth.plusMonths(1).atDay(1).atStartOfDay().atZone(ZoneOffset.systemDefault())
-                )
-            )),
-            recurringEntryRepository.getAllWithFilter(RecurringEntryFilter())
-        ) { _monthlyExpense, _entries, _recurringEntries ->
-            var monthlyExpense = _monthlyExpense
-            var entries = _entries
-            var recurringEntries = _recurringEntries
-            if(monthlyExpense == null) {
-                monthlyExpense = MonthlyExpense(yearMonth)
-                monthlyExpenseRepository.insert(monthlyExpense)
-            }
-            if(entries == null) {entries = listOf()}
-            if(recurringEntries == null) {recurringEntries = listOf()}
-            HomeUiState(yearMonth, monthlyExpense, entries, recurringEntries)
-        }.distinctUntilChanged().asLiveData()
+                it.currentDayData?.run {
+                    HomeUiState.DayDataUiState(
+                        "R$ %.2f".format(recommendedExpendValue),
+                        with(expendToday.times(-1)){
+                            "R$ %.2f".format(if(this <= 0) 0f else this)
+                        },
+                        "R$ %.2f".format(remainingToday)
+                    )
+                },
+                it.entries.map { entry ->
+                    HomeUiState.EntryUiState(
+                        id = entry.uid!!,
+                        description = entry.description,
+                        value = if(entry.value >= 0) "+ R$ %.2f".format(entry.value) else "- R$ %.2f".format(entry.value.absoluteValue),
+                        date = entry.date.format(DateTimeFormatter.ofPattern("dd/MM"))
+                    )
+                }
+            )
+        }.asLiveData()
     }
 
     fun stateOnceAndStream(): LiveData<HomeUiState> = _uiState
 
     fun deleteEntry(entry: Entry){
         viewModelScope.launch{
-            entryRepository.delete(entry)
+            deleteEntryUseCase.invoke(entry)
         }
     }
 }
