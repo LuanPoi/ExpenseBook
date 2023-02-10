@@ -111,8 +111,6 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
             val todayAmountExpend = uiState.currentEntries.filter { it.date.toLocalDate().isEqual(LocalDate.now(ZoneId.systemDefault())) }.map { it.value }.sum()
             val todayAmountRemaining = recomendedAmount + todayAmountExpend
 
-            Log.d(TAG, "current amount: $currentAmount\nremaining days: $remainingDays\nrecomended amount: $recomendedAmount\ntoday expend: $todayAmountExpend\ntoday remaining: $todayAmountRemaining\n")
-
             binding.textViewRecommendedAmountValue.text = "R$ %.2f".format(recomendedAmount)
             binding.textViewExpendedAmountValue.text = "R$ %.2f".format(if (todayAmountExpend.equals(0f)) todayAmountExpend else todayAmountExpend.times(-1))
             binding.textViewRemainingAmountValue.text = "R$ %.2f".format(todayAmountRemaining)

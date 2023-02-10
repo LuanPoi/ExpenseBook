@@ -3,6 +3,7 @@ package com.example.expensebook.data.repository
 import com.example.expensebook.data.data_source.local.LocalDatabase
 import com.example.expensebook.data.data_source.local.dao.RecurringEntryDao
 import com.example.expensebook.data.data_source.local.entities.RecurringEntry
+import com.example.expensebook.domain.model.filter.RecurringEntryFilter
 import com.example.expensebook.domain.repository.RecurringEntryRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -23,8 +24,11 @@ class RecurringEntryRepositoryImpl @Inject constructor(localDatabase: LocalDatab
         }
     }
 
-    override fun getAll(): Flow<List<RecurringEntry>> {
-        return dao.getAll()
+    override fun getAllWithFilter(filter: RecurringEntryFilter): Flow<List<RecurringEntry>> {
+        if(filter.getExpenses == false) filter.getExpenses = null
+        if(filter.getIncomes == false) filter.getIncomes = null
+
+        return dao.getAllWithFilter(filter.getExpenses, filter.getIncomes)
     }
 
     override fun getById(id: Long): Flow<RecurringEntry> {

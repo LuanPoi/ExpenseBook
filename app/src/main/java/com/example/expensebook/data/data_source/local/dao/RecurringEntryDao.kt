@@ -2,6 +2,7 @@ package com.example.expensebook.data.data_source.local.dao
 
 import androidx.room.*
 import com.example.expensebook.data.data_source.local.entities.RecurringEntry
+import com.example.expensebook.domain.model.filter.RecurringEntryFilter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 
@@ -10,8 +11,13 @@ abstract class RecurringEntryDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract suspend fun insert(recurringEntry: RecurringEntry)
 
-    @Query("SELECT * FROM recurring_entry ORDER BY description ASC")
-    abstract fun getAll(): Flow<List<RecurringEntry>>
+    @Query("SELECT * FROM recurring_entry"
+            +" WHERE ("
+            +"(:getExpenses IS NULL OR value < 0)"
+            +" AND "
+            +"(:getIncomes IS NULL OR value >= 0)"
+            +") ORDER BY description ASC")
+    abstract fun getAllWithFilter(getExpenses: Boolean?, getIncomes: Boolean?): Flow<List<RecurringEntry>>
 
     @Query("SELECT * FROM recurring_entry WHERE uid = :id")
     abstract fun _getById(id: Long): Flow<RecurringEntry>

@@ -3,6 +3,7 @@ package com.example.expensebook.data.repository
 import com.example.expensebook.data.data_source.local.LocalDatabase
 import com.example.expensebook.data.data_source.local.dao.EntryDao
 import com.example.expensebook.data.data_source.local.entities.Entry
+import com.example.expensebook.domain.model.filter.EntryFilter
 import com.example.expensebook.domain.repository.EntryRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -26,15 +27,8 @@ class EntryRepositoryImpl @Inject constructor(localDatabase: LocalDatabase) : En
         }
     }
 
-    override fun getAll(yearMonth: YearMonth): Flow<List<Entry>> {
-        return dao.getAllWithFilter(
-            OffsetDateTime.from(
-                yearMonth.atDay(1).atStartOfDay().atZone(ZoneOffset.systemDefault())
-            ),
-            OffsetDateTime.from(
-                yearMonth.plusMonths(1).atDay(1).atStartOfDay().atZone(ZoneOffset.systemDefault())
-            )
-        )
+    override fun getAllWithFilter(filter: EntryFilter): Flow<List<Entry>> {
+        return dao.getAllWithFilter(filter.startOffsetDateTime, filter.exclusiveEndOffsetDateTime)
     }
 
     override fun getById(entryId: Long): Flow<Entry> {

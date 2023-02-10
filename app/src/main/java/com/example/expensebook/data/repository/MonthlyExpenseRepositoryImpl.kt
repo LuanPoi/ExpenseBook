@@ -3,6 +3,7 @@ package com.example.expensebook.data.repository
 import com.example.expensebook.data.data_source.local.LocalDatabase
 import com.example.expensebook.data.data_source.local.dao.MonthlyExpenseDao
 import com.example.expensebook.data.data_source.local.entities.MonthlyExpense
+import com.example.expensebook.domain.model.filter.MonthlyExpenseFilter
 import com.example.expensebook.domain.repository.MonthlyExpenseRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -24,8 +25,8 @@ class MonthlyExpenseRepositoryImpl @Inject constructor(localDatabase: LocalDatab
         }
     }
 
-    override fun getAll(): Flow<List<MonthlyExpense>> {
-        return dao.getAllWithFilter()
+    override fun getAllWithFilter(filter: MonthlyExpenseFilter): Flow<List<MonthlyExpense>> {
+        return dao.getAllWithFilter(filter.startYearMonth, filter.endYearMonth)
     }
 
     override fun getByDate(date: YearMonth): Flow<MonthlyExpense> {

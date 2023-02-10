@@ -12,8 +12,10 @@ abstract class MonthlyExpenseDao {
     abstract fun insert(expense: MonthlyExpense): Long
 
     @Query("SELECT * FROM monthly_expense " +
-            "ORDER BY date ASC")
-    abstract fun getAllWithFilter(): Flow<List<MonthlyExpense>>
+            "WHERE ((:startYearMonth IS NULL OR date >= :startYearMonth) " +
+            "AND (:endYearMonth IS NULL OR date <= :endYearMonth)" +
+            ") ORDER BY date ASC")
+    abstract fun getAllWithFilter(startYearMonth: YearMonth?, endYearMonth: YearMonth?): Flow<List<MonthlyExpense>>
 
     @Query("SELECT * FROM monthly_expense WHERE date = :date")
     abstract fun _getByDate(date: YearMonth): Flow<MonthlyExpense>

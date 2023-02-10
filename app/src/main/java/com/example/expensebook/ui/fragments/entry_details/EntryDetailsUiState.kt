@@ -5,7 +5,7 @@ import java.time.OffsetDateTime
 data class EntryDetailsUiState (
     val uid: Long?,
     var date: OffsetDateTime,
-    var isReceipt: Boolean,
+    var isIncome: Boolean,
     var value: Float,
     var description: String
 )

@@ -13,9 +13,9 @@ abstract class EntryDao {
 
     @Query("SELECT * FROM entry " +
             "WHERE ((:startOffsetDateTime IS NULL OR date >= :startOffsetDateTime) " +
-                "AND (:endOffsetDateTime IS NULL OR date < :endOffsetDateTime)" +
+                "AND (:exclusiveEndOffsetDateTime IS NULL OR date < :exclusiveEndOffsetDateTime)" +
             ") ORDER BY date ASC")
-    abstract fun getAllWithFilter(startOffsetDateTime: OffsetDateTime?, endOffsetDateTime: OffsetDateTime?): Flow<List<Entry>>
+    abstract fun getAllWithFilter(startOffsetDateTime: OffsetDateTime?, exclusiveEndOffsetDateTime: OffsetDateTime?): Flow<List<Entry>>
 
     @Query("SELECT * FROM entry WHERE uid = :id")
     abstract fun _getById(id: Long): Flow<Entry>
