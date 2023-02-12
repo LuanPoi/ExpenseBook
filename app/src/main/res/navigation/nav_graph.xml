@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.expensebook.ui.fragments.home.HomeFragment"
+        android:name="com.thepoi.expensebook.ui.fragments.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -23,12 +23,12 @@
     </fragment>
     <fragment
         android:id="@+id/entryDetailsFragment"
-        android:name="com.example.expensebook.ui.fragments.entry_details.EntryDetailsFragment"
+        android:name="com.thepoi.expensebook.ui.fragments.entry_details.EntryDetailsFragment"
         android:label="entry_details"
         tools:layout="@layout/fragment_entry_details" />
     <fragment
         android:id="@+id/onboardFragment"
-        android:name="com.example.expensebook.ui.fragments.onboard.OnboardFragment"
+        android:name="com.thepoi.expensebook.ui.fragments.onboard.OnboardFragment"
         android:label="fragment_onboard"
         tools:layout="@layout/fragment_onboard" >
         <argument

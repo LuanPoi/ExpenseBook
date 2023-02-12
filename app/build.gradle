@@ -9,10 +9,10 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdk 33
-    namespace "com.example.expensebook"
+    namespace "com.thepoi.expensebook"
 
     defaultConfig {
-        applicationId "com.example.expensebook"
+        applicationId "com.thepoi.expensebook"
         minSdk 26
         targetSdk 33
         versionCode 1
