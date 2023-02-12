@@ -4,7 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.expensebook.R
 import com.example.expensebook.data.data_source.local.entities.Entry
@@ -112,7 +114,7 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
             }
 
             binding.buttonDetailsManage.setOnClickListener {
-                findNavController(binding.root).popBackStack()
+                findNavController(binding.root).navigate(R.id.action_homeFragment_to_onboardFragment)
             }
         }
 

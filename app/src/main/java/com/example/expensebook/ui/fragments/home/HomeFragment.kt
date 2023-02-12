@@ -9,8 +9,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensebook.R
+import com.example.expensebook.data.repository.MonthlyExpenseRepositoryImpl
 import com.example.expensebook.databinding.FragmentHomeBinding
+import com.example.expensebook.domain.usecase.GetMonthlyExpenseUseCase
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -22,6 +25,9 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        runBlocking {
+            if(!homeViewModel.currentMonthExpenseExist()) findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToOnboardFragment(false))
+        }
     }
 
     override fun onCreateView(

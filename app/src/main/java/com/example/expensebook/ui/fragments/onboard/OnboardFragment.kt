@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.expensebook.R
 import com.example.expensebook.data.data_source.local.LocalDatabase
 import com.example.expensebook.data.data_source.local.entities.MonthlyExpense
@@ -20,6 +21,7 @@ import java.time.YearMonth
 @AndroidEntryPoint
 class OnboardFragment : Fragment() {
 
+    private val args: OnboardFragmentArgs by navArgs()
     private lateinit var binding: FragmentOnboardBinding
 
     private var monthlyExpense: MonthlyExpense? = null
@@ -43,7 +45,6 @@ class OnboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         lifecycleScope.launch {
             repository.getByDate(YearMonth.now()).asLiveData().observe(viewLifecycleOwner) {
                 if(it != null){
@@ -78,12 +79,12 @@ class OnboardFragment : Fragment() {
                         }
                     }
                 }
-                findNavController().navigate(R.id.action_onboardFragment_to_homeFragment)
+                findNavController().navigateUp()
             }
         }
 
         binding.buttonSkip.setOnClickListener {
-            findNavController().navigate(R.id.action_onboardFragment_to_homeFragment)
+            if(args.monthlyExpenseAlreadyExist) findNavController().navigateUp()
         }
     }
 }

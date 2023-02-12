@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.expensebook.data.data_source.local.entities.Entry
 import com.example.expensebook.domain.usecase.DeleteEntryUseCase
 import com.example.expensebook.domain.usecase.FetchMonthDataUseCase
+import com.example.expensebook.domain.usecase.GetMonthlyExpenseUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.YearMonth
@@ -20,7 +22,8 @@ import kotlin.math.roundToInt
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val fetchMonthDataUseCase: FetchMonthDataUseCase,
-    private val deleteEntryUseCase: DeleteEntryUseCase
+    private val deleteEntryUseCase: DeleteEntryUseCase,
+    private val getMonthlyExpenseUseCase: GetMonthlyExpenseUseCase
 ): ViewModel() {
 
     private val _uiState: LiveData<HomeUiState> by lazy {
@@ -59,6 +62,10 @@ class HomeViewModel @Inject constructor(
     }
 
     fun stateOnceAndStream(): LiveData<HomeUiState> = _uiState
+
+    suspend fun currentMonthExpenseExist(): Boolean {
+        return (getMonthlyExpenseUseCase(YearMonth.now()).firstOrNull() != null)
+    }
 
     fun deleteEntry(entry: Entry){
         viewModelScope.launch{

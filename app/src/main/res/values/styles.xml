@@ -20,6 +20,10 @@
         <item name="android:background">@color/transparent</item>
     </style>
 
+    <style name="FloatingActionButton" parent="Widget.Material3.FloatingActionButton.Primary">
+        <item name="shapeAppearance">?attr/shapeAppearanceCornerExtraLarge</item>
+    </style>
+
 
     <style name="Container" parent="ExpenseBook">
         <item name="android:background">@drawable/container</item>

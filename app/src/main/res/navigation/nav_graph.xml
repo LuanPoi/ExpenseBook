@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/onboardFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -13,6 +13,13 @@
         <action
             android:id="@+id/action_homeFragment_to_entryDetailsFragment"
             app:destination="@id/entryDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_onboardFragment"
+            app:destination="@id/onboardFragment" >
+            <argument
+                android:name="monthlyExpenseAlreadyExist"
+                android:defaultValue="true" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/entryDetailsFragment"
@@ -24,8 +31,9 @@
         android:name="com.example.expensebook.ui.fragments.onboard.OnboardFragment"
         android:label="fragment_onboard"
         tools:layout="@layout/fragment_onboard" >
-        <action
-            android:id="@+id/action_onboardFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+        <argument
+            android:name="monthlyExpenseAlreadyExist"
+            app:argType="boolean"
+            android:defaultValue="true" />
     </fragment>
 </navigation>
