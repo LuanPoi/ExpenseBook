@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="Salvar"
-            android:backgroundTint="@color/green_theme"
+            android:backgroundTint="@color/custom_green"
             android:textColor="#000"
             app:layout_constraintLeft_toRightOf="@id/buttonSkip"
             app:layout_constraintRight_toRightOf="parent"

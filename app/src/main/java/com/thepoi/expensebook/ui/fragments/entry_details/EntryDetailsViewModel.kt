@@ -15,7 +15,7 @@ class EntryDetailsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState: MutableLiveData<EntryDetailsUiState> by lazy {
-        MutableLiveData<EntryDetailsUiState>(EntryDetailsUiState(null, OffsetDateTime.now(), false, 0f, ""))
+        MutableLiveData<EntryDetailsUiState>(EntryDetailsUiState(null, OffsetDateTime.now(), false, null, ""))
     }
 
     fun stateOnceAndStream(): LiveData<EntryDetailsUiState> = _uiState

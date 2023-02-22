@@ -6,6 +6,6 @@ data class EntryDetailsUiState (
     val uid: Long?,
     var date: OffsetDateTime,
     var isIncome: Boolean,
-    var value: Float,
+    var value: Float?,
     var description: String
 )

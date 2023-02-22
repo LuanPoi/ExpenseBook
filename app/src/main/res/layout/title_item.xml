@@ -14,7 +14,7 @@
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/nunito"
         android:text="@string/expense_history_title"
-        android:textColor="@color/primary_text"
+        android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

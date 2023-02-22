@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="elevationLevel0">0dp</dimen>
+    <dimen name="elevationLevel1">1dp</dimen>
+    <dimen name="elevationLevel2">3dp</dimen>
+    <dimen name="elevationLevel3">6dp</dimen>
+    <dimen name="elevationLevel4">8dp</dimen>
+    <dimen name="elevationLevel5">12dp</dimen>
+</resources>

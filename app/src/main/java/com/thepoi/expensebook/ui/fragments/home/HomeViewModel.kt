@@ -36,7 +36,7 @@ class HomeViewModel @Inject constructor(
                         "R$ %.2f".format(if(this <= 0) 0f else this)
                     },
                     "R$ %.2f".format(it.remainingAmount),
-                    ((if(it.totalExpend.times(-1) <= 0) 0f else it.totalExpend) / it.remainingAmount).roundToInt(),
+                    ((if(it.totalExpend.times(-1) <= 0) 0f else it.totalExpend.times(-1)) * 100 / it.remainingAmount).roundToInt(),
                     "R$ %.2f".format(it.initialValue),
                     "R$ %.2f".format(it.savingsGoal)
                 ),

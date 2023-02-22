@@ -1,6 +1,45 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
-    <style name="Theme.ExpenseBook" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="android:statusBarColor">@color/background</item>
+    <style name="Theme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <!--Material shape attributes-->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.ExpenseBook.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.ExpenseBook.MediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.ExpenseBook.LargeComponent</item>
+
+        <!--Material type attributes-->
+<!--        <item name="textAppearanceHeadline1">@style/TextAppearance.ExpenseBook.Headline1</item>-->
+<!--        <item name="textAppearanceHeadline2">@style/TextAppearance.ExpenseBook.Headline2</item>-->
+<!--        <item name="textAppearanceHeadline3">@style/TextAppearance.ExpenseBook.Headline3</item>-->
+<!--        <item name="textAppearanceHeadline4">@style/TextAppearance.ExpenseBook.Headline4</item>-->
+        <item name="textAppearanceHeadline5">@style/TextAppearance.ExpenseBook.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.ExpenseBook.Headline6</item>
+<!--        <item name="textAppearanceSubtitle1">@style/TextAppearance.ExpenseBook.Subtitle1</item>-->
+<!--        <item name="textAppearanceSubtitle2">@style/TextAppearance.ExpenseBook.Subtitle2</item>-->
+        <item name="textAppearanceBody1">@style/TextAppearance.ExpenseBook.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.ExpenseBook.Body2</item>
+<!--        <item name="textAppearanceButton">@style/TextAppearance.ExpenseBook.Button</item>-->
+<!--        <item name="textAppearanceCaption">@style/TextAppearance.ExpenseBook.Caption</item>-->
+<!--        <item name="textAppearanceOverline">@style/TextAppearance.ExpenseBook.Overline</item>-->
+
+        <!--Platform attributes-->
+        <item name="android:statusBarColor">@color/statusBarColor</item>
+
     </style>
+
+    <style name="Theme.ExpenseBook"/>
+
+    <style name="Theme.ExpenseBook.Dark">
+        <item name="colorPrimary">@color/cyan_500</item>
+        <item name="colorBackground">@color/purple_100</item>
+        <item name="colorOnPrimary">@color/purple_100</item>
+        <item name="colorSurface">@color/purple_200</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorOnSurfaceVariant">@color/purple_900</item>
+        <item name="colorOutline">@color/purple_900</item>
+        <item name="android:colorBackground">?colorBackground</item>
+        <item name="android:textColorPrimary">?colorOnSurface</item>
+    </style>
+
+    <attr name="colorBackground" format="color"></attr>
 </resources>

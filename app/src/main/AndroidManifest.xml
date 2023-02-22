@@ -8,7 +8,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:name=".ExpenseBookApplication"
-        android:theme="@style/Theme.ExpenseBook">
+        android:theme="@style/Theme.ExpenseBook.Dark">
         <activity
             android:windowSoftInputMode="adjustResize"
             android:name=".ui.MainActivity"

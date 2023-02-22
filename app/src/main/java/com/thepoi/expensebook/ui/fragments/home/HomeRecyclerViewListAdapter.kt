@@ -22,7 +22,8 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
         val abstractViewHolder: AbstractViewHolder = when(viewType){
             EnumItemViewType.TITLE.ordinal -> TitleItemViewHolder(TitleItemBinding.inflate(layoutInflater, parent, false))
             EnumItemViewType.EXPENSE_ITEM.ordinal -> ExpenseItemViewHolder(ExpenseItemBinding.inflate(layoutInflater, parent, false), viewModel)
-            EnumItemViewType.DAY_EXPENSE_CONTAINER.ordinal -> DailyExpenseInfoItemViewHolder(DailyInfoItemBinding.inflate(layoutInflater, parent, false))
+            EnumItemViewType.DAY_EXPENSE_CONTAINER.ordinal -> DailyExpenseInfoItemViewHolder(
+                DailyInfoItemBinding.inflate(layoutInflater, parent, false))
             EnumItemViewType.MONTH_EXPENSE_CONTAINER.ordinal -> MonthlyExpenseInfoItemViewHolder(MonthlyInfoItemBinding.inflate(layoutInflater, parent, false))
             else -> throw NotImplementedError()
         }
@@ -73,7 +74,7 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
                 binding.itemIcon.setImageResource(binding.root.resources.getIdentifier(icon, "drawable", binding.root.context.packageName))
                 binding.textViewExpenseTitle.text = description
                 binding.textViewExpenseValue.text = value
-                binding.textViewExpenseValue.setTextColor(ContextCompat.getColor(binding.root.context, if (value[0] == '-') R.color.pink_theme else R.color.green_theme))
+                binding.textViewExpenseValue.setTextColor(ContextCompat.getColor(binding.root.context, if (value[0] == '-') R.color.custom_pink else R.color.custom_green))
                 binding.textViewExpenseDate.text = date
             }
 

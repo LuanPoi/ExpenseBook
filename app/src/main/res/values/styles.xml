@@ -1,82 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="ExpenseBook">
-        <item name="android:fontFamily">@font/nunito</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/primary_text</item>
-    </style>
-
-
-    <style name="BaseButton" parent="ExpenseBook">
+    <style name="Widget.ExpenseBook.Button" parent="">
         <item name="android:textAllCaps">false</item>
+        <item name="android:textAppearance">@style/TextAppearance.ExpenseBook.Body1</item>
     </style>
-    <style name="PrimaryButton" parent="BaseButton">
-        <item name="android:textColor">@color/card</item>
+    <style name="Widget.ExpenseBook.Button.PrimaryButton">
+        <item name="android:textColor">?colorBackground</item>
         <item name="android:background">@drawable/primary_button_background</item>
     </style>
-    <style name="SecondaryButton" parent="BaseButton">
-        <item name="android:textColor">@color/main_gradient_start</item>
+    <style name="Widget.ExpenseBook.Button.SecondaryButton">
+        <item name="android:textColor">?colorPrimary</item>
+        <item name="android:background">@drawable/secondary_button_background</item>
+    </style>
+    <style name="Widget.ExpenseBook.Button.TertiaryButton">
+        <item name="android:textColor">?colorPrimary</item>
         <item name="android:background">@color/transparent</item>
     </style>
 
-    <style name="FloatingActionButton" parent="Widget.Material3.FloatingActionButton.Primary">
-        <item name="shapeAppearance">?attr/shapeAppearanceCornerExtraLarge</item>
+    <style name="FloatingActionButton" parent="">
+        <item name="android:layout_height">@dimen/fabSize</item>
+        <item name="android:layout_width">@dimen/fabSize</item>
+        <item name="android:elevation">@dimen/fabElevation</item>
+        <item name="android:background">@drawable/round_gradient</item>
     </style>
 
 
-    <style name="Container" parent="ExpenseBook">
+    <style name="Container" parent="">
         <item name="android:background">@drawable/container</item>
     </style>
 
 
-    <style name="EntryDetails.Date.TextView" parent="ExpenseBook">
+    <style name="EntryDetails.Date.TextView" parent="">
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?colorOnSurface</item>
     </style>
-    <style name="EntryDetails.EntryType.Switch" parent="ExpenseBook">
+    <style name="EntryDetails.EntryType.Switch" parent="">
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:textColor">?colorOnSurfaceVariant</item>
     </style>
-    <style name="EntryDetails.Value.TextView" parent="ExpenseBook">
+    <style name="EntryDetails.Value.TextView" parent="">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:textColor">?colorOnSurfaceVariant</item>
     </style>
-    <style name="EntryDetails.Value.Prefix" parent="ExpenseBook">
+    <style name="EntryDetails.Value.Prefix" parent="">
         <item name="android:textSize">32sp</item>
     </style>
-    <style name="EntyDetails.Description.TextInputLayout" parent="ExpenseBook">
-        <item name="android:textSize">14sp</item>
-        <item name="boxStrokeColor">@color/secondary_text</item>
-        <item name="android:textColorHint">@color/secondary_text</item>
-        <item name="android:background">@color/card</item>
+    <style name="Widget.ExpenseBook.TextInputLayout.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="editTextStyle">@style/Widget.ExpenseBook.TextInputEditText.OutlinedBox</item>
     </style>
-    <style name="EntyDetails.Description.TextInputEditText" parent="EntyDetails.Description.TextInputLayout">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/primary_text</item>
-        <item name="placeholderText"></item>
+    <style name="Widget.ExpenseBook.TextInputEditText.OutlinedBox" parent="">
+        <item name="android:textColor">?colorOnSurface</item>
     </style>
-    
 
-    <style name="DailyInfo" parent="Theme.ExpenseBook">
+    <style name="DailyInfo" parent="">
         <item name="android:fontFamily">@font/nunito</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:textColor">?colorOnSurfaceVariant</item>
     </style>
     <style name="DailyInfo.Expended.Value" parent="DailyInfo">
-        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textColor">?colorOnSurface</item>
     </style>
     <style name="DailyInfo.Remaining.Value" parent="DailyInfo">
-        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textColor">?colorOnSurface</item>
     </style>
 
 
     <style name="MonthlyInfo" parent="Theme.ExpenseBook">
         <item name="android:fontFamily">@font/nunito</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textColor">?colorOnSurface</item>
     </style>
     <style name="MonthlyInfo.Title" parent="MonthlyInfo">
         <item name="android:fontFamily">@font/baloobhainatwo</item>
@@ -85,36 +80,31 @@
     </style>
     <style name="MonthlyInfo.ProgressBar.Expended.Title" parent="MonthlyInfo">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:textColor">?colorOnSurfaceVariant</item>
     </style>
     <style name="MonthlyInfo.ProgressBar.Expended.Value" parent="MonthlyInfo">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/pink_theme</item>
+        <item name="android:textColor">@color/custom_pink</item>
     </style>
     <style name="MonthlyInfo.ProgressBar.Remaining.Title" parent="MonthlyInfo">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:textColor">?colorOnSurfaceVariant</item>
     </style>
     <style name="MonthlyInfo.ProgressBar.Remaining.Value" parent="MonthlyInfo">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/blue_theme</item>
+        <item name="android:textColor">@color/custom_blue</item>
     </style>
     <style name="MonthlyInfo.ProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="android:progressTint">@color/pink_theme</item>
-        <item name="android:progressBackgroundTint">@color/blue_theme</item>
+        <item name="android:progressTint">@color/custom_pink</item>
+        <item name="android:progressBackgroundTint">@color/custom_blue</item>
         <item name="android:progressBackgroundTintMode">src_over</item>
     </style>
     <style name="MonthlyInfo.Details" parent="MonthlyInfo">
-        <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:textColor">?colorOnSurfaceVariant</item>
         <item name="android:textSize">16sp</item>
     </style>
     <style name="MonthlyInfo.Details.Title" parent="MonthlyInfo.Details">
-        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textColor">?colorOnSurface</item>
         <item name="android:textSize">20sp</item>
-    </style>
-    <style name="MonthlyInfo.Details.ManageButton" parent="MonthlyInfo.Details">
-        <item name="android:textColor">@color/main_gradient_end</item>
-        <item name="android:textSize">18sp</item>
-        <item name="backgroundTint">@color/transparent</item>
     </style>
 </resources>

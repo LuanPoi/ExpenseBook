@@ -7,7 +7,8 @@
     android:layout_height="wrap_content"
     android:background="@drawable/container"
     app:flow_verticalAlign="center"
-    android:layout_marginTop="8dp">
+    android:layout_marginTop="8dp"
+    android:elevation="@dimen/cardElevation">
 
     <ImageView
         android:id="@+id/item_icon"
@@ -28,7 +29,7 @@
         android:ellipsize="end"
         android:fontFamily="@font/nunito"
         android:singleLine="true"
-        android:textColor="@color/secondary_text"
+        android:textColor="@color/purple_900"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewExpenseValue"
         app:layout_constraintHorizontal_bias="0.5"
@@ -44,7 +45,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/nunito"
-        android:textColor="@color/pink_theme"
+        android:textColor="@color/custom_pink"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -59,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="16dp"
         android:fontFamily="@font/nunito"
-        android:textColor="@color/secondary_text"
+        android:textColor="@color/purple_900"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/textViewExpenseTitle"
         app:layout_constraintRight_toRightOf="parent"
