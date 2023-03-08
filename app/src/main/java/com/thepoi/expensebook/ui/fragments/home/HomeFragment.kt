@@ -50,7 +50,7 @@ class HomeFragment : Fragment() {
             recyclerViewItems.add(Pair(EnumItemViewType.MONTH_EXPENSE_CONTAINER, uiState.monthDataUiState))
             uiState.dayDataUiState?.let { recyclerViewItems.add(Pair(EnumItemViewType.DAY_EXPENSE_CONTAINER, it)) }
             recyclerViewItems.add(Pair(EnumItemViewType.TITLE, resources.getString(R.string.expense_history_title)))
-            recyclerViewItems.addAll(uiState.entriesHistoryUiState.map { entry -> Pair(EnumItemViewType.EXPENSE_ITEM, entry) })
+            recyclerViewItems.addAll(uiState.entriesHistoryUiState.sortedByDescending { entry -> entry.date }.map { entry -> Pair(EnumItemViewType.EXPENSE_ITEM, entry) })
 
             adapter.setData(recyclerViewItems)
         }

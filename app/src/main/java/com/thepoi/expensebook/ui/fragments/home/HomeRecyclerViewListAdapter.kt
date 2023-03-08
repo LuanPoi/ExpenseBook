@@ -82,6 +82,11 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
                 viewModel.deleteEntry(Entry(uid = uiState.id))
                 true
             }
+
+            binding.containerExpenseItem.setOnClickListener {
+                val action = HomeFragmentDirections.actionHomeFragmentToEntryDetailsFragment(uiState.id.toString())
+                findNavController(binding.root).navigate(action)
+            }
         }
     }
 

@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -19,6 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.time.*
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import kotlin.math.absoluteValue
 
 @AndroidEntryPoint
 class EntryDetailsFragment : Fragment() {
@@ -26,6 +28,8 @@ class EntryDetailsFragment : Fragment() {
     private lateinit var binding: FragmentEntryDetailsBinding
 
     private lateinit var entryDetailViewModel: EntryDetailsViewModel
+
+    val args: EntryDetailsFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,11 +47,12 @@ class EntryDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        entryDetailViewModel.stateOnceAndStream().observe(viewLifecycleOwner){ uiState ->
+
+        entryDetailViewModel.stateOnceAndStream(args.entryId?.toLong()).observe(viewLifecycleOwner){ uiState ->
             bindUiState(uiState)
         }.also {
             binding.switchEntryType.setOnClickListener {
-                entryDetailViewModel.stateOnceAndStream().value?.let {
+                entryDetailViewModel.stateOnceAndStream(null).value?.let {
                     val dateParsed = LocalDate.parse(binding.textViewDate.text, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
                     entryDetailViewModel.updateValues(it.copy(
                         date = OffsetDateTime.now(ZoneId.systemDefault()).truncatedTo(ChronoUnit.DAYS).with(dateParsed),
@@ -86,8 +91,8 @@ class EntryDetailsFragment : Fragment() {
 
     fun bindUiState(uiState: EntryDetailsUiState){
         binding.textViewDate.setText(uiState.date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
-        binding.switchEntryType.isChecked = uiState.isIncome //true=receipt | false=expense
-        uiState.value?.let { binding.editTextValue.setText("%.2f".format(it)) }
+        binding.switchEntryType.isChecked = uiState.isIncome //true=income | false=expense
+        uiState.value?.let { binding.editTextValue.setText("%.2f".format(it.absoluteValue)) }
         uiState.description.let { binding.textInputDescription.editText?.setText(it) }
         if (uiState.isIncome){
             binding.textViewValuePrefix.text = "+ R$"
@@ -102,7 +107,7 @@ class EntryDetailsFragment : Fragment() {
 
     fun onSave(){
         val entry: Entry = Entry(
-            null,
+            args.entryId?.toLong(),
             OffsetDateTime.now(ZoneId.systemDefault()).truncatedTo(ChronoUnit.DAYS).with(LocalDate.parse(binding.textViewDate.text, DateTimeFormatter.ofPattern("dd/MM/yyyy"))),
             if(binding.switchEntryType.isChecked) binding.editTextValue.text.toString().toFloat() else binding.editTextValue.text.toString().toFloat().times(-1),
             binding.textInputDescription.editText?.text.toString()

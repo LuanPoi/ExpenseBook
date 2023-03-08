@@ -25,7 +25,13 @@
         android:id="@+id/entryDetailsFragment"
         android:name="com.thepoi.expensebook.ui.fragments.entry_details.EntryDetailsFragment"
         android:label="entry_details"
-        tools:layout="@layout/fragment_entry_details" />
+        tools:layout="@layout/fragment_entry_details" >
+        <argument
+            android:name="entryId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+    </fragment>
     <fragment
         android:id="@+id/onboardFragment"
         android:name="com.thepoi.expensebook.ui.fragments.onboard.OnboardFragment"
