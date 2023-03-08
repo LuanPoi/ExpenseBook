@@ -10,23 +10,27 @@
     android:theme="@style/DailyInfo"
     android:elevation="@dimen/cardElevation">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewRecommendedAmountTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
         android:text="@string/recommended_daily_expense_title"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
-    <TextView
+
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewRecommendedAmountValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
         tools:text="R$ 36,25"
         app:layout_constraintLeft_toLeftOf="@id/textViewRecommendedAmountTitle"
         app:layout_constraintRight_toRightOf="@id/textViewRecommendedAmountTitle"
         app:layout_constraintTop_toBottomOf="@id/textViewRecommendedAmountTitle"/>
-    <TextView
+
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewExpendedAmountTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,7 +39,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/textViewRemainingAmountTitle"
         app:layout_constraintTop_toBottomOf="@id/textViewRecommendedAmountValue"/>
-    <TextView
+
+    <androidx.appcompat.widget.AppCompatTextView
         style="@style/DailyInfo.Expended.Value"
         android:id="@+id/textViewExpendedAmountValue"
         android:layout_width="wrap_content"
@@ -44,7 +49,8 @@
         app:layout_constraintLeft_toLeftOf="@id/textViewExpendedAmountTitle"
         app:layout_constraintRight_toRightOf="@id/textViewExpendedAmountTitle"
         app:layout_constraintTop_toBottomOf="@id/textViewExpendedAmountTitle"/>
-    <TextView
+
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewRemainingAmountTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,7 +59,8 @@
         app:layout_constraintLeft_toRightOf="@id/textViewExpendedAmountTitle"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewRecommendedAmountValue"/>
-    <TextView
+
+    <androidx.appcompat.widget.AppCompatTextView
         style="@style/DailyInfo.Remaining.Value"
         android:id="@+id/textViewRemainingAmountValue"
         android:layout_width="wrap_content"

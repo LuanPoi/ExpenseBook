@@ -29,22 +29,24 @@
         <item name="android:background">@drawable/container</item>
     </style>
 
-
-    <style name="EntryDetails.Date.TextView" parent="">
+    <style name="EntryDetails" parent="">
+        <item name="fontFamily">@font/nunito</item>
+    </style>
+    <style name="EntryDetails.Date.TextView" parent="EntryDetails">
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">?colorOnSurface</item>
     </style>
-    <style name="EntryDetails.EntryType.Switch" parent="">
+    <style name="EntryDetails.EntryType.Switch" parent="EntryDetails">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">?colorOnSurfaceVariant</item>
     </style>
-    <style name="EntryDetails.Value.TextView" parent="">
+    <style name="EntryDetails.Value.TextView" parent="EntryDetails">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">?colorOnSurfaceVariant</item>
     </style>
-    <style name="EntryDetails.Value.Prefix" parent="">
+    <style name="EntryDetails.Value.Prefix" parent="EntryDetails">
         <item name="android:textSize">32sp</item>
     </style>
     <style name="Widget.ExpenseBook.TextInputLayout.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -66,6 +68,7 @@
     <style name="DailyInfo.Remaining.Value" parent="DailyInfo">
         <item name="android:textColor">?colorOnSurface</item>
     </style>
+
 
 
     <style name="MonthlyInfo" parent="Theme.ExpenseBook">

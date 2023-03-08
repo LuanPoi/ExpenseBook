@@ -45,13 +45,40 @@
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switchEntryType"
             style="@style/EntryDetails.EntryType.Switch"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:text="[Despesa]----[Receita]"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/buttonCalendar" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewSwitchExpense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Despesa"
+            android:textColor="?colorOnSurfaceVariant"
+            android:fontFamily="@font/nunito"
+            android:textSize="24sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/switchEntryType"
+            app:layout_constraintTop_toTopOf="@id/switchEntryType"
+            app:layout_constraintBottom_toBottomOf="@id/switchEntryType"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewSwitchIncome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Receita"
+            android:textColor="?colorOnSurfaceVariant"
+            android:fontFamily="@font/nunito"
+            android:textSize="24sp"
+            app:layout_constraintLeft_toRightOf="@id/switchEntryType"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/switchEntryType"
+            app:layout_constraintBottom_toBottomOf="@id/switchEntryType"
+            />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewValueTitle"
@@ -108,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:text="Compra da semana" />
+                tools:text="Compra da semana" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

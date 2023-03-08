@@ -36,21 +36,23 @@
         app:layout_constraintLeft_toRightOf="@id/item_icon"
         app:layout_constraintRight_toLeftOf="@id/textViewExpenseDate"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Compra da semana" />
+        tools:text="Compra da semana"/>
 
     <TextView
         android:id="@+id/textViewExpenseValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
+        app:layout_goneMarginTop="12dp"
+        android:layout_marginBottom="12dp"
         android:fontFamily="@font/nunito"
         android:textColor="@color/custom_pink"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toEndOf="@+id/textViewExpenseTitle"
         app:layout_constraintLeft_toLeftOf="@id/textViewExpenseTitle"
-        app:layout_constraintRight_toLeftOf="@id/textViewExpenseDate"
+        app:layout_constraintStart_toEndOf="@+id/item_icon"
         app:layout_constraintTop_toBottomOf="@+id/textViewExpenseTitle"
         tools:text="- R$ 322,02" />
 
@@ -58,13 +60,13 @@
         android:id="@+id/textViewExpenseDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:layout_marginRight="16dp"
         android:fontFamily="@font/nunito"
         android:textColor="@color/purple_900"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewExpenseTitle"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewExpenseTitle"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="24/09" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

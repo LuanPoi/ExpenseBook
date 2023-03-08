@@ -45,6 +45,13 @@ class EntryDetailsViewModel @Inject constructor(
     }
 
     fun save(entry: Entry){
+        if(entry.description.isNullOrBlank()){
+            if (entry.value >= 0) {
+                entry.description = "Receita"
+            } else {
+                entry.description = "Gasto"
+            }
+        }
         viewModelScope.launch {
             entry.uid?.let {
                 updateExistingEntryUseCase(entry)

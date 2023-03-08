@@ -73,6 +73,11 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
             uiState.run {
                 binding.itemIcon.setImageResource(binding.root.resources.getIdentifier(icon, "drawable", binding.root.context.packageName))
                 binding.textViewExpenseTitle.text = description
+                if(binding.textViewExpenseTitle.text.isNullOrBlank()){
+                    binding.textViewExpenseTitle.visibility = View.GONE
+                } else {
+                    binding.textViewExpenseTitle.visibility = View.VISIBLE
+                }
                 binding.textViewExpenseValue.text = value
                 binding.textViewExpenseValue.setTextColor(ContextCompat.getColor(binding.root.context, if (value[0] == '-') R.color.custom_pink else R.color.custom_green))
                 binding.textViewExpenseDate.text = date

@@ -98,10 +98,14 @@ class EntryDetailsFragment : Fragment() {
             binding.textViewValuePrefix.text = "+ R$"
             binding.textViewValuePrefix.setTextColor(ContextCompat.getColor(binding.root.context, R.color.custom_green))
             binding.editTextValue.setTextColor(ContextCompat.getColor(binding.root.context, R.color.custom_green))
+            binding.textViewSwitchIncome.setTextColor(ContextCompat.getColor(binding.root.context, R.color.custom_green))
+            binding.textViewSwitchExpense.setTextColor(ContextCompat.getColor(binding.root.context, R.color.purple_900))
         } else {
             binding.textViewValuePrefix.text = "- R$"
             binding.textViewValuePrefix.setTextColor(ContextCompat.getColor(binding.root.context, R.color.custom_pink))
             binding.editTextValue.setTextColor(ContextCompat.getColor(binding.root.context, R.color.custom_pink))
+            binding.textViewSwitchExpense.setTextColor(ContextCompat.getColor(binding.root.context, R.color.custom_pink))
+            binding.textViewSwitchIncome.setTextColor(ContextCompat.getColor(binding.root.context, R.color.purple_900))
         }
     }
 
