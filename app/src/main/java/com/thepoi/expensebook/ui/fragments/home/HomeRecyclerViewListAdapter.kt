@@ -78,7 +78,9 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
                 } else {
                     binding.textViewExpenseTitle.visibility = View.VISIBLE
                 }
-                binding.textViewExpenseValue.text = value
+                binding.textViewExpenseValue.text = value.let { if (it.replace("[-+R$ ,.]".toRegex(), "").length >= 6) {
+                    it.substring(0, it.length - 6) + "." + it.substring(it.length - 6)
+                } else { it }}
                 binding.textViewExpenseValue.setTextColor(ContextCompat.getColor(binding.root.context, if (value[0] == '-') R.color.custom_pink else R.color.custom_green))
                 binding.textViewExpenseDate.text = date
             }
