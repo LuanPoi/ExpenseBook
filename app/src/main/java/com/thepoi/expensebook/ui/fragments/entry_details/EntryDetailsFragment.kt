@@ -1,11 +1,16 @@
 package com.thepoi.expensebook.ui.fragments.entry_details
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -57,7 +62,7 @@ class EntryDetailsFragment : Fragment() {
                     entryDetailViewModel.updateValues(it.copy(
                         date = OffsetDateTime.now(ZoneId.systemDefault()).truncatedTo(ChronoUnit.DAYS).with(dateParsed),
                         isIncome = binding.switchEntryType.isChecked,
-                        value = binding.editTextValue.text?.toString()?.ifEmpty { null }?.toFloat(),
+                        value = binding.editTextValue.text?.toString()?.ifEmpty { null }?.replace(".", "")?.replace(",", ".")?.toFloat(),
                         description = binding.textInputDescription.editText?.text.toString()
                     ))
                 }
@@ -80,6 +85,32 @@ class EntryDetailsFragment : Fragment() {
                 if (hasFocus) binding.editTextValue.setHint(
                     ""
                 ) else binding.editTextValue.setHint("0.00")
+            })
+
+            binding.editTextValue.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                    // This method is called before the text is changed
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    // This method is called when the text is changed
+                    var sCleaned = s.toString().replace("[,.]".toRegex(), "")
+                    if(s?.isNotEmpty() == true && before != count){
+                        if(s.length > 6){
+                            //insert a comma on the last 3rd position
+                            sCleaned = sCleaned.substring(0, sCleaned.length - 5) + "." + sCleaned.substring(sCleaned.length - 5)
+                        }
+                        if(s.length >= 3){
+                            sCleaned = sCleaned.substring(0, sCleaned.length - 2) + "," + sCleaned.substring(sCleaned.length - 2)
+                        }
+                        binding.editTextValue.setText(sCleaned)
+                        binding.editTextValue.setSelection(binding.editTextValue.text?.length ?: 0)
+                    }
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    // This method is called after the text is changed
+                }
             })
         }
 
@@ -113,7 +144,7 @@ class EntryDetailsFragment : Fragment() {
         val entry: Entry = Entry(
             args.entryId?.toLong(),
             OffsetDateTime.now(ZoneId.systemDefault()).truncatedTo(ChronoUnit.DAYS).with(LocalDate.parse(binding.textViewDate.text, DateTimeFormatter.ofPattern("dd/MM/yyyy"))),
-            if(binding.switchEntryType.isChecked) binding.editTextValue.text.toString().toFloat() else binding.editTextValue.text.toString().toFloat().times(-1),
+            if(binding.switchEntryType.isChecked) binding.editTextValue.text.toString().replace(".", "").replace(",", ".").toFloat() else binding.editTextValue.text.toString().replace(".", "").replace(",", ".").toFloat().times(-1),
             binding.textInputDescription.editText?.text.toString()
         )
         entryDetailViewModel.save(entry)
