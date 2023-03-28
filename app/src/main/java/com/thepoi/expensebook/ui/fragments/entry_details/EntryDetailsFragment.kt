@@ -84,7 +84,7 @@ class EntryDetailsFragment : Fragment() {
             binding.editTextValue.setOnFocusChangeListener(OnFocusChangeListener { v, hasFocus ->
                 if (hasFocus) binding.editTextValue.setHint(
                     ""
-                ) else binding.editTextValue.setHint("0.00")
+                ) else binding.editTextValue.setHint("000.000,00")
             })
 
             binding.editTextValue.addTextChangedListener(object : TextWatcher {
