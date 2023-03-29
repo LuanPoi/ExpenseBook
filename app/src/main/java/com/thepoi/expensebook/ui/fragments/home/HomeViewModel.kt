@@ -1,9 +1,7 @@
 package com.thepoi.expensebook.ui.fragments.home
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.thepoi.expensebook.data.data_source.local.entities.Entry
 import com.thepoi.expensebook.domain.usecase.DeleteEntryUseCase
@@ -11,11 +9,12 @@ import com.thepoi.expensebook.domain.usecase.FetchMonthDataUseCase
 import com.thepoi.expensebook.domain.usecase.GetAllMonthlyExpenseDatesUseCase
 import com.thepoi.expensebook.domain.usecase.GetMonthlyExpenseUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.Thread.sleep
 import java.time.YearMonth
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 import kotlin.math.absoluteValue
@@ -30,14 +29,14 @@ class HomeViewModel @Inject constructor(
 ): ViewModel() {
 
     private val _monthlyExpenseDates: StateFlow<List<YearMonth>> = loadMonthlyExpenseDates()
-    private val _selectedMonth: MutableStateFlow<YearMonth> = MutableStateFlow(YearMonth.now().minusMonths(1))
-    var uiState: LiveData<HomeUiState>? = null
+    private val _selectedMonth: MutableStateFlow<YearMonth> = MutableStateFlow(YearMonth.now())
+    var uiState: MutableLiveData<HomeUiState> = MutableLiveData()
 
     init {
         viewModelScope.launch {
-            _selectedMonth.collect{ selectedMonth ->
-                uiState = fetchMonthDataUseCase(selectedMonth).map {
-                    HomeUiState(
+            _selectedMonth.collect { selectedMonth ->
+                fetchMonthDataUseCase(selectedMonth).collect {
+                    uiState.value = HomeUiState(
                         monthDataUiState = HomeUiState.MonthDataUiState(
                             monthNameOrdinal = it.date.month.ordinal,
                             expend = with(it.totalExpend.times(-1)) {
@@ -73,7 +72,16 @@ class HomeViewModel @Inject constructor(
                             )
                         }
                     )
-                }.asLiveData()
+                }
+            }
+        }
+        viewModelScope.launch {
+            // Testando atualização de UI ao trocar de mês
+            withContext(Dispatchers.Default){
+                sleep(5000)
+                setSelectedMonth(YearMonth.now().minusMonths(1))
+                sleep(5000)
+                setSelectedMonth(YearMonth.now())
             }
         }
     }
