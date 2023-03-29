@@ -1,17 +1,24 @@
 package com.thepoi.expensebook.ui.fragments.home
 
+import java.time.YearMonth
+
 data class HomeUiState(
     val monthDataUiState: MonthDataUiState,
     val dayDataUiState: DayDataUiState? = null,
     val entriesHistoryUiState: List<EntryUiState>
 ){
+    data class ExpenseBarUiState(
+        val dates: List<YearMonth>,
+        val selectedDateIndex: Int
+    )
     data class MonthDataUiState(
         val monthNameOrdinal: Int,
         val expend: String,
         val remaining: String,
         val percentageExpend: Int,
         val initialValue: String,
-        val savingGoal: String
+        val savingsGoal: String,
+        val expenseBarUiState: ExpenseBarUiState
     )
 
     data class DayDataUiState(

@@ -44,7 +44,7 @@ class HomeFragment : Fragment() {
         binding.recyclerViewHome.adapter = adapter
 
 
-        homeViewModel.stateOnceAndStream().observe(viewLifecycleOwner) { uiState ->
+        homeViewModel.uiState?.observe(viewLifecycleOwner) { uiState ->
             val recyclerViewItems: ArrayList<Pair<EnumItemViewType, Any>> = arrayListOf()
 
             recyclerViewItems.add(Pair(EnumItemViewType.MONTH_EXPENSE_CONTAINER, uiState.monthDataUiState))
