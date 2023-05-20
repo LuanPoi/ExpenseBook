@@ -1,19 +1,20 @@
 package com.thepoi.expensebook.ui.fragments.home
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.thepoi.expensebook.data.data_source.local.entities.Entry
 import com.thepoi.expensebook.domain.usecase.DeleteEntryUseCase
 import com.thepoi.expensebook.domain.usecase.FetchMonthDataUseCase
+import com.thepoi.expensebook.domain.usecase.GetAllMonthlyExpenseDatesUseCase
 import com.thepoi.expensebook.domain.usecase.GetMonthlyExpenseUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.lang.Thread.sleep
 import java.time.YearMonth
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 import kotlin.math.absoluteValue
@@ -23,48 +24,81 @@ import kotlin.math.roundToInt
 class HomeViewModel @Inject constructor(
     private val fetchMonthDataUseCase: FetchMonthDataUseCase,
     private val deleteEntryUseCase: DeleteEntryUseCase,
-    private val getMonthlyExpenseUseCase: GetMonthlyExpenseUseCase
+    private val getMonthlyExpenseUseCase: GetMonthlyExpenseUseCase,
+    private val getAllMonthlyExpenseDatesUseCase: GetAllMonthlyExpenseDatesUseCase
 ): ViewModel() {
 
-    private val _uiState: LiveData<HomeUiState> by lazy {
-        var yearMonth = YearMonth.now(ZoneId.systemDefault())
-        fetchMonthDataUseCase(yearMonth).map {
-            HomeUiState(
-                HomeUiState.MonthDataUiState(
-                    it.date.month.ordinal,
-                    with(it.totalExpend.times(-1)){
-                        "R$ %.2f".format(if(this <= 0) 0f else this)
-                    },
-                    "R$ %.2f".format(it.remainingAmount),
-                    //add the percertage of the expend amount, treating the case when the initial value is 0 or negative and rounding the value to the nearest integer
-                    with(it.totalExpend.times(-1)){
-                        if(it.initialValue <= 0 || this <= 0) 0 else (this / it.initialValue * 100).roundToInt()
-                    },
-                    "R$ %.2f".format(it.initialValue),
-                    "R$ %.2f".format(it.savingsGoal)
-                ),
-                it.currentDayData?.run {
-                    HomeUiState.DayDataUiState(
-                        "R$ %.2f".format(recommendedExpendValue),
-                        with(expendToday.times(-1)){
-                            "R$ %.2f".format(if(this <= 0) 0f else this)
+    private val _monthlyExpenseDates: StateFlow<List<YearMonth>> = loadMonthlyExpenseDates()
+    private val _selectedMonth: MutableStateFlow<YearMonth> = MutableStateFlow(YearMonth.now())
+    var uiState: MutableLiveData<HomeUiState> = MutableLiveData()
+
+    init {
+        viewModelScope.launch {
+            _selectedMonth.collect { selectedMonth ->
+                fetchMonthDataUseCase(selectedMonth).collect {
+                    uiState.value = HomeUiState(
+                        monthDataUiState = HomeUiState.MonthDataUiState(
+                            monthNameOrdinal = it.date.month.ordinal,
+                            expend = with(it.totalExpend.times(-1)) {
+                                "R$ %.2f".format(if (this <= 0) 0f else this)
+                            },
+                            remaining = "R$ %.2f".format(it.remainingAmount),
+                            percentageExpend = with(it.totalExpend.times(-1)) {
+                                if (it.initialValue <= 0 || this <= 0) 0 else (this / it.initialValue * 100).roundToInt()
+                            },
+                            initialValue = "R$ %.2f".format(it.initialValue),
+                            savingsGoal = "R$ %.2f".format(it.savingsGoal),
+                            expenseBarUiState = HomeUiState.ExpenseBarUiState(
+                                dates = _monthlyExpenseDates.value,
+                                selectedDateIndex = _monthlyExpenseDates.value.indexOf(selectedMonth)
+                            )
+                        ),
+                        dayDataUiState = it.currentDayData?.run {
+                            HomeUiState.DayDataUiState(
+                                recommendedDailyExpense = "R$ %.2f".format(recommendedExpendValue),
+                                expendToday = with(expendToday.times(-1)) {
+                                    "R$ %.2f".format(if (this <= 0) 0f else this)
+                                },
+                                remainingToday = "R$ %.2f".format(remainingToday)
+                            )
                         },
-                        "R$ %.2f".format(remainingToday)
-                    )
-                },
-                it.entries.map { entry ->
-                    HomeUiState.EntryUiState(
-                        id = entry.uid!!,
-                        description = entry.description,
-                        value = if(entry.value >= 0) "+ R$ %.2f".format(entry.value) else "- R$ %.2f".format(entry.value.absoluteValue),
-                        date = entry.date.format(DateTimeFormatter.ofPattern("dd/MM"))
+                        entriesHistoryUiState = it.entries.map { entry ->
+                            HomeUiState.EntryUiState(
+                                id = entry.uid!!,
+                                icon = "@drawable/ic_money",
+                                description = entry.description,
+                                value = if (entry.value >= 0) "+ R$ %.2f".format(entry.value) else "- R$ %.2f".format(entry.value.absoluteValue),
+                                date = entry.date.format(DateTimeFormatter.ofPattern("dd/MM"))
+                            )
+                        }
                     )
                 }
-            )
-        }.asLiveData()
+            }
+        }
+        viewModelScope.launch {
+            // Testando atualização de UI ao trocar de mês
+            withContext(Dispatchers.Default){
+                sleep(5000)
+                setSelectedMonth(YearMonth.now().minusMonths(1))
+                sleep(5000)
+                setSelectedMonth(YearMonth.now())
+            }
+        }
     }
 
-    fun stateOnceAndStream(): LiveData<HomeUiState> = _uiState
+    fun loadMonthlyExpenseDates(): StateFlow<List<YearMonth>> {
+        return getAllMonthlyExpenseDatesUseCase.invoke().stateIn(
+            viewModelScope,
+            SharingStarted.Eagerly,
+            emptyList()
+        )
+    }
+
+    fun setSelectedMonth(date: YearMonth){
+        viewModelScope.launch {
+            _selectedMonth.emit(date)
+        }
+    }
 
     suspend fun currentMonthExpenseExist(): Boolean {
         return (getMonthlyExpenseUseCase(YearMonth.now()).firstOrNull() != null)

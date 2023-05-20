@@ -121,7 +121,7 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
                 binding.progressBarMonthBalance.progress = percentageExpend
 
                 binding.textViewDetailsInitialValueValue.text = initialValue
-                binding.textViewDetailsSavingsGoalValue.text = savingGoal
+                binding.textViewDetailsSavingsGoalValue.text = savingsGoal
             }
 
             binding.buttonDetailsManage.setOnClickListener {

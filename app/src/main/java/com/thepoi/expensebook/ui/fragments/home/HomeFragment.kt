@@ -41,15 +41,17 @@ class HomeFragment : Fragment() {
         binding.recyclerViewHome.adapter = adapter
 
 
-        homeViewModel.stateOnceAndStream().observe(viewLifecycleOwner) { uiState ->
-            val recyclerViewItems: ArrayList<Pair<EnumItemViewType, Any>> = arrayListOf()
+        homeViewModel.uiState.observe(viewLifecycleOwner) { uiState ->
+            uiState?.let {
+                val recyclerViewItems: ArrayList<Pair<EnumItemViewType, Any>> = arrayListOf()
 
-            recyclerViewItems.add(Pair(EnumItemViewType.MONTH_EXPENSE_CONTAINER, uiState.monthDataUiState))
-            uiState.dayDataUiState?.let { recyclerViewItems.add(Pair(EnumItemViewType.DAY_EXPENSE_CONTAINER, it)) }
-            recyclerViewItems.add(Pair(EnumItemViewType.TITLE, resources.getString(R.string.expense_history_title)))
-            recyclerViewItems.addAll(uiState.entriesHistoryUiState.sortedByDescending { entry -> entry.date }.map { entry -> Pair(EnumItemViewType.EXPENSE_ITEM, entry) })
+                recyclerViewItems.add(Pair(EnumItemViewType.MONTH_EXPENSE_CONTAINER, uiState.monthDataUiState))
+                uiState.dayDataUiState?.let { recyclerViewItems.add(Pair(EnumItemViewType.DAY_EXPENSE_CONTAINER, it)) }
+                recyclerViewItems.add(Pair(EnumItemViewType.TITLE, resources.getString(R.string.expense_history_title)))
+                recyclerViewItems.addAll(uiState.entriesHistoryUiState.sortedByDescending { entry -> entry.date }.map { entry -> Pair(EnumItemViewType.EXPENSE_ITEM, entry) })
 
-            adapter.setData(recyclerViewItems)
+                adapter.setData(recyclerViewItems)
+            }
         }
 
         binding.floatingActionButton.setOnClickListener {

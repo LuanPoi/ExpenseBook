@@ -19,7 +19,6 @@ abstract class EntryDao {
 
     @Query("SELECT * FROM entry WHERE uid = :id")
     abstract fun _getById(id: Long): Flow<Entry>
-
     fun getById(id: Long): Flow<Entry> = _getById(id).distinctUntilChanged()
 
     @Update

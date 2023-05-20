@@ -48,4 +48,8 @@ class MonthlyExpenseRepositoryImpl @Inject constructor(localDatabase: LocalDatab
             dao.delete(monthlyExpense)
         }
     }
+
+    override fun getAllMonthlyExpenseDates(): Flow<List<YearMonth>> {
+        return dao.getAllDates()
+    }
 }
