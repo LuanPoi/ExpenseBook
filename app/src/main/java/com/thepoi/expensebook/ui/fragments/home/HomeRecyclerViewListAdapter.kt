@@ -125,7 +125,7 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
             }
 
             binding.buttonDetailsManage.setOnClickListener {
-                findNavController(binding.root).navigate(R.id.action_homeFragment_to_onboardFragment)
+                // TODO
             }
         }
 

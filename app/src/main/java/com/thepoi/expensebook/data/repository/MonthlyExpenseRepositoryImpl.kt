@@ -19,8 +19,8 @@ class MonthlyExpenseRepositoryImpl @Inject constructor(localDatabase: LocalDatab
         this.dao = localDatabase.monthlyExpenseDao()
     }
 
-    override suspend fun insert(monthlyExpense: MonthlyExpense) {
-        withContext(Dispatchers.IO) {
+    override suspend fun insert(monthlyExpense: MonthlyExpense): Long {
+        return withContext(Dispatchers.IO) {
             dao.insert(monthlyExpense)
         }
     }
@@ -31,6 +31,10 @@ class MonthlyExpenseRepositoryImpl @Inject constructor(localDatabase: LocalDatab
 
     override fun getByDate(date: YearMonth): Flow<MonthlyExpense> {
         return dao.getByDate(date)
+    }
+
+    override fun getMostRecent(): Flow<MonthlyExpense?> {
+        return dao.getMostRecent()
     }
 
     override suspend fun update(monthlyExpense: MonthlyExpense) {

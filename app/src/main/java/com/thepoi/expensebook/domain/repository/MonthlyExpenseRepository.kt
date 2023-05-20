@@ -6,9 +6,10 @@ import kotlinx.coroutines.flow.Flow
 import java.time.YearMonth
 
 interface MonthlyExpenseRepository {
-    suspend fun insert(monthlyExpense: MonthlyExpense)
+    suspend fun insert(monthlyExpense: MonthlyExpense): Long
     fun getAllWithFilter(filter: MonthlyExpenseFilter): Flow<List<MonthlyExpense>>
     fun getByDate(date: YearMonth): Flow<MonthlyExpense>
+    fun getMostRecent(): Flow<MonthlyExpense?>
     suspend fun update(monthlyExpense: MonthlyExpense)
     suspend fun delete(monthlyExpense: MonthlyExpense)
 }

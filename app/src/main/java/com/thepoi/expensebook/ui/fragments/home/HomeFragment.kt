@@ -23,9 +23,6 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-        runBlocking {
-            if(!homeViewModel.currentMonthExpenseExist()) findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToOnboardFragment(false))
-        }
     }
 
     override fun onCreateView(

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/splashScreenFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -13,13 +13,6 @@
         <action
             android:id="@+id/action_homeFragment_to_entryDetailsFragment"
             app:destination="@id/entryDetailsFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_onboardFragment"
-            app:destination="@id/onboardFragment" >
-            <argument
-                android:name="monthlyExpenseAlreadyExist"
-                android:defaultValue="true" />
-        </action>
     </fragment>
     <fragment
         android:id="@+id/entryDetailsFragment"
@@ -33,13 +26,28 @@
             android:defaultValue="@null"/>
     </fragment>
     <fragment
-        android:id="@+id/onboardFragment"
-        android:name="com.thepoi.expensebook.ui.fragments.onboard.OnboardFragment"
-        android:label="fragment_onboard"
-        tools:layout="@layout/fragment_onboard" >
-        <argument
-            android:name="monthlyExpenseAlreadyExist"
-            app:argType="boolean"
-            android:defaultValue="true" />
+        android:id="@+id/initializeMonthFragment"
+        android:name="com.thepoi.expensebook.ui.fragments.initialize_month.InitializeMonthFragment"
+        android:label="fragment_initialize_month"
+        tools:layout="@layout/fragment_initialize_month" >
+        <argument android:name="lastMonthlyExpenseDate"
+            app:argType="java.time.YearMonth"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_initializeMonthFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashScreenFragment"
+        android:name="com.thepoi.expensebook.ui.fragments.splashscreen.SplashScreenFragment"
+        android:label="fragment_splash_screen"
+        tools:layout="@layout/fragment_splash_screen" >
+        <action
+            android:id="@+id/action_splashScreenFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_splashScreenFragment_to_initializeMonthFragment"
+            app:destination="@id/initializeMonthFragment" />
     </fragment>
 </navigation>

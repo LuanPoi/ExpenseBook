@@ -22,6 +22,9 @@ abstract class MonthlyExpenseDao {
 
     fun getByDate(date: YearMonth): Flow<MonthlyExpense> = _getByDate(date).distinctUntilChanged()
 
+    @Query("SELECT * FROM monthly_expense ORDER BY date DESC LIMIT 1")
+    abstract fun getMostRecent(): Flow<MonthlyExpense?>
+
     @Update
     abstract fun update(monthlyExpense: MonthlyExpense): Int
 
