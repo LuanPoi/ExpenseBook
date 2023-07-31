@@ -115,6 +115,9 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
             val (enumViewType, uiState) = obj as Pair<EnumItemViewType, HomeUiState.MonthDataUiState>
 
             uiState.run {
+                binding.imageButtonNextMonth.visibility = if (uiState.idOfNextMonthWithData != null) View.VISIBLE else View.INVISIBLE;
+                binding.imageButtonPreviousMonth.visibility = if (uiState.idOfPreviousMonthWithData != null) View.VISIBLE else View.INVISIBLE;
+
                 binding.textViewMonthName.text = binding.root.resources.getStringArray(R.array.months).get(monthNameOrdinal)
                 binding.textViewProgressExpendValue.text = expend
                 binding.textViewProgressRemainingValue.text = remaining

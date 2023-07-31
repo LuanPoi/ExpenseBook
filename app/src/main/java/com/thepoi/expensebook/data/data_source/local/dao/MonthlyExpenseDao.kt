@@ -33,4 +33,10 @@ abstract class MonthlyExpenseDao {
     @Query("SELECT date FROM monthly_expense ORDER BY date ASC")
     abstract fun _getAllDates(): Flow<List<YearMonth>>
     fun getAllDates(): Flow<List<YearMonth>> = _getAllDates().distinctUntilChanged()
+
+    @Query("SELECT date FROM monthly_expense WHERE date < :date ORDER BY date DESC LIMIT 1")
+    abstract fun getNextMonthId(date: YearMonth): Flow<YearMonth?>
+
+    @Query("SELECT date FROM monthly_expense WHERE date > :date ORDER BY date ASC LIMIT 1")
+    abstract fun getPreviousMonthId(date: YearMonth): Flow<YearMonth?>
 }

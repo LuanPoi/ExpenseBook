@@ -7,6 +7,8 @@ import com.thepoi.expensebook.domain.model.filter.MonthlyExpenseFilter
 import com.thepoi.expensebook.domain.repository.MonthlyExpenseRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.withContext
 import java.time.YearMonth
 import javax.inject.Inject
@@ -51,5 +53,15 @@ class MonthlyExpenseRepositoryImpl @Inject constructor(localDatabase: LocalDatab
 
     override fun getAllMonthlyExpenseDates(): Flow<List<YearMonth>> {
         return dao.getAllDates()
+    }
+
+    override fun getNextAndPreviousMonthIds(date: YearMonth): Flow<Pair<YearMonth?, YearMonth?>> {
+        return dao.getNextMonthId(date).zip(dao.getPreviousMonthId(date)){ previous, next ->
+            Pair<YearMonth?, YearMonth?>(previous, next)
+        }
+    }
+
+    override suspend fun createEmptyIfDontExist(date: YearMonth) {
+        dao.insert(MonthlyExpense(date = date))
     }
 }

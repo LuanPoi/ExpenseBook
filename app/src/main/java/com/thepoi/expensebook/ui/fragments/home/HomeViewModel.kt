@@ -8,6 +8,7 @@ import com.thepoi.expensebook.domain.usecase.DeleteEntryUseCase
 import com.thepoi.expensebook.domain.usecase.FetchMonthDataUseCase
 import com.thepoi.expensebook.domain.usecase.GetAllMonthlyExpenseDatesUseCase
 import com.thepoi.expensebook.domain.usecase.GetMonthlyExpenseUseCase
+import com.thepoi.expensebook.domain.usecase.GetNextAndPreviousMonthIdsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -25,7 +26,8 @@ class HomeViewModel @Inject constructor(
     private val fetchMonthDataUseCase: FetchMonthDataUseCase,
     private val deleteEntryUseCase: DeleteEntryUseCase,
     private val getMonthlyExpenseUseCase: GetMonthlyExpenseUseCase,
-    private val getAllMonthlyExpenseDatesUseCase: GetAllMonthlyExpenseDatesUseCase
+    private val getAllMonthlyExpenseDatesUseCase: GetAllMonthlyExpenseDatesUseCase,
+    private val getNextAndPreviousMonthIdsUseCase: GetNextAndPreviousMonthIdsUseCase
 ): ViewModel() {
 
     private val _monthlyExpenseDates: StateFlow<List<YearMonth>> = loadMonthlyExpenseDates()
@@ -35,43 +37,43 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             _selectedMonth.collect { selectedMonth ->
-                fetchMonthDataUseCase(selectedMonth).collect {
-                    uiState.value = HomeUiState(
-                        monthDataUiState = HomeUiState.MonthDataUiState(
-                            monthNameOrdinal = it.date.month.ordinal,
-                            expend = with(it.totalExpend.times(-1)) {
-                                "R$ %.2f".format(if (this <= 0) 0f else this)
-                            },
-                            remaining = "R$ %.2f".format(it.remainingAmount),
-                            percentageExpend = with(it.totalExpend.times(-1)) {
-                                if (it.initialValue <= 0 || this <= 0) 0 else (this / it.initialValue * 100).roundToInt()
-                            },
-                            initialValue = "R$ %.2f".format(it.initialValue),
-                            savingsGoal = "R$ %.2f".format(it.savingsGoal),
-                            expenseBarUiState = HomeUiState.ExpenseBarUiState(
-                                dates = _monthlyExpenseDates.value,
-                                selectedDateIndex = _monthlyExpenseDates.value.indexOf(selectedMonth)
-                            )
-                        ),
-                        dayDataUiState = it.currentDayData?.run {
-                            HomeUiState.DayDataUiState(
-                                recommendedDailyExpense = "R$ %.2f".format(recommendedExpendValue),
-                                expendToday = with(expendToday.times(-1)) {
+                fetchMonthDataUseCase(selectedMonth).collect { monthData ->
+                    getNextAndPreviousMonthIdsUseCase(selectedMonth).collect {
+                        uiState.value = HomeUiState(
+                            monthDataUiState = HomeUiState.MonthDataUiState(
+                                monthNameOrdinal = monthData.date.month.ordinal,
+                                expend = with(monthData.totalExpend.times(-1)) {
                                     "R$ %.2f".format(if (this <= 0) 0f else this)
                                 },
-                                remainingToday = "R$ %.2f".format(remainingToday)
-                            )
-                        },
-                        entriesHistoryUiState = it.entries.map { entry ->
-                            HomeUiState.EntryUiState(
-                                id = entry.uid!!,
-                                icon = "@drawable/ic_money",
-                                description = entry.description,
-                                value = if (entry.value >= 0) "+ R$ %.2f".format(entry.value) else "- R$ %.2f".format(entry.value.absoluteValue),
-                                date = entry.date.format(DateTimeFormatter.ofPattern("dd/MM"))
-                            )
-                        }
-                    )
+                                remaining = "R$ %.2f".format(monthData.remainingAmount),
+                                percentageExpend = with(monthData.totalExpend.times(-1)) {
+                                    if (monthData.initialValue <= 0 || this <= 0) 0 else (this / monthData.initialValue * 100).roundToInt()
+                                },
+                                initialValue = "R$ %.2f".format(monthData.initialValue),
+                                savingsGoal = "R$ %.2f".format(monthData.savingsGoal),
+                                idOfPreviousMonthWithData = it.first,
+                                idOfNextMonthWithData = it.second
+                            ),
+                            dayDataUiState = monthData.currentDayData?.run {
+                                HomeUiState.DayDataUiState(
+                                    recommendedDailyExpense = "R$ %.2f".format(recommendedExpendValue),
+                                    expendToday = with(expendToday.times(-1)) {
+                                        "R$ %.2f".format(if (this <= 0) 0f else this)
+                                    },
+                                    remainingToday = "R$ %.2f".format(remainingToday)
+                                )
+                            },
+                            entriesHistoryUiState = monthData.entries.map { entry ->
+                                HomeUiState.EntryUiState(
+                                    id = entry.uid!!,
+                                    icon = "@drawable/ic_money",
+                                    description = entry.description,
+                                    value = if (entry.value >= 0) "+ R$ %.2f".format(entry.value) else "- R$ %.2f".format(entry.value.absoluteValue),
+                                    date = entry.date.format(DateTimeFormatter.ofPattern("dd/MM"))
+                                )
+                            }
+                        )
+                    }
                 }
             }
         }

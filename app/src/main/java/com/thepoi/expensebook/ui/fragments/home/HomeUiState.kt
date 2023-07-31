@@ -7,10 +7,6 @@ data class HomeUiState(
     val dayDataUiState: DayDataUiState? = null,
     val entriesHistoryUiState: List<EntryUiState>
 ){
-    data class ExpenseBarUiState(
-        val dates: List<YearMonth>,
-        val selectedDateIndex: Int
-    )
     data class MonthDataUiState(
         val monthNameOrdinal: Int,
         val expend: String,
@@ -18,7 +14,8 @@ data class HomeUiState(
         val percentageExpend: Int,
         val initialValue: String,
         val savingsGoal: String,
-        val expenseBarUiState: ExpenseBarUiState
+        val idOfPreviousMonthWithData: YearMonth?,
+        val idOfNextMonthWithData: YearMonth?
     )
 
     data class DayDataUiState(

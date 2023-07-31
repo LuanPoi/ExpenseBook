@@ -13,4 +13,6 @@ interface MonthlyExpenseRepository {
     suspend fun update(monthlyExpense: MonthlyExpense)
     suspend fun delete(monthlyExpense: MonthlyExpense)
     fun getAllMonthlyExpenseDates(): Flow<List<YearMonth>>
+    fun getNextAndPreviousMonthIds(date: YearMonth): Flow<Pair<YearMonth?, YearMonth?>>
+    suspend fun createEmptyIfDontExist(date: YearMonth)
 }
