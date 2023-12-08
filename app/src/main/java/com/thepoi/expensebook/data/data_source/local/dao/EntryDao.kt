@@ -9,7 +9,7 @@ import java.time.OffsetDateTime
 @Dao
 abstract class EntryDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    abstract suspend fun insert(entry: Entry): Long
+    abstract suspend fun insert(entry: Entry)
 
     @Query("SELECT * FROM entry " +
             "WHERE ((:startOffsetDateTime IS NULL OR date >= :startOffsetDateTime) " +
@@ -22,8 +22,8 @@ abstract class EntryDao {
     fun getById(id: Long): Flow<Entry> = _getById(id).distinctUntilChanged()
 
     @Update
-    abstract suspend fun update(entry: Entry): Int
+    abstract suspend fun update(entry: Entry)
 
     @Delete
-    abstract suspend fun delete(entry: Entry): Int
+    abstract suspend fun delete(entry: Entry)
 }

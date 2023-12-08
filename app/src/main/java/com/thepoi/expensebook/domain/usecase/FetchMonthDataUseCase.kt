@@ -3,7 +3,6 @@ package com.thepoi.expensebook.domain.usecase
 import com.thepoi.expensebook.domain.model.MonthData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.YearMonth
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,11 +18,11 @@ class FetchMonthDataUseCase @Inject constructor(
             fetchMonthEntriesUseCase(date)
         ){ monthlyExpense, monthEntries ->
             MonthData(
-                monthlyExpense.date,
-                monthlyExpense.initial_value,
-                monthlyExpense.savings_goal,
+                monthlyExpense!!.date,
+                monthlyExpense!!.initial_value,
+                monthlyExpense!!.savings_goal,
                 monthEntries
             )
-        }.distinctUntilChanged()
+        }
     }
 }

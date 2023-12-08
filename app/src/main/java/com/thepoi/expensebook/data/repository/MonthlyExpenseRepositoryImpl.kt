@@ -7,8 +7,8 @@ import com.thepoi.expensebook.domain.model.filter.MonthlyExpenseFilter
 import com.thepoi.expensebook.domain.repository.MonthlyExpenseRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.withContext
 import java.time.YearMonth
 import javax.inject.Inject
@@ -21,7 +21,7 @@ class MonthlyExpenseRepositoryImpl @Inject constructor(localDatabase: LocalDatab
         this.dao = localDatabase.monthlyExpenseDao()
     }
 
-    override suspend fun insert(monthlyExpense: MonthlyExpense): Long {
+    override suspend fun insert(monthlyExpense: MonthlyExpense) {
         return withContext(Dispatchers.IO) {
             dao.insert(monthlyExpense)
         }
@@ -31,7 +31,7 @@ class MonthlyExpenseRepositoryImpl @Inject constructor(localDatabase: LocalDatab
         return dao.getAllWithFilter(filter.startYearMonth, filter.endYearMonth)
     }
 
-    override fun getByDate(date: YearMonth): Flow<MonthlyExpense> {
+    override fun getByDate(date: YearMonth): Flow<MonthlyExpense?> {
         return dao.getByDate(date)
     }
 
@@ -56,12 +56,21 @@ class MonthlyExpenseRepositoryImpl @Inject constructor(localDatabase: LocalDatab
     }
 
     override fun getNextAndPreviousMonthIds(date: YearMonth): Flow<Pair<YearMonth?, YearMonth?>> {
-        return dao.getNextMonthId(date).zip(dao.getPreviousMonthId(date)){ previous, next ->
+        return combine(
+            dao.getNextMonthId(date),
+            dao.getPreviousMonthId(date)
+        ){ previous, next ->
             Pair<YearMonth?, YearMonth?>(previous, next)
         }
     }
 
     override suspend fun createEmptyIfDontExist(date: YearMonth) {
-        dao.insert(MonthlyExpense(date = date))
+        this.getByDate(date).collectLatest {
+            if(it == null) {
+                withContext(Dispatchers.IO) {
+                    dao.insert(MonthlyExpense(date = date))
+                }
+            }
+        }
     }
 }

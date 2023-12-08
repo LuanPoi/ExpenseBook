@@ -11,7 +11,7 @@ import javax.inject.Singleton
 class GetMonthlyExpenseUseCase @Inject constructor(
     private val monthlyExpenseRepository: MonthlyExpenseRepository
 ) {
-    operator fun invoke(date: YearMonth): Flow<MonthlyExpense> {
+    operator fun invoke(date: YearMonth): Flow<MonthlyExpense?> {
         return monthlyExpenseRepository.getByDate(date)
     }
 }

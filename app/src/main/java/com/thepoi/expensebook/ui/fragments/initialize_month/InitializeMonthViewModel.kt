@@ -19,7 +19,7 @@ class InitializeMonthViewModel @Inject constructor(
         return getMonthlyExpenseUseCase(date).asLiveData()
     }
 
-    suspend fun createNewMonthlyExpense(monthlyExpense: MonthlyExpense): Long {
+    suspend fun createNewMonthlyExpense(monthlyExpense: MonthlyExpense) {
         return createNewMonthlyExpenseUseCase(monthlyExpense)
     }
 }

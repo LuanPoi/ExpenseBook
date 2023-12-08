@@ -9,7 +9,7 @@ import javax.inject.Singleton
 class CreateNewMonthlyExpenseUseCase @Inject constructor(
     private val monthlyExpenseRepository: MonthlyExpenseRepository
 ) {
-    suspend operator fun invoke(monthlyExpense: MonthlyExpense): Long {
+    suspend operator fun invoke(monthlyExpense: MonthlyExpense) {
         return monthlyExpenseRepository.insert(monthlyExpense)
     }
 }

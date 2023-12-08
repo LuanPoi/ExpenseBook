@@ -3,14 +3,11 @@ package com.thepoi.expensebook.ui.fragments.entry_details
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -22,7 +19,12 @@ import com.thepoi.expensebook.R
 import com.thepoi.expensebook.data.data_source.local.entities.Entry
 import com.thepoi.expensebook.databinding.FragmentEntryDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.*
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.OffsetDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import kotlin.math.absoluteValue
@@ -44,7 +46,7 @@ class EntryDetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentEntryDetailsBinding.inflate(layoutInflater)
         return binding.root
@@ -81,11 +83,9 @@ class EntryDetailsFragment : Fragment() {
                     }
                 }
             }
-            binding.editTextValue.setOnFocusChangeListener(OnFocusChangeListener { v, hasFocus ->
-                if (hasFocus) binding.editTextValue.setHint(
-                    ""
-                ) else binding.editTextValue.setHint("000.000,00")
-            })
+            binding.editTextValue.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
+                if (hasFocus) binding.editTextValue.hint = "" else binding.editTextValue.hint = "000.000,00"
+            }
 
             binding.editTextValue.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -121,7 +121,7 @@ class EntryDetailsFragment : Fragment() {
     }
 
     fun bindUiState(uiState: EntryDetailsUiState){
-        binding.textViewDate.setText(uiState.date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+        binding.textViewDate.text = uiState.date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
         binding.switchEntryType.isChecked = uiState.isIncome //true=income | false=expense
         uiState.value?.let { binding.editTextValue.setText("%.2f".format(it.absoluteValue)) }
         uiState.description.let { binding.textInputDescription.editText?.setText(it) }

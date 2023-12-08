@@ -18,8 +18,8 @@ abstract class MonthlyExpenseDao {
     abstract fun getAllWithFilter(startYearMonth: YearMonth?, endYearMonth: YearMonth?): Flow<List<MonthlyExpense>>
 
     @Query("SELECT * FROM monthly_expense WHERE date = :date")
-    abstract fun _getByDate(date: YearMonth): Flow<MonthlyExpense>
-    fun getByDate(date: YearMonth): Flow<MonthlyExpense> = _getByDate(date).distinctUntilChanged()
+    abstract fun _getByDate(date: YearMonth): Flow<MonthlyExpense?>
+    fun getByDate(date: YearMonth): Flow<MonthlyExpense?> = _getByDate(date).distinctUntilChanged()
 
     @Query("SELECT * FROM monthly_expense ORDER BY date DESC LIMIT 1")
     abstract fun getMostRecent(): Flow<MonthlyExpense?>
