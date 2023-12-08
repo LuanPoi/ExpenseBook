@@ -5,13 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.thepoi.expensebook.R
-import com.thepoi.expensebook.data.data_source.local.entities.MonthlyExpense
 import com.thepoi.expensebook.databinding.FragmentSplashScreenBinding
-import com.thepoi.expensebook.ui.fragments.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.YearMonth
 import java.time.ZoneId

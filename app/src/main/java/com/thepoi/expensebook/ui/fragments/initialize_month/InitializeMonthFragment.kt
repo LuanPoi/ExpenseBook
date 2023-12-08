@@ -6,19 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.thepoi.expensebook.R
-import com.thepoi.expensebook.data.data_source.local.LocalDatabase
 import com.thepoi.expensebook.data.data_source.local.entities.MonthlyExpense
-import com.thepoi.expensebook.data.repository.MonthlyExpenseRepositoryImpl
 import com.thepoi.expensebook.databinding.FragmentInitializeMonthBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.time.YearMonth
 
@@ -38,7 +32,7 @@ class InitializeMonthFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentInitializeMonthBinding.inflate(layoutInflater)
         return binding.root
