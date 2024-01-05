@@ -25,10 +25,10 @@ class EntryRepositoryImpl @Inject constructor(localDatabase: LocalDatabase) : En
     }
 
     override fun getAllWithFilter(filter: EntryFilter): Flow<List<Entry>> {
-        return dao.getAllWithFilter(filter.startOffsetDateTime, filter.exclusiveEndOffsetDateTime)
+        return dao.getAllWithFilter(filter.startZonedDateTime, filter.exclusiveEndZonedDateTime)
     }
 
-    override fun getById(entryId: Long): Flow<Entry> {
+    override fun getById(entryId: Long): Flow<Entry?> {
         return dao.getById(entryId)
     }
 

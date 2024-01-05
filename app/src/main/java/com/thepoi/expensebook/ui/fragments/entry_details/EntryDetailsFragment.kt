@@ -25,6 +25,7 @@ import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import kotlin.math.absoluteValue
@@ -62,9 +63,9 @@ class EntryDetailsFragment : Fragment() {
                 entryDetailViewModel.stateOnceAndStream(null).value?.let {
                     val dateParsed = LocalDate.parse(binding.textViewDate.text, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
                     entryDetailViewModel.updateValues(it.copy(
-                        date = OffsetDateTime.now(ZoneId.systemDefault()).truncatedTo(ChronoUnit.DAYS).with(dateParsed),
+                        datetime = ZonedDateTime.now(ZoneId.systemDefault()).truncatedTo(ChronoUnit.DAYS).with(dateParsed),
                         isIncome = binding.switchEntryType.isChecked,
-                        value = binding.editTextValue.text?.toString()?.ifEmpty { null }?.replace(".", "")?.replace(",", ".")?.toFloat(),
+                        amount = binding.editTextValue.text?.toString()?.ifEmpty { null }?.replace(".", "")?.replace(",", ".")?.toFloat(),
                         description = binding.textInputDescription.editText?.text.toString()
                     ))
                 }
@@ -121,9 +122,9 @@ class EntryDetailsFragment : Fragment() {
     }
 
     fun bindUiState(uiState: EntryDetailsUiState){
-        binding.textViewDate.text = uiState.date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+        binding.textViewDate.text = uiState.datetime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
         binding.switchEntryType.isChecked = uiState.isIncome //true=income | false=expense
-        uiState.value?.let { binding.editTextValue.setText("%.2f".format(it.absoluteValue)) }
+        uiState.amount?.let { binding.editTextValue.setText("%.2f".format(it.absoluteValue)) }
         uiState.description.let { binding.textInputDescription.editText?.setText(it) }
         if (uiState.isIncome){
             binding.textViewValuePrefix.text = "+ R$"
@@ -143,7 +144,7 @@ class EntryDetailsFragment : Fragment() {
     fun onSave(){
         val entry: Entry = Entry(
             args.entryId?.toLong(),
-            OffsetDateTime.now(ZoneId.systemDefault()).truncatedTo(ChronoUnit.DAYS).with(LocalDate.parse(binding.textViewDate.text, DateTimeFormatter.ofPattern("dd/MM/yyyy"))),
+            ZonedDateTime.now(ZoneId.systemDefault()).truncatedTo(ChronoUnit.DAYS).with(LocalDate.parse(binding.textViewDate.text, DateTimeFormatter.ofPattern("dd/MM/yyyy"))),
             if(binding.switchEntryType.isChecked) binding.editTextValue.text.toString().replace(".", "").replace(",", ".").toFloat() else binding.editTextValue.text.toString().replace(".", "").replace(",", ".").toFloat().times(-1),
             binding.textInputDescription.editText?.text.toString()
         )

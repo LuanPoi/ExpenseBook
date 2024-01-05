@@ -10,7 +10,7 @@ import javax.inject.Singleton
 class GetEntryUseCase @Inject constructor(
     private val entryRepository: EntryRepository
 ) {
-    suspend operator fun invoke(id: Long): Flow<Entry> {
+    suspend operator fun invoke(id: Long): Flow<Entry?> {
         return entryRepository.getById(id)
     }
 }

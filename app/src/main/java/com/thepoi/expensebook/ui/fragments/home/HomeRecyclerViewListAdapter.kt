@@ -86,7 +86,7 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
             }
 
             binding.containerExpenseItem.setOnLongClickListener {
-                viewModel.deleteEntry(Entry(uid = uiState.id))
+                viewModel.deleteEntry(Entry(id = uiState.id))
                 true
             }
 

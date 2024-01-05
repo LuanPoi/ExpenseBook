@@ -48,8 +48,8 @@ class InitializeMonthFragment : Fragment() {
             binding.buttonLoadPreviousData.setOnClickListener {
                 viewModel.getMonthlyExpense(lastDate).observe(viewLifecycleOwner) {response ->
                     response?.let {
-                        binding.textInputInitialValue.editText?.setText(it.initial_value.toInt().toString())
-                        binding.textInputEconomyGoal.editText?.setText(it.savings_goal.toInt().toString())
+                        binding.textInputInitialValue.editText?.setText(it.initialValue.toInt().toString())
+                        binding.textInputEconomyGoal.editText?.setText(it.savingsGoal.toInt().toString())
                     }
                 }
             }
@@ -64,8 +64,8 @@ class InitializeMonthFragment : Fragment() {
 
             lifecycleScope.launch {
                 viewModel.createNewMonthlyExpense(MonthlyExpense(
-                    initial_value = initialValue.toFloat(),
-                    savings_goal = economyGoal.toFloat()
+                    initialValue = initialValue.toFloat(),
+                    savingsGoal = economyGoal.toFloat()
                 )).also {
                     findNavController().navigate(R.id.action_initializeMonthFragment_to_homeFragment)
                 }

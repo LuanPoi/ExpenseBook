@@ -1,8 +1,8 @@
 package com.thepoi.expensebook.domain.model.filter
 
-import java.time.OffsetDateTime
+import java.time.ZonedDateTime
 
 data class EntryFilter(
-    var startOffsetDateTime: OffsetDateTime?,
-    var exclusiveEndOffsetDateTime: OffsetDateTime?
+    var startZonedDateTime: ZonedDateTime?,
+    var exclusiveEndZonedDateTime: ZonedDateTime?
 )

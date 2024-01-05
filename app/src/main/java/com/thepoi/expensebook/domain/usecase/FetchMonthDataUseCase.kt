@@ -18,9 +18,9 @@ class FetchMonthDataUseCase @Inject constructor(
             fetchMonthEntriesUseCase(date)
         ){ monthlyExpense, monthEntries ->
             MonthData(
-                monthlyExpense!!.date,
-                monthlyExpense!!.initial_value,
-                monthlyExpense!!.savings_goal,
+                monthlyExpense!!.yearMonth,
+                monthlyExpense!!.initialValue,
+                monthlyExpense!!.savingsGoal,
                 monthEntries
             )
         }

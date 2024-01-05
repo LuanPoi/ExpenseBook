@@ -11,6 +11,7 @@ import com.thepoi.expensebook.domain.usecase.UpdateExistingEntryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.OffsetDateTime
+import java.time.ZonedDateTime
 import javax.inject.Inject
 
 
@@ -22,20 +23,22 @@ class EntryDetailsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState: MutableLiveData<EntryDetailsUiState> by lazy {
-        MutableLiveData<EntryDetailsUiState>(EntryDetailsUiState(null, OffsetDateTime.now(), false, null, ""))
+        MutableLiveData<EntryDetailsUiState>(EntryDetailsUiState(null, ZonedDateTime.now(), false, null, ""))
     }
 
     fun stateOnceAndStream(entryId: Long? = null): LiveData<EntryDetailsUiState> {
         entryId?.let {
             viewModelScope.launch {
                 getEntryUseCase(entryId).collect { entry ->
-                    _uiState.value = EntryDetailsUiState(
-                        entry.uid,
-                        entry.date,
-                        entry.value >= 0,
-                        entry.value,
-                        entry.description
-                    )
+                    entry?.let {
+                        _uiState.value = EntryDetailsUiState(
+                            entry.id,
+                            entry.datetime,
+                            entry.amount >= 0,
+                            entry.amount,
+                            entry.description
+                        )
+                    }
                 }
             }
         }
@@ -48,14 +51,14 @@ class EntryDetailsViewModel @Inject constructor(
 
     fun save(entry: Entry){
         if(entry.description.isNullOrBlank()){
-            if (entry.value >= 0) {
+            if (entry.amount >= 0) {
                 entry.description = "Receita"
             } else {
                 entry.description = "Gasto"
             }
         }
         viewModelScope.launch {
-            entry.uid?.let {
+            entry.id?.let {
                 updateExistingEntryUseCase(entry)
             } ?: run {
                 createNewEntryUseCase(entry)

@@ -5,26 +5,28 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.time.YearMonth
+import java.time.ZoneId
 import java.time.ZoneOffset
+import java.time.ZonedDateTime
 
 class Converters {
     @TypeConverter
-    fun toYearMonth(value: Long?): YearMonth? {
-        return value?.let { YearMonth.from(LocalDate.ofEpochDay(it)) }
+    fun toYearMonth(epochDay: Long?): YearMonth? {
+        return epochDay?.let { YearMonth.from(LocalDate.ofEpochDay(epochDay)) }
     }
 
     @TypeConverter
-    fun fromYearMonth(value: YearMonth?): Long? {
-        return value?.atDay(1)?.toEpochDay()
+    fun fromYearMonth(yearMonth: YearMonth?): Long? {
+        return yearMonth?.let{yearMonth.atDay(1).toEpochDay()}
     }
 
     @TypeConverter
-    fun fromOffsetDateTime(value: OffsetDateTime?): Long? {
-        return value?.withOffsetSameInstant(ZoneOffset.UTC)?.toEpochSecond()
+    fun fromZonedDateTime(value: ZonedDateTime?): Long? {
+        return value?.toEpochSecond()
     }
 
     @TypeConverter
-    fun toOffsetDateTime(value: Long?): OffsetDateTime? {
-        return value?.let { OffsetDateTime.from(Instant.ofEpochSecond(it).atZone(ZoneOffset.systemDefault())) }
+    fun toZonedDateTime(epochSecond: Long?): ZonedDateTime? {
+        return epochSecond?.let { ZonedDateTime.ofInstant(Instant.ofEpochSecond(epochSecond), ZoneId.systemDefault()) }
     }
 }

@@ -42,8 +42,8 @@ class SplashScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.viewModel.checkMonthlyExpenseExistence().observe(viewLifecycleOwner){
-            if (it?.date == YearMonth.now(ZoneId.systemDefault())) findNavController().navigate(R.id.action_splashScreenFragment_to_homeFragment)
-            else findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToInitializeMonthFragment(it?.date))
+            if (it?.yearMonth == YearMonth.now(ZoneId.systemDefault())) findNavController().navigate(R.id.action_splashScreenFragment_to_homeFragment)
+            else findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToInitializeMonthFragment(it?.yearMonth))
         }
     }
 }

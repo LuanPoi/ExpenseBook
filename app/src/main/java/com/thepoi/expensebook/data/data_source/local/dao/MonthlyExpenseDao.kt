@@ -12,16 +12,16 @@ abstract class MonthlyExpenseDao {
     abstract fun insert(expense: MonthlyExpense): Long
 
     @Query("SELECT * FROM monthly_expense " +
-            "WHERE ((:startYearMonth IS NULL OR date >= :startYearMonth) " +
-            "AND (:endYearMonth IS NULL OR date <= :endYearMonth)" +
-            ") ORDER BY date ASC")
+            "WHERE ((:startYearMonth IS NULL OR yearMonth >= :startYearMonth) " +
+            "AND (:endYearMonth IS NULL OR yearMonth <= :endYearMonth)" +
+            ") ORDER BY yearMonth ASC")
     abstract fun getAllWithFilter(startYearMonth: YearMonth?, endYearMonth: YearMonth?): Flow<List<MonthlyExpense>>
 
-    @Query("SELECT * FROM monthly_expense WHERE date = :date")
-    abstract fun _getByDate(date: YearMonth): Flow<MonthlyExpense?>
-    fun getByDate(date: YearMonth): Flow<MonthlyExpense?> = _getByDate(date).distinctUntilChanged()
+    @Query("SELECT * FROM monthly_expense WHERE yearMonth = :yearMonth")
+    abstract fun _getByDate(yearMonth: YearMonth): Flow<MonthlyExpense?>
+    fun getByDate(yearMonth: YearMonth): Flow<MonthlyExpense?> = _getByDate(yearMonth).distinctUntilChanged()
 
-    @Query("SELECT * FROM monthly_expense ORDER BY date DESC LIMIT 1")
+    @Query("SELECT * FROM monthly_expense ORDER BY yearMonth DESC LIMIT 1")
     abstract fun getMostRecent(): Flow<MonthlyExpense?>
 
     @Update
@@ -30,13 +30,13 @@ abstract class MonthlyExpenseDao {
     @Delete
     abstract fun delete(monthlyExpense: MonthlyExpense): Int
 
-    @Query("SELECT date FROM monthly_expense ORDER BY date ASC")
+    @Query("SELECT yearMonth FROM monthly_expense ORDER BY yearMonth ASC")
     abstract fun _getAllDates(): Flow<List<YearMonth>>
     fun getAllDates(): Flow<List<YearMonth>> = _getAllDates().distinctUntilChanged()
 
-    @Query("SELECT date FROM monthly_expense WHERE date < :date ORDER BY date DESC LIMIT 1")
-    abstract fun getNextMonthId(date: YearMonth): Flow<YearMonth?>
+    @Query("SELECT yearMonth FROM monthly_expense WHERE yearMonth < :yearMonth ORDER BY yearMonth DESC LIMIT 1")
+    abstract fun getNextMonthId(yearMonth: YearMonth): Flow<YearMonth?>
 
-    @Query("SELECT date FROM monthly_expense WHERE date > :date ORDER BY date ASC LIMIT 1")
-    abstract fun getPreviousMonthId(date: YearMonth): Flow<YearMonth?>
+    @Query("SELECT yearMonth FROM monthly_expense WHERE yearMonth > :yearMonth ORDER BY yearMonth ASC LIMIT 1")
+    abstract fun getPreviousMonthId(yearMonth: YearMonth): Flow<YearMonth?>
 }

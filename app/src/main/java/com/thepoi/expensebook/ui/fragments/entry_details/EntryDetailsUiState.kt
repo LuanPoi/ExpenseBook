@@ -1,11 +1,11 @@
 package com.thepoi.expensebook.ui.fragments.entry_details
 
-import java.time.OffsetDateTime
+import java.time.ZonedDateTime
 
 data class EntryDetailsUiState (
-    val uid: Long?,
-    var date: OffsetDateTime,
+    val id: Long?,
+    var datetime: ZonedDateTime,
     var isIncome: Boolean,
-    var value: Float?,
+    var amount: Float?,
     var description: String
 )

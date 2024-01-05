@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import java.time.OffsetDateTime
 import java.time.YearMonth
 import java.time.ZoneOffset
+import java.time.ZonedDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,10 +17,10 @@ class FetchMonthEntriesUseCase @Inject constructor(
 ) {
     operator fun invoke(date: YearMonth): Flow<List<Entry>> {
         return entryRepository.getAllWithFilter(EntryFilter(
-            OffsetDateTime.from(
+            ZonedDateTime.from(
                 date.atDay(1).atStartOfDay().atZone(ZoneOffset.systemDefault())
             ),
-            OffsetDateTime.from(
+            ZonedDateTime.from(
                 date.plusMonths(1).atDay(1).atStartOfDay().atZone(ZoneOffset.systemDefault())
             )
         ))

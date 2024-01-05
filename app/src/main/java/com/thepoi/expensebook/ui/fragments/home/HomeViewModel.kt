@@ -72,11 +72,11 @@ class HomeViewModel @Inject constructor(
                                 },
                                 entriesHistoryUiState = monthData.entries.map { entry ->
                                     HomeUiState.EntryUiState(
-                                        id = entry.uid!!,
+                                        id = entry.id!!,
                                         icon = "@drawable/ic_money",
                                         description = entry.description,
-                                        value = if (entry.value >= 0) "+ R$ %.2f".format(entry.value) else "- R$ %.2f".format(entry.value.absoluteValue),
-                                        date = entry.date.format(DateTimeFormatter.ofPattern("dd/MM"))
+                                        value = if (entry.amount >= 0) "+ R$ %.2f".format(entry.amount) else "- R$ %.2f".format(entry.amount.absoluteValue),
+                                        date = entry.datetime.format(DateTimeFormatter.ofPattern("dd/MM"))
                                     )
                                 }
                             )

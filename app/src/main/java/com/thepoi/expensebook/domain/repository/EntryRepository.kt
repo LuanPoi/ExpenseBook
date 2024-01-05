@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface EntryRepository {
     suspend fun insert(entry: Entry)
     fun getAllWithFilter(filter: EntryFilter): Flow<List<Entry>>
-    fun getById(entryId: Long): Flow<Entry>
+    fun getById(entryId: Long): Flow<Entry?>
     suspend fun update(entry: Entry)
     suspend fun delete(entry: Entry)
 }

@@ -68,7 +68,7 @@ class MonthlyExpenseRepositoryImpl @Inject constructor(localDatabase: LocalDatab
         this.getByDate(date).collectLatest {
             if(it == null) {
                 withContext(Dispatchers.IO) {
-                    dao.insert(MonthlyExpense(date = date))
+                    dao.insert(MonthlyExpense(yearMonth = date))
                 }
             }
         }

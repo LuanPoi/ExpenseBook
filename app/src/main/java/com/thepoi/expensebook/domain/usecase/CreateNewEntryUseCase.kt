@@ -18,7 +18,7 @@ class CreateNewEntryUseCase @Inject constructor(
     suspend operator fun invoke(entry: Entry){
         withContext(Dispatchers.IO) {
             entryRepository.insert(entry)
-            monthlyExpenseRepository.createEmptyIfDontExist(YearMonth.from(entry.date))
+            monthlyExpenseRepository.createEmptyIfDontExist(YearMonth.from(entry.datetime))
         }
     }
 }

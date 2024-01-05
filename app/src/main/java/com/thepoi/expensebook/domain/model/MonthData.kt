@@ -11,7 +11,7 @@ data class MonthData(
     val entries: List<Entry>
 ){
     val totalExpend: Float
-        get() = entries.map { it.value }.sum()
+        get() = entries.map { it.amount }.sum()
     val remainingAmount: Float
         get() = initialValue - savingsGoal + totalExpend
     val remainingDaysUntilEndOfMonth: Int
@@ -23,14 +23,14 @@ data class MonthData(
             if(!isCurrentMonth) return null
             return DayData(
                 ((initialValue - savingsGoal + totalExpendExceptDate(LocalDate.now())) / remainingDaysUntilEndOfMonth),
-                entries.filter { entry -> entry.date.toLocalDate().isEqual(LocalDate.now()) }.map { entry -> entry.value }.sum()
+                entries.filter { entry -> entry.datetime.toLocalDate().isEqual(LocalDate.now()) }.map { entry -> entry.amount }.sum()
             )
         }
 
     private fun totalExpendExceptDate(date: LocalDate): Float {
         return entries
-            .filter { entry -> !entry.date.toLocalDate().isEqual(date) }
-            .map { entry -> entry.value }
+            .filter { entry -> !entry.datetime.toLocalDate().isEqual(date) }
+            .map { entry -> entry.amount }
             .sum()
     }
 }
