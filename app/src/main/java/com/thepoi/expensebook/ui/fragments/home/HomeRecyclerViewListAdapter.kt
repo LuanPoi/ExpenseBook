@@ -23,8 +23,8 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
             EnumItemViewType.TITLE.ordinal -> TitleItemViewHolder(TitleItemBinding.inflate(layoutInflater, parent, false))
             EnumItemViewType.EXPENSE_ITEM.ordinal -> ExpenseItemViewHolder(ExpenseItemBinding.inflate(layoutInflater, parent, false), viewModel)
             EnumItemViewType.DAY_EXPENSE_CONTAINER.ordinal -> DailyExpenseInfoItemViewHolder(
-                DailyInfoItemBinding.inflate(layoutInflater, parent, false))
-            EnumItemViewType.MONTH_EXPENSE_CONTAINER.ordinal -> MonthlyExpenseInfoItemViewHolder(MonthlyInfoItemBinding.inflate(layoutInflater, parent, false))
+                DailyInfoItemBinding.inflate(layoutInflater, parent, false), viewModel)
+            EnumItemViewType.MONTH_EXPENSE_CONTAINER.ordinal -> MonthlyExpenseInfoItemViewHolder(MonthlyInfoItemBinding.inflate(layoutInflater, parent, false), viewModel)
             else -> throw NotImplementedError()
         }
         return abstractViewHolder
@@ -97,7 +97,7 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
         }
     }
 
-    class DailyExpenseInfoItemViewHolder(private val binding: DailyInfoItemBinding): AbstractViewHolder(binding.root) {
+    class DailyExpenseInfoItemViewHolder(private val binding: DailyInfoItemBinding, private val viewModel: HomeViewModel): AbstractViewHolder(binding.root) {
         override fun bind(obj: Pair<EnumItemViewType, Any>) {
             val (enumViewType, uiState) = obj as Pair<EnumItemViewType, HomeUiState.DayDataUiState>
 
@@ -110,7 +110,7 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
 
     }
 
-    class MonthlyExpenseInfoItemViewHolder(private val binding: MonthlyInfoItemBinding): AbstractViewHolder(binding.root) {
+    class MonthlyExpenseInfoItemViewHolder(private val binding: MonthlyInfoItemBinding, private val viewModel: HomeViewModel): AbstractViewHolder(binding.root) {
         override fun bind(obj: Pair<EnumItemViewType, Any>) {
             val (enumViewType, uiState) = obj as Pair<EnumItemViewType, HomeUiState.MonthDataUiState>
 
@@ -125,6 +125,18 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
 
                 binding.textViewDetailsInitialValueValue.text = initialValue
                 binding.textViewDetailsSavingsGoalValue.text = savingsGoal
+            }
+
+            binding.imageButtonPreviousMonth.setOnClickListener {
+                uiState.idOfPreviousMonthWithData?.let {
+                    viewModel.setSelectedMonth(it)
+                }
+            }
+
+            binding.imageButtonNextMonth.setOnClickListener {
+                uiState.idOfNextMonthWithData?.let {
+                    viewModel.setSelectedMonth(it)
+                }
             }
 
             binding.buttonDetailsManage.setOnClickListener {
