@@ -56,8 +56,8 @@ class HomeViewModel @Inject constructor(
                                     percentageExpend = with(monthData.totalExpend.times(-1)) {
                                         if (monthData.initialValue <= 0 || this <= 0) 0 else (this / monthData.initialValue * 100).roundToInt()
                                     },
-                                    initialValue = "R$ %.2f".format(monthData.initialValue),
-                                    savingsGoal = "R$ %.2f".format(monthData.savingsGoal),
+                                    initialValue = monthData.initialValue,
+                                    savingsGoal = monthData.savingsGoal,
                                     idOfPreviousMonthWithData = monthIds.first,
                                     idOfNextMonthWithData = monthIds.second
                                 ),

@@ -89,21 +89,34 @@ class EntryDetailsFragment : Fragment() {
             }
 
             binding.editTextValue.addTextChangedListener(object : TextWatcher {
+                var isUpdating = false
+
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                     // This method is called before the text is changed
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     // This method is called when the text is changed
-                    var sCleaned = s.toString().replace("[,.]".toRegex(), "")
-                    if(s?.isNotEmpty() == true && before != count){
-                        if(s.length > 6){
-                            //insert a comma on the last 3rd position
+                    if (isUpdating) {
+                        isUpdating = false
+                        return
+                    }
+
+                    var sCleaned = s.toString().replace("[,.]".toRegex(), "").toInt().toString()
+                    if(sCleaned?.isNotEmpty() == true){
+                        if(sCleaned.length >= 6){
                             sCleaned = sCleaned.substring(0, sCleaned.length - 5) + "." + sCleaned.substring(sCleaned.length - 5)
                         }
-                        if(s.length >= 3){
+                        if(sCleaned.length >= 3){
                             sCleaned = sCleaned.substring(0, sCleaned.length - 2) + "," + sCleaned.substring(sCleaned.length - 2)
                         }
+                        if(sCleaned.length == 2){
+                            sCleaned = "0," + sCleaned
+                        }
+                        if(sCleaned.length == 1){
+                            sCleaned = "0,0" + sCleaned
+                        }
+                        isUpdating = true
                         binding.editTextValue.setText(sCleaned)
                         binding.editTextValue.setSelection(binding.editTextValue.text?.length ?: 0)
                     }

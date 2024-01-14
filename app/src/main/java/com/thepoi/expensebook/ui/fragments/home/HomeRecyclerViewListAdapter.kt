@@ -1,9 +1,12 @@
 package com.thepoi.expensebook.ui.fragments.home
 
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.thepoi.expensebook.R
@@ -12,8 +15,9 @@ import com.thepoi.expensebook.databinding.DailyInfoItemBinding
 import com.thepoi.expensebook.databinding.ExpenseItemBinding
 import com.thepoi.expensebook.databinding.MonthlyInfoItemBinding
 import com.thepoi.expensebook.databinding.TitleItemBinding
+import com.thepoi.expensebook.ui.fragments.MonthlyExpenseDetails
 
-class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): RecyclerView.Adapter<HomeRecyclerViewListAdapter.AbstractViewHolder>() {
+class HomeRecyclerViewListAdapter(private val activity: FragmentActivity, private val viewModel: HomeViewModel): RecyclerView.Adapter<HomeRecyclerViewListAdapter.AbstractViewHolder>() {
 
     private var mainRecyclerViewArray = arrayListOf<Pair<EnumItemViewType, Any>>()
 
@@ -24,7 +28,7 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
             EnumItemViewType.EXPENSE_ITEM.ordinal -> ExpenseItemViewHolder(ExpenseItemBinding.inflate(layoutInflater, parent, false), viewModel)
             EnumItemViewType.DAY_EXPENSE_CONTAINER.ordinal -> DailyExpenseInfoItemViewHolder(
                 DailyInfoItemBinding.inflate(layoutInflater, parent, false), viewModel)
-            EnumItemViewType.MONTH_EXPENSE_CONTAINER.ordinal -> MonthlyExpenseInfoItemViewHolder(MonthlyInfoItemBinding.inflate(layoutInflater, parent, false), viewModel)
+            EnumItemViewType.MONTH_EXPENSE_CONTAINER.ordinal -> MonthlyExpenseInfoItemViewHolder(activity, MonthlyInfoItemBinding.inflate(layoutInflater, parent, false), viewModel)
             else -> throw NotImplementedError()
         }
         return abstractViewHolder
@@ -58,7 +62,9 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
         abstract fun bind(obj: Pair<EnumItemViewType, Any>)
     }
 
-    class TitleItemViewHolder(private val binding: TitleItemBinding): AbstractViewHolder(binding.root) {
+    class TitleItemViewHolder(
+        private val binding: TitleItemBinding
+    ): AbstractViewHolder(binding.root) {
         override fun bind(obj: Pair<EnumItemViewType, Any>) {
             val (enumViewType, title) = obj as Pair<EnumItemViewType, String>
 
@@ -66,7 +72,10 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
         }
     }
 
-    class ExpenseItemViewHolder(private val binding: ExpenseItemBinding, private val viewModel: HomeViewModel): AbstractViewHolder(binding.root) {
+    class ExpenseItemViewHolder(
+        private val binding: ExpenseItemBinding,
+        private val viewModel: HomeViewModel
+    ): AbstractViewHolder(binding.root) {
         override fun bind(obj: Pair<EnumItemViewType, Any>) {
             val (enumViewType, uiState) = obj as Pair<EnumItemViewType, HomeUiState.EntryUiState>
 
@@ -97,7 +106,10 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
         }
     }
 
-    class DailyExpenseInfoItemViewHolder(private val binding: DailyInfoItemBinding, private val viewModel: HomeViewModel): AbstractViewHolder(binding.root) {
+    class DailyExpenseInfoItemViewHolder(
+        private val binding: DailyInfoItemBinding,
+        private val viewModel: HomeViewModel
+    ): AbstractViewHolder(binding.root) {
         override fun bind(obj: Pair<EnumItemViewType, Any>) {
             val (enumViewType, uiState) = obj as Pair<EnumItemViewType, HomeUiState.DayDataUiState>
 
@@ -110,7 +122,11 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
 
     }
 
-    class MonthlyExpenseInfoItemViewHolder(private val binding: MonthlyInfoItemBinding, private val viewModel: HomeViewModel): AbstractViewHolder(binding.root) {
+    class MonthlyExpenseInfoItemViewHolder(
+        private val activity: FragmentActivity,
+        private val binding: MonthlyInfoItemBinding,
+        private val viewModel: HomeViewModel
+    ): AbstractViewHolder(binding.root) {
         override fun bind(obj: Pair<EnumItemViewType, Any>) {
             val (enumViewType, uiState) = obj as Pair<EnumItemViewType, HomeUiState.MonthDataUiState>
 
@@ -123,8 +139,8 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
                 binding.textViewProgressRemainingValue.text = remaining
                 binding.progressBarMonthBalance.progress = percentageExpend
 
-                binding.textViewDetailsInitialValueValue.text = initialValue
-                binding.textViewDetailsSavingsGoalValue.text = savingsGoal
+                binding.textViewDetailsInitialValueValue.text = "R$ %.2f".format(initialValue)
+                binding.textViewDetailsSavingsGoalValue.text = "R$ %.2f".format(savingsGoal)
             }
 
             binding.imageButtonPreviousMonth.setOnClickListener {
@@ -140,7 +156,15 @@ class HomeRecyclerViewListAdapter(private val viewModel: HomeViewModel): Recycle
             }
 
             binding.buttonDetailsManage.setOnClickListener {
-                // TODO
+                uiState.run {
+                    val dialogFragment = MonthlyExpenseDetails(
+                        initialValue,
+                        savingsGoal
+                    ) { newInitialValue, newSavingsGoal ->
+                        Log.d("Dialog", "newInitialValue: $newInitialValue\nnewSavingsGoal: $newSavingsGoal")
+                    }
+                    dialogFragment.show(activity.supportFragmentManager, "MonthlyExpenseDetailsDialog")
+                }
             }
         }
 

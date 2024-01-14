@@ -18,4 +18,7 @@
         <item name="November">Novembro</item>
         <item name="December">Dezembro</item>
     </string-array>
+    <string name="monthly_management">Gerenciamento mensal</string>
+    <string name="save">Salvar</string>
+    <string name="BRL_symbol">R$</string>
 </resources>

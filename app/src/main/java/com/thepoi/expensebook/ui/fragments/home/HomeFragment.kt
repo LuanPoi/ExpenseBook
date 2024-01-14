@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = HomeRecyclerViewListAdapter(homeViewModel)
+        val adapter = HomeRecyclerViewListAdapter(this.requireActivity(), homeViewModel)
         binding.recyclerViewHome.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewHome.adapter = adapter
 

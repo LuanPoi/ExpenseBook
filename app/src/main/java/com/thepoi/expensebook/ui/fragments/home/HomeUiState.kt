@@ -12,8 +12,8 @@ data class HomeUiState(
         val expend: String,
         val remaining: String,
         val percentageExpend: Int,
-        val initialValue: String,
-        val savingsGoal: String,
+        val initialValue: Float,
+        val savingsGoal: Float,
         val idOfPreviousMonthWithData: YearMonth?,
         val idOfNextMonthWithData: YearMonth?
     )
