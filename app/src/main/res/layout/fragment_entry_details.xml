@@ -101,7 +101,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textViewValueTitle" />
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.thepoi.expensebook.ui.utils.CurrencyTextInputEditTextClass
             android:id="@+id/editTextValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

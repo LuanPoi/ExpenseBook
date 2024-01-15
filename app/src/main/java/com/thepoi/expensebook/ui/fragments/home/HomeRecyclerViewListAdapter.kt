@@ -1,7 +1,5 @@
 package com.thepoi.expensebook.ui.fragments.home
 
-import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +13,7 @@ import com.thepoi.expensebook.databinding.DailyInfoItemBinding
 import com.thepoi.expensebook.databinding.ExpenseItemBinding
 import com.thepoi.expensebook.databinding.MonthlyInfoItemBinding
 import com.thepoi.expensebook.databinding.TitleItemBinding
-import com.thepoi.expensebook.ui.fragments.MonthlyExpenseDetails
+import com.thepoi.expensebook.ui.fragments.monthly_expense_details.MonthlyExpenseDetails
 
 class HomeRecyclerViewListAdapter(private val activity: FragmentActivity, private val viewModel: HomeViewModel): RecyclerView.Adapter<HomeRecyclerViewListAdapter.AbstractViewHolder>() {
 
@@ -161,7 +159,7 @@ class HomeRecyclerViewListAdapter(private val activity: FragmentActivity, privat
                         initialValue,
                         savingsGoal
                     ) { newInitialValue, newSavingsGoal ->
-                        Log.d("Dialog", "newInitialValue: $newInitialValue\nnewSavingsGoal: $newSavingsGoal")
+                        viewModel.updateCurrentMonthlyExpenseDetails("%.2f".format(newInitialValue).toFloat(), "%.2f".format(newSavingsGoal).toFloat())
                     }
                     dialogFragment.show(activity.supportFragmentManager, "MonthlyExpenseDetailsDialog")
                 }

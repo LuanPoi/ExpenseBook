@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragments.MonthlyExpenseDetails"
+    tools:context=".ui.fragments.monthly_expense_details.MonthlyExpenseDetails"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -33,11 +33,12 @@
             app:prefixText="@string/BRL_symbol"
             android:hint="Valor inicial">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.thepoi.expensebook.ui.utils.CurrencyTextInputEditTextClass
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                tools:text="0" />
+                android:inputType="number"
+                android:maxLength="10"
+                android:textAlignment="textEnd"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -50,11 +51,12 @@
             app:prefixText="@string/BRL_symbol"
             android:hint="Meta econômica">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.thepoi.expensebook.ui.utils.CurrencyTextInputEditTextClass
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                tools:text="0" />
+                android:inputType="number"
+                android:maxLength="10"
+                android:textAlignment="textEnd"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

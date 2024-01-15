@@ -1,17 +1,14 @@
-package com.thepoi.expensebook.ui.fragments
+package com.thepoi.expensebook.ui.fragments.monthly_expense_details
 
 import android.app.ActionBar.LayoutParams
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
-import com.thepoi.expensebook.R
-import com.thepoi.expensebook.databinding.FragmentInitializeMonthBinding
 import com.thepoi.expensebook.databinding.FragmentMonthlyExpenseDetailsBinding
 
 class MonthlyExpenseDetails(
@@ -52,8 +49,8 @@ class MonthlyExpenseDetails(
         }
         
         binding.buttonConfirm.setOnClickListener {
-            var newInitialValue: Float = binding.textInputInitialValue.editText?.text.toString().replace("R$", "").trim().toFloat()
-            var newSavingsGoal: Float = binding.textInputEconomyGoal.editText?.text.toString().replace("R$", "").trim().toFloat()
+            var newInitialValue: Float = binding.textInputInitialValue.editText?.text.toString().trim().replace(".", "").replace(",", ".").toFloat()
+            var newSavingsGoal: Float = binding.textInputEconomyGoal.editText?.text.toString().trim().replace(".", "").replace(",", ".").toFloat()
             onConfirm(newInitialValue, newSavingsGoal)
         }
     }

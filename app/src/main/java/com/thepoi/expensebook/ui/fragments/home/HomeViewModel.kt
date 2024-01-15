@@ -1,15 +1,16 @@
 package com.thepoi.expensebook.ui.fragments.home
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.thepoi.expensebook.data.data_source.local.entities.Entry
+import com.thepoi.expensebook.data.data_source.local.entities.MonthlyExpense
 import com.thepoi.expensebook.domain.usecase.DeleteEntryUseCase
 import com.thepoi.expensebook.domain.usecase.FetchMonthDataUseCase
 import com.thepoi.expensebook.domain.usecase.GetAllMonthlyExpenseDatesUseCase
 import com.thepoi.expensebook.domain.usecase.GetMonthlyExpenseUseCase
 import com.thepoi.expensebook.domain.usecase.GetNextAndPreviousMonthIdsUseCase
+import com.thepoi.expensebook.domain.usecase.UpdateExistingMonthlyExpenseUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -31,7 +32,8 @@ class HomeViewModel @Inject constructor(
     private val deleteEntryUseCase: DeleteEntryUseCase,
     private val getMonthlyExpenseUseCase: GetMonthlyExpenseUseCase,
     private val getAllMonthlyExpenseDatesUseCase: GetAllMonthlyExpenseDatesUseCase,
-    private val getNextAndPreviousMonthIdsUseCase: GetNextAndPreviousMonthIdsUseCase
+    private val getNextAndPreviousMonthIdsUseCase: GetNextAndPreviousMonthIdsUseCase,
+    private val updateExistingMonthlyExpenseUseCase: UpdateExistingMonthlyExpenseUseCase
 ): ViewModel() {
 
     private val _monthlyExpenseDates: StateFlow<List<YearMonth>> = loadMonthlyExpenseDates()
@@ -106,6 +108,14 @@ class HomeViewModel @Inject constructor(
     fun deleteEntry(entry: Entry){
         viewModelScope.launch{
             deleteEntryUseCase.invoke(entry)
+        }
+    }
+
+    fun updateCurrentMonthlyExpenseDetails(newInitialValue: Float, newSavingsGoal: Float){
+        viewModelScope.launch {
+            updateExistingMonthlyExpenseUseCase.invoke(
+                MonthlyExpense(_selectedMonth.value, newInitialValue, newSavingsGoal)
+            )
         }
     }
 }
