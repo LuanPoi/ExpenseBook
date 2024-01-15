@@ -52,6 +52,7 @@ class MonthlyExpenseDetails(
             var newInitialValue: Float = binding.textInputInitialValue.editText?.text.toString().trim().replace(".", "").replace(",", ".").toFloat()
             var newSavingsGoal: Float = binding.textInputEconomyGoal.editText?.text.toString().trim().replace(".", "").replace(",", ".").toFloat()
             onConfirm(newInitialValue, newSavingsGoal)
+            dismiss()
         }
     }
 }
