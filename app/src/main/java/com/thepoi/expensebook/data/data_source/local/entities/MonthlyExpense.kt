@@ -1,5 +1,6 @@
 package com.thepoi.expensebook.data.data_source.local.entities
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.YearMonth
@@ -9,6 +10,6 @@ import java.time.ZoneId
 data class MonthlyExpense (
     @PrimaryKey
     var yearMonth: YearMonth = YearMonth.now(ZoneId.systemDefault()),
-    var initialValue: Float = 0f,
-    var savingsGoal: Float = 0f
+    @ColumnInfo(typeAffinity = ColumnInfo.TEXT) var initialValue: Float = 0f,
+    @ColumnInfo(typeAffinity = ColumnInfo.TEXT) var savingsGoal: Float = 0f
 )
