@@ -110,6 +110,10 @@ class EntryDetailsFragment : Fragment() {
 
     fun onSave(){
         if(binding.editTextValue.text.toString().isEmpty()) return
+        if(binding.editTextValue.text.toString()
+            .replace(".", "")
+            .replace(",", ".")
+            .toFloat() == 0f) return
         val entry: Entry = Entry(
             args.entryId?.toLong(),
             ZonedDateTime.now(ZoneId.systemDefault()).truncatedTo(ChronoUnit.DAYS).with(LocalDate.parse(binding.textViewDate.text, DateTimeFormatter.ofPattern("dd/MM/yyyy"))),
