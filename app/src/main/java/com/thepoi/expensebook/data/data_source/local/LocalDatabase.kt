@@ -16,7 +16,7 @@ import com.thepoi.expensebook.data.data_source.local.entities.MonthlyExpense
         Entry::class
     ],
     version = 1,
-    exportSchema = false
+    exportSchema = true
 )
 @TypeConverters(Converters::class)
 abstract class LocalDatabase: RoomDatabase() {
