@@ -1,10 +1,14 @@
 package com.thepoi.expensebook.data.data_source.local.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 import com.thepoi.expensebook.data.data_source.local.entities.Entry
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import java.time.OffsetDateTime
 import java.time.ZonedDateTime
 
 @Dao
@@ -15,7 +19,7 @@ abstract class EntryDao {
     @Query("SELECT * FROM entry " +
             "WHERE ((:startDateTime IS NULL OR datetime >= :startDateTime) " +
                 "AND (:exclusiveEndDateTime IS NULL OR datetime < :exclusiveEndDateTime)" +
-            ") ORDER BY datetime ASC")
+            ") ORDER BY datetime ASC, id DESC")
     abstract fun getAllWithFilter(startDateTime: ZonedDateTime?, exclusiveEndDateTime: ZonedDateTime?): Flow<List<Entry>>
 
     @Query("SELECT * FROM entry WHERE id = :id")
