@@ -27,6 +27,8 @@ class CurrencyTextInputEditTextClass(context: Context, attrs: AttributeSet) : Te
                     isUpdating = false
                     return
                 }
+                if(s == null) return
+                if(s.toString().isBlank()) return
 
                 var sCleaned = s.toString().replace("[,.]".toRegex(), "").toInt().toString()
                 if(sCleaned.isNotEmpty()){
