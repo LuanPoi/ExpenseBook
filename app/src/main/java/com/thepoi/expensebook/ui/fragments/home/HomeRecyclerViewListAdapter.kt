@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.thepoi.expensebook.R
 import com.thepoi.expensebook.data.data_source.local.entities.Entry
@@ -13,7 +12,8 @@ import com.thepoi.expensebook.databinding.DailyInfoItemBinding
 import com.thepoi.expensebook.databinding.ExpenseItemBinding
 import com.thepoi.expensebook.databinding.MonthlyInfoItemBinding
 import com.thepoi.expensebook.databinding.TitleItemBinding
-import com.thepoi.expensebook.ui.fragments.monthly_expense_details.MonthlyExpenseDetails
+import com.thepoi.expensebook.ui.fragments.entry_details.EntryDetailsFragment
+import com.thepoi.expensebook.ui.fragments.monthly_expense_details.MonthlyExpenseDetailsFragment
 
 class HomeRecyclerViewListAdapter(private val activity: FragmentActivity, private val viewModel: HomeViewModel): RecyclerView.Adapter<HomeRecyclerViewListAdapter.AbstractViewHolder>() {
 
@@ -23,7 +23,7 @@ class HomeRecyclerViewListAdapter(private val activity: FragmentActivity, privat
         val layoutInflater = LayoutInflater.from(parent.context)
         val abstractViewHolder: AbstractViewHolder = when(viewType){
             EnumItemViewType.TITLE.ordinal -> TitleItemViewHolder(TitleItemBinding.inflate(layoutInflater, parent, false))
-            EnumItemViewType.EXPENSE_ITEM.ordinal -> ExpenseItemViewHolder(ExpenseItemBinding.inflate(layoutInflater, parent, false), viewModel)
+            EnumItemViewType.EXPENSE_ITEM.ordinal -> ExpenseItemViewHolder(activity, ExpenseItemBinding.inflate(layoutInflater, parent, false), viewModel)
             EnumItemViewType.DAY_EXPENSE_CONTAINER.ordinal -> DailyExpenseInfoItemViewHolder(
                 DailyInfoItemBinding.inflate(layoutInflater, parent, false), viewModel)
             EnumItemViewType.MONTH_EXPENSE_CONTAINER.ordinal -> MonthlyExpenseInfoItemViewHolder(activity, MonthlyInfoItemBinding.inflate(layoutInflater, parent, false), viewModel)
@@ -71,6 +71,7 @@ class HomeRecyclerViewListAdapter(private val activity: FragmentActivity, privat
     }
 
     class ExpenseItemViewHolder(
+        private val activity: FragmentActivity,
         private val binding: ExpenseItemBinding,
         private val viewModel: HomeViewModel
     ): AbstractViewHolder(binding.root) {
@@ -98,8 +99,7 @@ class HomeRecyclerViewListAdapter(private val activity: FragmentActivity, privat
             }
 
             binding.containerExpenseItem.setOnClickListener {
-                val action = HomeFragmentDirections.actionHomeFragmentToEntryDetailsFragment(uiState.id.toString())
-                findNavController(binding.root).navigate(action)
+                EntryDetailsFragment.newInstance(uiState.id).show(activity.supportFragmentManager, "EntryDetailsFragment")
             }
         }
     }
@@ -155,7 +155,7 @@ class HomeRecyclerViewListAdapter(private val activity: FragmentActivity, privat
 
             binding.buttonDetailsManage.setOnClickListener {
                 uiState.run {
-                    val dialogFragment = MonthlyExpenseDetails(
+                    val dialogFragment = MonthlyExpenseDetailsFragment(
                         initialValue,
                         savingsGoal
                     ) { newInitialValue, newSavingsGoal ->

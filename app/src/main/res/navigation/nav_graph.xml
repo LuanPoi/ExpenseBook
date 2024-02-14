@@ -9,22 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.thepoi.expensebook.ui.fragments.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_entryDetailsFragment"
-            app:destination="@id/entryDetailsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/entryDetailsFragment"
-        android:name="com.thepoi.expensebook.ui.fragments.entry_details.EntryDetailsFragment"
-        android:label="entry_details"
-        tools:layout="@layout/fragment_entry_details" >
-        <argument
-            android:name="entryId"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null"/>
-    </fragment>
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/initializeMonthFragment"
         android:name="com.thepoi.expensebook.ui.fragments.initialize_month.InitializeMonthFragment"

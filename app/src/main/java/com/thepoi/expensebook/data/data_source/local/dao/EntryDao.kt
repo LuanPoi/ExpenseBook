@@ -19,7 +19,7 @@ abstract class EntryDao {
     @Query("SELECT * FROM entry " +
             "WHERE ((:startDateTime IS NULL OR datetime >= :startDateTime) " +
                 "AND (:exclusiveEndDateTime IS NULL OR datetime < :exclusiveEndDateTime)" +
-            ") ORDER BY datetime ASC, id DESC")
+            ") ORDER BY datetime DESC, id DESC")
     abstract fun getAllWithFilter(startDateTime: ZonedDateTime?, exclusiveEndDateTime: ZonedDateTime?): Flow<List<Entry>>
 
     @Query("SELECT * FROM entry WHERE id = :id")
