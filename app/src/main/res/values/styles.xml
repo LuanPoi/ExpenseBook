@@ -98,9 +98,9 @@
         <item name="android:textColor">@color/custom_blue</item>
     </style>
     <style name="MonthlyInfo.ProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="android:progressTint">@color/custom_pink</item>
-        <item name="android:progressBackgroundTint">@color/custom_blue</item>
-        <item name="android:progressBackgroundTintMode">src_over</item>
+<!--        <item name="android:progressTint">@color/custom_pink</item>-->
+<!--        <item name="android:progressBackgroundTint">@color/custom_blue</item>-->
+<!--        <item name="android:progressBackgroundTintMode">src_over</item>-->
     </style>
     <style name="MonthlyInfo.Details" parent="MonthlyInfo">
         <item name="android:textColor">?colorOnSurfaceVariant</item>

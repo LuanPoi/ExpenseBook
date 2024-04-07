@@ -45,6 +45,7 @@
         android:id="@+id/textViewProgressExpendTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:text="gasto"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBarMonthBalance" />
@@ -54,6 +55,7 @@
         android:id="@+id/textViewProgressRemainingTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:text="restante"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBarMonthBalance" />
@@ -115,9 +117,11 @@
 
     <ProgressBar
         style="@style/MonthlyInfo.ProgressBar"
+        android:progressDrawable="@drawable/custom_progress_bar"
         android:id="@+id/progressBarMonthBalance"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="8dp"
+        android:layout_marginTop="4dp"
         tools:progress="25"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
