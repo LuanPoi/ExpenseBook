@@ -1,6 +1,9 @@
 # ExpenseBook
 Aplicativo android de anotação de gastos e receitas para controle financeiro mensal.
 
+# PlayStore
+[ExpenseBook page](https://play.google.com/store/apps/details?id=com.thepoi.expensebook)
+
 # Design
 <div style="display: flex">
 <img src="https://user-images.githubusercontent.com/21327462/216721580-15c89735-f2dd-4cf5-9c65-6724d85d5f57.jpg"  style="width: 15vw">
