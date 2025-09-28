@@ -1,14 +1,15 @@
 package com.thepoi.expensebook.ui.fragments.entry_details
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -16,6 +17,7 @@ import com.thepoi.expensebook.R
 import com.thepoi.expensebook.data.data_source.local.entities.Entry
 import com.thepoi.expensebook.databinding.FragmentEntryDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.Long.parseLong
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -27,16 +29,17 @@ import java.time.temporal.ChronoUnit
 import kotlin.math.absoluteValue
 
 @AndroidEntryPoint
-class EntryDetailsFragment : Fragment() {
+class EntryDetailsFragment : DialogFragment() {
+
+    private var entryId: Long? = null
 
     private lateinit var binding: FragmentEntryDetailsBinding
 
     private lateinit var entryDetailViewModel: EntryDetailsViewModel
 
-    val args: EntryDetailsFragmentArgs by navArgs()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.getString("entryId")?.let { entryId = parseLong(it) }
         entryDetailViewModel = ViewModelProvider(this)[EntryDetailsViewModel::class.java]
     }
 
@@ -45,6 +48,12 @@ class EntryDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
+        dialog?.let {dialog ->
+            dialog.window?.let {window ->
+                window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+                window.requestFeature(Window.FEATURE_NO_TITLE);
+            }
+        }
         binding = FragmentEntryDetailsBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -52,7 +61,7 @@ class EntryDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        entryDetailViewModel.stateOnceAndStream(args.entryId?.toLong()).observe(viewLifecycleOwner){ uiState ->
+        entryDetailViewModel.stateOnceAndStream(entryId).observe(viewLifecycleOwner){ uiState ->
             bindUiState(uiState)
         }.also {
             binding.switchEntryType.setOnClickListener {
@@ -82,10 +91,17 @@ class EntryDetailsFragment : Fragment() {
             }
         }
 
-        binding.buttonConfirm.setOnClickListener { onSave().also { findNavController().navigateUp() } }
-        binding.buttonCancel.setOnClickListener {
-            findNavController().navigateUp()
-        }
+        binding.buttonConfirm.setOnClickListener { onSave().also { dismiss() } }
+
+        binding.buttonCancel.setOnClickListener { dismiss() }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
     }
 
     fun bindUiState(uiState: EntryDetailsUiState){
@@ -110,8 +126,12 @@ class EntryDetailsFragment : Fragment() {
 
     fun onSave(){
         if(binding.editTextValue.text.toString().isEmpty()) return
+        if(binding.editTextValue.text.toString()
+            .replace(".", "")
+            .replace(",", ".")
+            .toFloat() == 0f) return
         val entry: Entry = Entry(
-            args.entryId?.toLong(),
+            entryId?.toLong(),
             ZonedDateTime.now(ZoneId.systemDefault()).truncatedTo(ChronoUnit.DAYS).with(LocalDate.parse(binding.textViewDate.text, DateTimeFormatter.ofPattern("dd/MM/yyyy"))),
             if(binding.switchEntryType.isChecked) {
                 binding.editTextValue.text.toString()
@@ -127,5 +147,15 @@ class EntryDetailsFragment : Fragment() {
             binding.textInputDescription.editText?.text.toString()
         )
         entryDetailViewModel.save(entry)
+    }
+
+    companion object {
+        fun newInstance(entryId: Long?): EntryDetailsFragment {
+            val fragment = EntryDetailsFragment()
+            val args = Bundle()
+            entryId?.let { args.putString("entryId", it.toString()) }
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.thepoi.expensebook.ui.fragments.monthly_expense_details
 
-import android.app.ActionBar.LayoutParams
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -10,8 +9,10 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
 import com.thepoi.expensebook.databinding.FragmentMonthlyExpenseDetailsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class MonthlyExpenseDetails(
+@AndroidEntryPoint
+class MonthlyExpenseDetailsFragment(
     private val initialValue: Float,
     private val savingsGoal: Float,
     private val onConfirm: (newInitialValue: Float, newSavingsGoal: Float) -> Unit
@@ -29,8 +30,8 @@ class MonthlyExpenseDetails(
                 window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
                 window.requestFeature(Window.FEATURE_NO_TITLE);
                 window.setLayout(
-                    LayoutParams.MATCH_PARENT,
-                    LayoutParams.WRAP_CONTENT
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
                 )
             }
         }

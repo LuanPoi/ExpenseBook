@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thepoi.expensebook.R
 import com.thepoi.expensebook.databinding.FragmentHomeBinding
+import com.thepoi.expensebook.ui.fragments.entry_details.EntryDetailsFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,14 +47,14 @@ class HomeFragment : Fragment() {
                 recyclerViewItems.add(Pair(EnumItemViewType.MONTH_EXPENSE_CONTAINER, uiState.monthDataUiState))
                 uiState.dayDataUiState?.let { recyclerViewItems.add(Pair(EnumItemViewType.DAY_EXPENSE_CONTAINER, it)) }
                 recyclerViewItems.add(Pair(EnumItemViewType.TITLE, resources.getString(R.string.expense_history_title)))
-                recyclerViewItems.addAll(uiState.entriesHistoryUiState.sortedByDescending { entry -> entry.date }.map { entry -> Pair(EnumItemViewType.EXPENSE_ITEM, entry) })
+                recyclerViewItems.addAll(uiState.entriesHistoryUiState.map { entry -> Pair(EnumItemViewType.EXPENSE_ITEM, entry) })
 
                 adapter.setData(recyclerViewItems)
             }
         }
 
         binding.floatingActionButton.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_entryDetailsFragment)
+            EntryDetailsFragment.newInstance(null).show(this.requireActivity().supportFragmentManager, "EntryDetailsFragment")
         }
     }
 }

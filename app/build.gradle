@@ -1,24 +1,29 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
     id 'com.google.dagger.hilt.android'
-    id("androidx.navigation.safeargs.kotlin")
+    id 'androidx.navigation.safeargs.kotlin'
+    // Remove kotlin-kapt completely
 }
-apply plugin: 'kotlin-android'
 
 android {
-    compileSdk 33
+    compileSdk 36
     namespace "com.thepoi.expensebook"
 
     defaultConfig {
         applicationId "com.thepoi.expensebook"
         minSdk 26
-        targetSdk 33
-        versionCode 3
-        versionName "1.0"
+        targetSdk 36
+        versionCode 6
+        versionName "1.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // KSP configuration for Room schema location
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
     }
 
     viewBinding {
@@ -31,64 +36,60 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+
+    buildFeatures {
+        buildConfig true
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11' // Match with compileOptions
     }
 }
 
 dependencies {
-    def nav_version = "2.5.3"
-    def roomVersion = "2.5.0"
-    def lifecycleVersion = "2.5.1"
-    def daggerHiltVersion = "2.44.2"
+    def nav_version = "2.7.7" // Compatible with JDK 11
+    def roomVersion = "2.6.1" // Updated to stable version
+    def lifecycleVersion = "2.8.7" // Updated to stable version
+    def daggerHiltVersion = "2.50" // Updated to support KSP
 
     // Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
-    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     // Testing Navigation
-    androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
+    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     // LiveData
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
-    // Annotation processor
-    kapt("androidx.lifecycle:lifecycle-common:$lifecycleVersion")
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
 
     // ROOM
-    implementation("androidx.room:room-runtime:$roomVersion")
-    annotationProcessor("androidx.room:room-compiler:$roomVersion")
-    // To use Kotlin annotation processing tool (kapt)
-    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation "androidx.room:room-runtime:$roomVersion"
+    // Use KSP instead of kapt for Room compiler
+    ksp "androidx.room:room-compiler:$roomVersion"
     // optional - Kotlin Extensions and Coroutines support for Room
-    implementation("androidx.room:room-ktx:$roomVersion")
+    implementation "androidx.room:room-ktx:$roomVersion"
     // optional - Test helpers
-    testImplementation("androidx.room:room-testing:$roomVersion")
+    testImplementation "androidx.room:room-testing:$roomVersion"
 
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'com.google.android.material:material:1.8.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.core:core-ktx:1.17.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'com.google.android.material:material:1.13.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 
     // Kotlin components
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
 
-    // Material Components
-    implementation 'com.google.android.material:material:1.8.0'
-
-    // Dagger-Hilt
+    // Dagger-Hilt - Use KSP instead of KAPT
     implementation "com.google.dagger:hilt-android:$daggerHiltVersion"
-    kapt "com.google.dagger:hilt-compiler:$daggerHiltVersion"
-}
-
-kapt {
-    correctErrorTypes true
+    ksp "com.google.dagger:hilt-compiler:$daggerHiltVersion"
 }

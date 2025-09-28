@@ -63,9 +63,12 @@ class InitializeMonthFragment : Fragment() {
             if(economyGoal.isBlank() || economyGoal.isEmpty()) return@setOnClickListener
 
             lifecycleScope.launch {
+                var newInitialValue: Float = binding.textInputInitialValue.editText?.text.toString().trim().replace(".", "").replace(",", ".").toFloat()
+                var newSavingsGoal: Float = binding.textInputEconomyGoal.editText?.text.toString().trim().replace(".", "").replace(",", ".").toFloat()
+
                 viewModel.createNewMonthlyExpense(MonthlyExpense(
-                    initialValue = initialValue.toFloat(),
-                    savingsGoal = economyGoal.toFloat()
+                    initialValue = newInitialValue,
+                    savingsGoal = newSavingsGoal
                 )).also {
                     findNavController().navigate(R.id.action_initializeMonthFragment_to_homeFragment)
                 }

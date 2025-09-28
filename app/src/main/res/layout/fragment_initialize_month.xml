@@ -98,12 +98,14 @@
             app:layout_constraintTop_toBottomOf="@id/textViewInitialValue"
             app:prefixText="R$">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.thepoi.expensebook.ui.utils.CurrencyTextInputEditTextClass
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="8sp"
                 android:inputType="number"
-                android:maxLength="10" />
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:maxLength="10"
+                android:textAlignment="textEnd"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -130,12 +132,14 @@
             app:layout_constraintTop_toBottomOf="@id/textViewEconomyGoal"
             app:prefixText="R$">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.thepoi.expensebook.ui.utils.CurrencyTextInputEditTextClass
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="8sp"
                 android:inputType="number"
-                android:maxLength="10" />
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:maxLength="10"
+                android:textAlignment="textEnd"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
